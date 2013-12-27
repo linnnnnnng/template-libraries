@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Monster Pagination</title>
+	<meta name="description" content="">
+	
+	<script type='text/javascript' src='http://code.jquery.com/jquery-1.8.3.js'></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=sunburst"></script>
+    <script type='text/javascript' src='js/monster-pagination.js'></script>
+</head>
+
+<script>
+$(function() {
+	<!--Paginate Sample 1 Init-->
+	$('#pagination').mosterPaginate({
+		totalPages:12,
+		display:5,
+		showFirstLast:false
+	});
+	
+	<!--Paginate Sample 2 Init-->
+	var selector2='#secondpagination';
+	$(selector2).mosterPaginate({
+		selectPage:15,
+		totalPages:56,
+		display:10,
+		prevText:'Prev',
+		nextText:'Next',
+		firstText:'First Page',
+		lastText:'Last Page',
+		callback:onPaginateChange
+	});
+	
+	<!--Paginate Sample 2 callback-->
+	function onPaginateChange(con){
+		$.each(con, function(key, value) {
+			//alert(key+' '+value)
+		});
+		switch(con.command) {
+			case 'init':
+				
+				break;
+			case 'nextPage':
+				$('.callbackOutput').text("Trigger : "+ con.command)
+				break;
+			case 'prevPage':
+				$('.callbackOutput').text("Trigger : "+ con.command)
+				break;
+			case 'firstPage':
+				$('.callbackOutput').text("Trigger : "+ con.command)
+				break;
+			case 'lastPage':
+				$('.callbackOutput').text("Trigger : "+ con.command)
+				break;
+			default:
+				$('.callbackOutput').text("Trigger : "+ con.selectPage)
+		}
+	}
+	
+	<!--Paginate Sample 2 additional call-->
+	$('#secondNextPage').click(function() {
+		$(selector2).mosterPaginate('nextPage');
+	})
+	
+	$('#secondPrevPage').click(function() {
+		$(selector2).mosterPaginate('prevPage');
+	})
+	
+	$('#secondGoPage').click(function() {
+		$(selector2).mosterPaginate('goPage',13);
+	})
+	
+	$('#update').click(function() {
+		$(selector2).mosterPaginate('update','display',8);
+	})
+});
+</script>
+<style>
+	body{font-family:Arial, Helvetica, sans-serif; font-size:16px; color:#666;}
+	pre{ font-size:12px;}
+	h1, h3{color:#0F9095; text-align:center;font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;}
+	h1{font-size:58px;}
+	h3{font-size:30px; line-height:30px; height:15px;}
+	.contentWrapper{width:800px; height:auto;margin:auto;}
+	.sampleWrapper{ margin-bottom:100px;}
+	.resultWrapper{margin:30px 0;}
+	.button a{padding:8px 18px; font-size:12px; background:#0F9095; color:#FFF; font-weight:bold;-moz-border-radius:12px;-webkit-border-radius:12px;border-radius:12px;display:inline-block;cursor:pointer; float:left; margin:0 5px;}
+	.button a:hover{background:#333;}
+	.backNavigation{width:200px; height:100px; margin:auto;}
+	.navigation{margin-top:10px; text-align:center;}
+	.navigation:after{content: ".";display:block;clear:both;visibility:hidden;line-height:0;height:0;}
+	.callbackOutput{ width:90%; border:#CCC solid 1px; font-size:12px; padding:10px; margin:10px auto;}
+	
+	/*Pagination Light*/
+	.paginate{margin:auto;height:20px;margin-top:20px;}
+	.paginate ul{margin:0; padding:0; list-style:none;}
+	.paginate li{width:auto; height:auto;float:left;width:auto; height:auto; padding:5px 10px; border:#1BBC9B solid 1px; font-size:12px; color:#1BBC9B; font-weight:bold;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;margin:0 3px;cursor:pointer;cursor:hand;}
+	.paginate li.selected, .paginate li:hover{background:#1BBC9B; color:#FFF;}
+	.paginate li.disabled{background:#fff;color:#CCC;}
+	
+	/*Pagination Dark*/
+	.paginateDark{margin:auto;height:30px;margin-top:20px;}
+	.paginateDark ul{margin:0; padding:0; list-style:none;}
+	.paginateDark li{width:auto; height:auto; padding:5px 10px; float:left;font-size:12px; color:#1BBC9B; font-weight:bold;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;margin:0 3px;cursor:pointer;cursor:hand;display:block;background:#1BBC9B;color:#fff;border:#1BBC9B solid 1px;}
+	.paginateDark li.selected, .paginateDark li:hover{background:#fff; color:#1BBC9B;border:#1BBC9B solid 1px;}
+	.paginateDark li.selected{cursor:none;}
+	.paginateDark li.disabled{background:#1BBC9B;color:#CCC;}
+</style>
+
+<body>
+
+<div class="contentWrapper">
+<h1>Monster Pagination</h1>
+
+<div class="sampleWrapper">
+So you have your standard CSS, which looks like this:
+<pre class="prettyprint">
+/*Pagination Light*/
+.paginate{margin:auto;height:20px;margin-top:20px;}
+.paginate ul{margin:0; padding:0; list-style:none;}
+.paginate li{width:auto; height:auto;float:left;width:auto; height:auto; padding:5px 10px; border:#1BBC9B solid 1px; font-size:12px; color:#1BBC9B; font-weight:bold;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;margin:0 3px;cursor:pointer;cursor:hand;}
+.paginate li.selected, .paginate li:hover{background:#1BBC9B; color:#FFF;}
+.paginate li.disabled{background:#fff;color:#CCC;cursor:none;}
+
+/*Pagination Dark*/
+.paginateDark{margin:auto;height:30px;margin-top:20px;}
+.paginateDark ul{margin:0; padding:0; list-style:none;}
+.paginateDark li{width:auto; height:auto; padding:5px 10px; float:left;font-size:12px; color:#1BBC9B; font-weight:bold;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;margin:0 3px;cursor:pointer;cursor:hand;display:block;background:#1BBC9B;color:#fff;border:#1BBC9B solid 1px;}
+.paginateDark li.selected, .paginateDark li:hover{background:#fff; color:#1BBC9B;border:#1BBC9B solid 1px;}
+.paginateDark li.disabled{background:#1BBC9B;color:#CCC;cursor:none;}
+</pre>
+
+You have your standard HTML, which looks like this:
+<pre class="prettyprint">
+&lt;div id=&quot;pagination&quot; class=&quot;paginate&quot;&gt;
+    &lt;ul&gt;
+        &lt;li class=&quot;lastPage disabled&quot;&gt;&lt;a class=&quot;paginateButton&quot;&gt;First&lt;/a&gt;&lt;/li&gt;
+        &lt;li class=&quot;prevpage disabled&quot;&gt;&lt;a class=&quot;paginateButton&quot;&gt;Prev&lt;/a&gt;&lt;/li&gt;
+        &lt;li class=&quot;page selected&quot;&gt;&lt;a class=&quot;paginateButton&quot;&gt;1&lt;/a&gt;&lt;/li&gt;
+        &lt;li class=&quot;page&quot;&gt;&lt;a class=&quot;paginateButton&quot;&gt;2&lt;/a&gt;&lt;/li&gt;
+        &lt;li class=&quot;page&quot;&gt;&lt;a class=&quot;paginateButton&quot;&gt;3&lt;/a&gt;&lt;/li&gt;
+        &lt;li class=&quot;page&quot;&gt;&lt;a class=&quot;paginateButton&quot;&gt;4&lt;/a&gt;&lt;/li&gt;
+        &lt;li class=&quot;page&quot;&gt;&lt;a class=&quot;paginateButton&quot;&gt;5&lt;/a&gt;&lt;/li&gt;
+        &lt;li class=&quot;nextpage&quot;&gt;&lt;a class=&quot;paginateButton&quot;&gt;Next&lt;/a&gt;&lt;/li&gt;
+        &lt;li class=&quot;lastPage&quot;&gt;&lt;a class=&quot;paginateButton&quot;&gt;Last&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;secondpagination&quot; class=&quot;paginateDark&quot;&gt;
+    &lt;ul&gt;
+        &lt;li class=&quot;lastPage disabled&quot;&gt;&lt;a class=&quot;paginateButton&quot;&gt;First&lt;/a&gt;&lt;/li&gt;
+        &lt;li class=&quot;prevpage disabled&quot;&gt;&lt;a class=&quot;paginateButton&quot;&gt;Prev&lt;/a&gt;&lt;/li&gt;
+        &lt;li class=&quot;page selected&quot;&gt;&lt;a class=&quot;paginateButton&quot;&gt;1&lt;/a&gt;&lt;/li&gt;
+        &lt;li class=&quot;page&quot;&gt;&lt;a class=&quot;paginateButton&quot;&gt;2&lt;/a&gt;&lt;/li&gt;
+        &lt;li class=&quot;page&quot;&gt;&lt;a class=&quot;paginateButton&quot;&gt;3&lt;/a&gt;&lt;/li&gt;
+        &lt;li class=&quot;page&quot;&gt;&lt;a class=&quot;paginateButton&quot;&gt;4&lt;/a&gt;&lt;/li&gt;
+        &lt;li class=&quot;page&quot;&gt;&lt;a class=&quot;paginateButton&quot;&gt;5&lt;/a&gt;&lt;/li&gt;
+        &lt;li class=&quot;nextpage&quot;&gt;&lt;a class=&quot;paginateButton&quot;&gt;Next&lt;/a&gt;&lt;/li&gt;
+        &lt;li class=&quot;lastPage&quot;&gt;&lt;a class=&quot;paginateButton&quot;&gt;Last&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;
+</pre>
+And the result.
+<div class="sampleWrapper">
+<div class="paginate">
+    <ul>
+        <li class="lastPage disabled"><a class="paginateButton">First</a></li>
+        <li class="prevpage disabled"><a class="paginateButton">Prev</a></li>
+        <li class="page selected"><a class="paginateButton">1</a></li>
+        <li class="page"><a class="paginateButton">2</a></li>
+        <li class="page"><a class="paginateButton">3</a></li>
+        <li class="page"><a class="paginateButton">4</a></li>
+        <li class="page"><a class="paginateButton">5</a></li>
+        <li class="nextpage"><a class="paginateButton">Next</a></li>
+        <li class="lastPage"><a class="paginateButton">Last</a></li>
+    </ul>
+</div>
+<div class="paginateDark">
+    <ul>
+        <li class="lastPage disabled"><a class="paginateButton">First</a></li>
+        <li class="prevpage disabled"><a class="paginateButton">Prev</a></li>
+        <li class="page selected"><a class="paginateButton">1</a></li>
+        <li class="page"><a class="paginateButton">2</a></li>
+        <li class="page"><a class="paginateButton">3</a></li>
+        <li class="page"><a class="paginateButton">4</a></li>
+        <li class="page"><a class="paginateButton">5</a></li>
+        <li class="nextpage"><a class="paginateButton">Next</a></li>
+        <li class="lastPage"><a class="paginateButton">Last</a></li>
+    </ul>
+</div>
+</div>
+</div>
+
+
+Include the script tag below in your document and get start!
+<pre class="prettyprint">
+&lt;script type='text/javascript' src='js/monster-pagination.js'&gt;&lt;/script&gt;
+</pre>
+
+<div class="sampleWrapper">
+<h3>Sample 1</h3>
+This is the code needed to achieve this:
+<pre class="prettyprint">
+$('#pagination').mosterPaginate({
+    totalPages:12,
+    display:5,
+    showFirstLast:false
+});
+</pre>
+
+<div class="resultWrapper">
+    <!--Paginate Structure start here-->
+    <div id="pagination" class="paginate">
+    </div>
+    <!--Paginate Structure end here-->
+</div>
+</div>
+
+<div class="sampleWrapper">
+<h3>Sample 2</h3>
+This is the code needed to achieve that:
+
+<pre class="prettyprint">
+<!--Paginate Sample 2 Init-->
+var selector2='#secondpagination';
+$(selector2).mosterPaginate({
+    selectPage:15,
+    totalPages:56,
+    display:10,
+    prevText:'Prev',
+    nextText:'Next',
+    firstText:'First Page',
+    lastText:'Last Page',
+    callback:onPaginateChange
+});
+
+<!--Paginate Sample 2 callback-->
+function onPaginateChange(con){
+   switch(con.command) {
+        case 'nextPage':
+            $('.callbackOutput').text("Trigger : "+ con.command)
+            break;
+        case 'prevPage':
+            $('.callbackOutput').text("Trigger : "+ con.command)
+            break;
+        case 'firstPage':
+            $('.callbackOutput').text("Trigger : "+ con.command)
+            break;
+        case 'lastPage':
+            $('.callbackOutput').text("Trigger : "+ con.command)
+            break;
+        default:
+            $('.callbackOutput').text("Trigger : "+ con.selectPage)
+    }
+}
+
+<!--Paginate Sample 2 additional call-->
+$('#secondNextPage').click(function() {
+    $(selector2).mosterPaginate('nextPage');
+})
+
+$('#secondPrevPage').click(function() {
+    $(selector2).mosterPaginate('prevPage');
+})
+
+$('#secondGoPage').click(function() {
+    $(selector2).mosterPaginate('goPage',13);
+})
+
+$('#update').click(function() {
+    $(selector2).mosterPaginate('update','display',8);
+})
+</pre>
+
+The buttons can control the pagination as well.
+<div class="navigation">
+	<div id="secondPrevPage" class="button"><a>Prev Page</a></div>
+    <div id="secondNextPage" class="button"><a>Next Page</a></div>
+    <div id="secondGoPage" class="button"><a>Go To Page 13</a></div>
+    <div id="update" class="button"><a>update display page to 8</a></div>
+</div>
+
+<div class="resultWrapper">
+    <!--Paginate Structure start here-->
+    <div id="secondpagination" class="paginateDark">
+    </div>
+    <!--Paginate Structure end here-->
+</div>
+
+Callback event output:
+<div class="callbackOutput">
+Click the paginate buttons to see callback output here...
+</div>
+
+</div>
+
+<div class="sampleWrapper">
+<h3>Usage</h3>
+Understands default options that can use for this plugin.
+<pre class="prettyprint">
+$('#paginate').mosterPaginate({
+    selectPage:1, //page highlight
+    totalPages:15, //total pages
+    display:5, //total page to display
+    nextText:"Next", //Next page text
+    prevText:"Prev", //Prev page text
+    firstText:"First", //First page text
+    lastText:"Last", //Last page text
+    showFirstLast:false, //hide first last page text; true/false
+    callback:'', //call back function
+    pageLink:'paginateButton', //follow by default class name
+    pageClass:'page',
+    prevClass:'prevpage',
+    nextClass:'nextpage',
+    firstClass:'firstPage',
+    lastClass:'lastPage',
+    disabledClass:'disabled',
+    selected:'selected'
+});
+
+//Option can be update later once the same element is init.
+$('#paginate').mosterPaginate('update','totalPages',100);
+</pre>
+</div>
+</div>
+
+<div class="sampleWrapper">
+	<div class="backNavigation">
+		<div class="button"><a href="http://geometry.my/showcase/dev/">Back to Monster Page</a></div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Monster Gallery</title>
+	<meta name="description" content="">
+	
+	<!-- Always update this url with the latest jquery version -->
+	<script type='text/javascript' src='http://code.jquery.com/jquery-1.8.3.js'></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=sunburst"></script>
+    <script type='text/javascript' src='js/monster-gallery.js'></script>
+    <script type='text/javascript' src='../pagination/js/monster-pagination.js'></script>	
+</head>
+
+<style>
+	body{font-family:Arial, Helvetica, sans-serif; font-size:16px; color:#666;}
+	pre{ font-size:12px;}
+	h1, h3{color:#0F9095; text-align:center;font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;}
+	h1{font-size:58px;}
+	h3{font-size:30px; line-height:30px; height:15px;}
+	.contentWrapper{width:800px; height:auto;margin:auto;}
+	.sampleWrapper{ margin-bottom:100px;}
+	.resultWrapper{margin:30px 0;}
+	.button a{padding:8px 18px; font-size:12px; background:#0F9095; color:#FFF;font-weight:bold;-moz-border-radius:12px;-webkit-border-radius:12px;border-radius:12px;display:inline-block;cursor:pointer; float:left; margin:0 5px;}
+	.button a:hover{background:#333;}
+	.backNavigation{width:200px; height:100px; margin:auto;}
+	.navigation{margin-top:10px; text-align:center;}
+	.navigation:after{content: ".";display:block;clear:both;visibility:hidden;line-height:0;height:0;}
+	.callbackOutput{ width:90%; border:#CCC solid 1px; font-size:12px; padding:10px; margin:10px auto;}
+	
+	/*gallery CSS*/
+	.galleryWrapper{clear:both; width:740px; height:330px; margin:0 auto; padding:0; position:relative;}
+	.galleryWrapper .btnPrev{left:0;}
+	.galleryWrapper .btnNext{right:0;}
+	.galleryWrapper .btnPrev, .galleryWrapper .btnNext{position:absolute;top:38%;}
+	.galleryWrapper .pageControl a{width:47px;height:75px;cursor:pointer;}
+	/*.galleryList width = galleryList li width + galleryList li padding left right + galleryList li margin left right * total thumbnails per row */
+	/*550 = (100 + (3+3) + (2+2)) * 5 */
+	/* galleryList height = same calculation above but height/padding top bottom/margin top bottom*/
+	.galleryWrapper .galleryList{width:550px;height:330px;;padding:0;margin:auto;position:relative;overflow:hidden;}
+	.galleryWrapper .galleryList ul{list-style:none; margin:0; padding:0; position:absolute;top:0;}
+	.galleryWrapper .galleryList li{width:100px;height:100px;float:left;background:#ccc url(images/loading.gif) no-repeat center center;padding:3px;margin:2px;cursor:pointer;}
+	.galleryWrapper .galleryList li:hover{background:#666;}
+	.galleryWrapper .galleryOverlay{width:740px; height:330px; position:absolute;top:0;left:0;display:none;background:#fff url(images/loading.gif) no-repeat center center;z-index:10;}
+	.galleryWrapper .galleryOverlay .mainImage {margin: 0 auto;width:500px;height:500px;}
+	.galleryWrapper .galleryOverlay .btnClose {font-size:12px;position:absolute;top:0;right:20px;width:50px;padding-top:4px;text-align:center;height:20px;display:block;z-index:2;background:#88a8a5;color:#fff;cursor:pointer;}
+	.galleryWrapper .galleryOverlay .btnPrev {left:0;}
+	.galleryWrapper .galleryOverlay .btnNext {right:0;}
+	.galleryWrapper .galleryOverlay .btnPrev, .galleryWrapper .galleryOverlay .btnNext{position:absolute;top:38%;}
+	.galleryWrapper .galleryOverlay a{width:47px;height:75px;cursor:pointer;}
+	.galleryWrapper .disabled{visibility:hidden;}
+	
+	/*gallery second layout style*/
+	#galleryThumb4 .galleryList{width:220px;height:220px;;padding:0;margin:auto;position:relative;overflow:hidden; border:#999 solid 1px;}
+	#galleryThumb4 .pageControl .btnPrev, #galleryThumb4 .pageControl .btnNext{position:absolute;top:20%;}
+	
+	/*gallery third layout style*/
+	.galleryThumb3{clear:both; width:220px; height:330px; padding:0; position:relative; float:left;}
+	.galleryThumb3 .galleryList{width:220px;height:330px;;padding:0;margin:auto;position:relative;overflow:hidden;}
+	.galleryThumb3 .galleryList ul{list-style:none; margin:0; padding:0; position:absolute;top:0;}
+	.galleryThumb3 .galleryList li{width:100px;height:100px;float:left;background:#ccc url(images/loading.gif) no-repeat center center;padding:3px;margin:2px;cursor:pointer;}
+	.galleryThumb3 .galleryList li:hover{background:#666;}
+	
+	.secondImage{width:520px; height:330px; background:#fff url(images/loading.gif) no-repeat center center;position:relative; float:right;}
+	.secondImage .mainImage {margin: 0 auto;width:500px;height:300px;}
+	.galleryThumb3 .disabled, .galleryThumb3 .disabled:hover{cursor:none;background:#ccc;}
+	
+	/*Pagination Dark*/
+	.paginateDark{margin:auto;height:30px;margin-top:20px;}
+	.paginateDark ul{margin:0; padding:0; list-style:none;}
+	.paginateDark li{width:auto; height:auto; padding:5px 10px; float:left;font-size:12px; color:#1BBC9B; font-weight:bold;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;margin:0 3px;cursor:pointer;cursor:hand;display:block;background:#1BBC9B;color:#fff;border:#1BBC9B solid 1px;}
+	.paginateDark li.selected, .paginateDark li:hover{background:#fff; color:#1BBC9B;border:#1BBC9B solid 1px;}
+	.paginateDark li.disabled{background:#1BBC9B;color:#CCC;cursor:none;}
+</style>
+
+<script>
+	$(function() {
+		$('#galleryThumb1').monsterGallery({
+			display:15
+		});
+		
+		//sample 2
+		$('#galleryPaginate2').mosterPaginate({
+			selectPage:1,
+			totalPages:2,
+			callback:onPaginateChange
+		});
+		$('#galleryThumb2').monsterGallery({
+			display:15,
+			callback:onGalleryChange
+		});
+		
+		function onGalleryChange(con){
+			$('#galleryPaginate2').mosterPaginate('update','selectPage',con.selectPage);
+		}
+		
+		function onPaginateChange(con){
+			$('#galleryThumb2').monsterGallery('update','selectPage',con.selectPage);
+		}
+		
+		//sample 3
+		$('#galleryThumb3').monsterGallery({
+			display:6,
+			overlayHolder:'#galleryMain2'
+		});
+		
+		$('#nextpage').click(function() {
+			$('#galleryThumb3').monsterGallery('nextPage');
+		})
+		$('#prevpage').click(function() {
+			$('#galleryThumb3').monsterGallery('prevPage');
+		})
+		$('#nextimage').click(function() {
+			$('#galleryThumb3').monsterGallery('nextImage');
+		})
+		$('#previmage').click(function() {
+			$('#galleryThumb3').monsterGallery('prevImage');
+		})
+		$('#openimage').click(function() {
+			$('#galleryThumb3').monsterGallery('openImage',4);
+		})
+		
+		//sample 4
+		$('#galleryThumb4').monsterGallery({
+			thumbPath:'images/gallery/thumb/thumb[X].jpg',
+			imagePath:'images/gallery/image/bigimg[X].jpg',
+			totalThumbs:6,
+			display:4,
+			batch:true
+		});
+	});
+</script>
+</head>
+
+<body>
+<div class="contentWrapper">
+<h1>Monster Gallery</h1>
+
+<div class="sampleWrapper">
+So you have your standard CSS, which looks like this:
+<pre class="prettyprint">
+/*gallery CSS*/
+.galleryWrapper{clear:both; width:740px; height:330px; margin:0 auto; padding:0; position:relative;}
+.galleryWrapper .btnPrev{left:0;}
+.galleryWrapper .btnNext{right:0;}
+.galleryWrapper .btnPrev, .galleryWrapper .btnNext{position:absolute;top:30%;}
+.galleryWrapper .pageControl a{width:47px;height:75px;cursor:pointer;}
+/*.galleryList width = galleryList li width + galleryList li padding left right + galleryList li margin left right * total thumbnails per row */
+/*550 = (100 + (3+3) + (2+2)) * 5 */
+/* galleryList height = same calculation above but height/padding top bottom/margin top bottom*/
+.galleryWrapper .galleryList{width:550px;height:330px;;padding:0;margin:auto;position:relative;overflow:hidden;}
+.galleryWrapper .galleryList ul{list-style:none; margin:0; padding:0; position:absolute;top:0;}
+.galleryWrapper .galleryList li{width:100px;height:100px;float:left;background:#ccc url(images/loading.gif) no-repeat center center;padding:3px;margin:2px;cursor:pointer;}
+.galleryWrapper .galleryList li:hover{background:#666;}
+.galleryWrapper .galleryOverlay{width:740px; height:330px; position:absolute;top:0;left:0;display:none;background:#fff url(images/loading.gif) no-repeat center center;z-index:10;}
+.galleryWrapper .galleryOverlay .mainImage {margin: 0 auto;width:500px;height:500px;}
+.galleryWrapper .galleryOverlay .btnClose {font-size:12px;position:absolute;top:0;right:20px;width:50px;padding-top:4px;text-align:center;height:20px;display:block;z-index:2;background:#88a8a5;color:#fff;cursor:pointer;}
+.galleryWrapper .galleryOverlay .btnPrev {left:0;}
+.galleryWrapper .galleryOverlay .btnNext {right:0;}
+.galleryWrapper .galleryOverlay .btnPrev, .galleryWrapper .galleryOverlay .btnNext{position:absolute;top:30%;}
+.galleryWrapper .galleryOverlay a{width:47px;height:75px;cursor:pointer;}
+.galleryWrapper .disabled{visibility:hidden;}
+</pre>
+
+You have your standard HTML, which looks like this:
+<pre class="prettyprint">
+&lt;div id=&quot;galleryThumb1&quot; class=&quot;galleryWrapper&quot;&gt;
+    &lt;div class=&quot;galleryOverlay&quot;&gt;
+        &lt;div class=&quot;btnPrev&quot;&gt;&lt;a&gt;&lt;img src=&quot;images/prev_btn.png&quot;&gt;&lt;/a&gt;&lt;/div&gt;
+        &lt;div class=&quot;btnNext&quot;&gt;&lt;a&gt;&lt;img src=&quot;images/next_btn.png&quot;&gt;&lt;/a&gt;&lt;/div&gt;
+        &lt;div class=&quot;btnClose&quot;&gt;&lt;a&gt;CLOSE&lt;/a&gt;&lt;/div&gt;
+        &lt;div class=&quot;mainImage&quot;&gt;&lt;img src=&quot;images/bigimg1.jpg&quot; /&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    
+    &lt;div class=&quot;pageControl&quot;&gt;
+        &lt;div class=&quot;btnPrev&quot;&gt;&lt;a&gt;&lt;img src=&quot;images/prev_btn.png&quot;&gt;&lt;/a&gt;&lt;/div&gt;
+        &lt;div class=&quot;btnNext&quot;&gt;&lt;a&gt;&lt;img src=&quot;images/next_btn.png&quot;&gt;&lt;/a&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    
+    &lt;div class=&quot;galleryList&quot;&gt;
+        &lt;ul&gt;
+            &lt;li&gt;&lt;img rel=&quot;images/bigimg1.jpg&quot; src=&quot;images/thumb1.jpg&quot;&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;img rel=&quot;images/bigimg2.jpg&quot; src=&quot;images/thumb2.jpg&quot;&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;img rel=&quot;images/bigimg1.jpg&quot; src=&quot;images/thumb1.jpg&quot;&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;img rel=&quot;images/bigimg2.jpg&quot; src=&quot;images/thumb2.jpg&quot;&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;img rel=&quot;images/bigimg1.jpg&quot; src=&quot;images/thumb1.jpg&quot;&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;img rel=&quot;images/bigimg2.jpg&quot; src=&quot;images/thumb2.jpg&quot;&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;img rel=&quot;images/bigimg1.jpg&quot; src=&quot;images/thumb1.jpg&quot;&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;img rel=&quot;images/bigimg2.jpg&quot; src=&quot;images/thumb2.jpg&quot;&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;img rel=&quot;images/bigimg1.jpg&quot; src=&quot;images/thumb1.jpg&quot;&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;img rel=&quot;images/bigimg2.jpg&quot; src=&quot;images/thumb2.jpg&quot;&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;img rel=&quot;images/bigimg1.jpg&quot; src=&quot;images/thumb1.jpg&quot;&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;img rel=&quot;images/bigimg2.jpg&quot; src=&quot;images/thumb2.jpg&quot;&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;img rel=&quot;images/bigimg1.jpg&quot; src=&quot;images/thumb1.jpg&quot;&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;img rel=&quot;images/bigimg2.jpg&quot; src=&quot;images/thumb2.jpg&quot;&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;img rel=&quot;images/bigimg1.jpg&quot; src=&quot;images/thumb1.jpg&quot;&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;img rel=&quot;images/bigimg2.jpg&quot; src=&quot;images/thumb2.jpg&quot;&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;img rel=&quot;images/bigimg1.jpg&quot; src=&quot;images/thumb1.jpg&quot;&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;img rel=&quot;images/bigimg2.jpg&quot; src=&quot;images/thumb2.jpg&quot;&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+And the result.
+<div class="sampleWrapper">
+	<div class="galleryWrapper">
+        <div class="galleryOverlay">
+            <div class="btnPrev"><a><img src="images/prev_btn.png"></a></div>
+            <div class="btnNext"><a><img src="images/next_btn.png"></a></div>
+            <div class="btnClose"><a>CLOSE</a></div>
+            <div class="mainImage"><img src="images/bigimg1.jpg" /></div>
+        </div>
+        
+        <div class="pageControl">
+            <div class="btnPrev"><a><img src="images/prev_btn.png"></a></div>
+            <div class="btnNext"><a><img src="images/next_btn.png"></a></div>
+        </div>
+        
+        <div class="galleryList">
+            <ul>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+Include the script tag below in your document and get start!
+<pre class="prettyprint">
+&lt;script type='text/javascript' src='js/monster-gallery.js'&gt;&lt;/script&gt;
+</pre>
+
+<div class="sampleWrapper">
+<h3>Sample 1</h3>
+This is the code needed to achieve this:
+<pre class="prettyprint">
+$('#galleryThumb1').monsterGallery({
+    display:15
+});
+</pre>
+<div class="resultWrapper">
+    <div id="galleryThumb1" class="galleryWrapper">
+        <div class="galleryOverlay">
+            <div class="btnPrev"><a><img src="images/prev_btn.png"></a></div>
+            <div class="btnNext"><a><img src="images/next_btn.png"></a></div>
+            <div class="btnClose"><a>CLOSE</a></div>
+            <div class="mainImage"><img src="images/bigimg1.jpg" /></div>
+        </div>
+        
+        <div class="pageControl">
+            <div class="btnPrev"><a><img src="images/prev_btn.png"></a></div>
+            <div class="btnNext"><a><img src="images/next_btn.png"></a></div>
+        </div>
+        
+        <div class="galleryList">
+            <ul>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+            </ul>
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+
+
+<div class="sampleWrapper">
+<h3>Sample 2 with Monster Paginate</h3>
+This is the code needed to achieve this:
+<pre class="prettyprint">
+$('#galleryPaginate2').mosterPaginate({
+    selectPage:1,
+    totalPages:2,
+    callback:onPaginateChange
+});
+$('#galleryThumb2').monsterGallery({
+    display:15,
+    callback:onGalleryChange
+});
+
+function onGalleryChange(con){
+    $('#galleryPaginate2').mosterPaginate('update','selectPage',con.selectPage);
+}
+
+function onPaginateChange(con){
+    $('#galleryThumb2').monsterGallery('update','selectPage',con.selectPage);
+}
+</pre>
+<div class="resultWrapper">
+    <div id="galleryThumb2" class="galleryWrapper">
+        <div class="galleryOverlay">
+            <div class="btnPrev"><a><img src="images/prev_btn.png"></a></div>
+            <div class="btnNext"><a><img src="images/next_btn.png"></a></div>
+            <div class="btnClose"><a>CLOSE</a></div>
+            <div class="mainImage"><img src="images/bigimg1.jpg" /></div>
+        </div>
+        
+        <div class="pageControl">
+            <div class="btnPrev"><a><img src="images/prev_btn.png"></a></div>
+            <div class="btnNext"><a><img src="images/next_btn.png"></a></div>
+        </div>
+        
+        <div class="galleryList">
+            <ul>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+            </ul>
+        </div>
+    </div>
+    
+    <div id="galleryPaginate2" class="paginateDark">
+    <ul>
+        <li class="lastPage disabled"><a class="paginateButton">First</a></li>
+        <li class="prevpage disabled"><a class="paginateButton">Prev</a></li>
+        <li class="page selected"><a class="paginateButton">1</a></li>
+        <li class="page"><a class="paginateButton">2</a></li>
+        <li class="page"><a class="paginateButton">3</a></li>
+        <li class="page"><a class="paginateButton">4</a></li>
+        <li class="page"><a class="paginateButton">5</a></li>
+        <li class="nextpage"><a class="paginateButton">Next</a></li>
+        <li class="lastPage"><a class="paginateButton">Last</a></li>
+    </ul>
+</div>
+</div>
+</div>
+
+
+
+
+<div class="sampleWrapper">
+<h3>Sample 3</h3>
+This is the code needed to achieve this:
+<pre class="prettyprint">
+$('#galleryThumb3').monsterGallery({
+    display:6,
+    overlayHolder:'#galleryMain2'
+});
+
+$('#nextpage').click(function() {
+    $('#galleryThumb3').monsterGallery('nextPage');
+})
+$('#prevpage').click(function() {
+    $('#galleryThumb3').monsterGallery('prevPage');
+})
+$('#nextimage').click(function() {
+    $('#galleryThumb3').monsterGallery('nextImage');
+})
+$('#previmage').click(function() {
+    $('#galleryThumb3').monsterGallery('prevImage');
+})
+$('#openimage').click(function() {
+    $('#galleryThumb3').monsterGallery('openImage',4);
+})
+</pre>
+The buttons can control the pagination as well.
+<div class="navigation">
+	<div id="prevpage" class="button"><a>Prev Page</a></div>
+    <div id="nextpage" class="button"><a>Next Page</a></div>
+    <div id="previmage" class="button"><a>Prev Image</a></div>
+    <div id="nextimage" class="button"><a>Next Image</a></div>
+    <div id="openimage" class="button"><a>Open Image 4</a></div>
+</div>
+<div class="resultWrapper">
+    <div id="galleryThumb3" class="galleryThumb3">
+        <div class="galleryList">
+            <ul>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+            </ul>
+        </div>
+    </div>
+    <div id="galleryMain2" class="secondImage">
+        <div class="mainImage"><img src="images/bigimg1.jpg" /></div>
+    </div>
+    <div style="clear:both;"></div>
+</div>
+</div>
+
+
+
+
+<div class="sampleWrapper">
+<h3>Sample 4</h3>
+This is the code needed to achieve this:
+<pre class="prettyprint">
+$('#galleryThumb4').monsterGallery({
+    thumbPath:'images/gallery/thumb/thumb[X].jpg',
+    imagePath:'images/gallery/image/bigimg[X].jpg',
+    totalThumbs:6,
+    display:4,
+    batch:true
+});
+</pre>
+<div class="resultWrapper">
+    <div id="galleryThumb4" class="galleryWrapper">
+        <div class="galleryOverlay">
+            <div class="btnPrev"><a><img src="images/prev_btn.png"></a></div>
+            <div class="btnNext"><a><img src="images/next_btn.png"></a></div>
+            <div class="btnClose"><a>CLOSE</a></div>
+            <div class="mainImage"><img src="images/bigimg1.jpg" /></div>
+        </div>
+        
+        <div class="pageControl">
+            <div class="btnPrev"><a><img src="images/prev_btn.png"></a></div>
+            <div class="btnNext"><a><img src="images/next_btn.png"></a></div>
+        </div>
+        
+        <div class="galleryList">
+            <ul>
+            </ul>
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+<div class="sampleWrapper">
+<h3>Usage</h3>
+Understands default options that can use for this plugin.
+<pre class="prettyprint">
+$('#gallery').monsterImageSlider({
+    selectThumb:1, //load thumbnail's image
+    totalThumbs:10, //auto calculate total thumbnails
+    display:15, //total to display
+    selectPage:1, //thumbanils page
+    totalPages:1, //total thumbanils pages
+    thumbPath:'', //thumbnail path; [x] is to replace number
+    imagePath:'', //image path; [x] is to replace number
+    batch:false, //load all thumbnails or by batch; true/false
+    callback:'', //callback function
+    galleryListHolder:'.galleryList', //follow by element holder
+    controlHolder:'.pageControl',
+    controlPrev:'.btnPrev',
+    controlNext:'.btnNext',
+    overlayHolder:'.galleryOverlay',
+    overlayImgHolder:'.mainImage',
+    overlayPrev:'.btnPrev',
+    overlayNext:'.btnNext',
+    overlayClose:'.btnClose',
+});
+
+//Option can be update later once the same element is init.
+$('#gallery').monsterImageSlider('update','selectPage',5);
+</pre>
+</div>
+
+
+<div class="sampleWrapper">
+	<div class="backNavigation">
+		<div class="button"><a href="http://geometry.my/showcase/dev/">Back to Monster Page</a></div>
+    </div>
+</div>
+
+</body>
+</html>

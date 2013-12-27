@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Monster Image Slider</title>
+	<!-- Always update this url with the latest jquery version -->
+	<script type='text/javascript' src='http://code.jquery.com/jquery-1.8.3.js'></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=sunburst"></script>
+    <script type='text/javascript' src='js/monster-image-slider.js'></script>
+</head>
+
+<style>
+	body{font-family:Arial, Helvetica, sans-serif; font-size:16px; color:#666;}
+	pre{ font-size:12px;}
+	h1, h3{color:#0F9095; text-align:center;font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;}
+	h1{font-size:58px;}
+	h3{font-size:30px; line-height:30px; height:15px;}
+	.contentWrapper{width:800px; height:auto;margin:auto;}
+	.sampleWrapper{ margin-bottom:100px;}
+	.resultWrapper{margin:30px 0;}
+	.button a{padding:8px 18px; font-size:12px; background:#0F9095; color:#FFF; font-weight:bold;-moz-border-radius:12px;-webkit-border-radius:12px;border-radius:12px;display:inline-block;cursor:pointer; float:left; margin:0 5px;}
+	.button a:hover{background:#333;}
+	.backNavigation{width:200px; height:100px; margin:auto;}
+	.navigation{margin-top:10px; text-align:center;}
+	.navigation:after{content: ".";display:block;clear:both;visibility:hidden;line-height:0;height:0;}
+	.callbackOutput{ width:90%; border:#CCC solid 1px; font-size:12px; padding:10px; margin:10px auto;}
+	
+	/*Image Slider CSS*/
+	.sliderHolder{width:400px; margin:auto;}
+	.sliderHolder .nav{position:absolute; z-index:1;}
+	.sliderHolder .nav .leftArrow, .sliderHolder .nav .rightArrow {position:absolute;top:120px;}
+	.sliderHolder .nav .rightArrow {left:380px;}
+	.sliderHolder .nav a{width:20px;height:32px;cursor:hand;cursor:pointer;}
+	.sliderHolder .imageControl{position:absolute;z-index:2;margin-left:165px;margin-top:250px;}
+	.imageControl ul{margin:0; padding:0; list-style:none;}
+	.imageControl li{width:10px; height:10px; background:#86A8AA;float:left;margin:0 3px;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;cursor:hand;cursor:pointer;}
+	.imageControl li.selected, .imageControl li:hover{background:#fff;}
+	.imageList{width:400px;height:280px;display:block;overflow:hidden;position:relative;margin:auto;}
+	.imageList ul{margin:0;padding:0;list-style:none;display:block;position:absolute;width:4000px;top:0;}
+	.imageList li{float:left;width:400px;height:280px;padding:4px;margin:0;padding:0;display:inline;}
+
+</style>
+
+<script>
+$(document).ready(function () {
+	$('#imgSlider').monsterImageSlider();
+	
+	$('#imgSlider2').monsterImageSlider({
+		autoShowLeftRight:true,
+		autoShowControl:true,
+		timer:0
+	});
+});
+</script>
+
+<body>
+<div class="contentWrapper">
+<h1>Monster Image Slider</h1>
+
+<div class="sampleWrapper">
+So you have your standard CSS, which looks like this:
+<pre class="prettyprint">
+/*Image Slider CSS*/
+.sliderHolder{width:400px; margin:auto;}
+.sliderHolder .nav{position:absolute; z-index:1;}
+.sliderHolder .nav .leftArrow, .sliderHolder .nav .rightArrow {position:absolute;top:120px;}
+.sliderHolder .nav .rightArrow {left:380px;}
+.sliderHolder .nav a{width:20px;height:32px;cursor:hand;cursor:pointer;}
+.sliderHolder .imageControl{position:absolute;z-index:2;margin-left:165px;margin-top:250px;}
+.imageControl ul{margin:0; padding:0; list-style:none;}
+.imageControl li{width:10px; height:10px; background:#86A8AA;float:left;margin:0 3px;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;cursor:hand;cursor:pointer;}
+.imageControl li.selected, .imageControl li:hover{background:#fff;}
+.imageList{width:400px;height:280px;display:block;overflow:hidden;position:relative;margin:auto;}
+.imageList ul{margin:0;padding:0;list-style:none;display:block;position:absolute;width:4000px;top:0;}
+.imageList li{float:left;width:400px;height:280px;padding:4px;margin:0;padding:0;display:inline;}
+</pre>
+
+You have your standard HTML, which looks like this:
+<pre class="prettyprint">
+&lt;div id=&quot;imgSlider&quot; class=&quot;sliderHolder&quot;&gt;
+    &lt;div class=&quot;nav&quot;&gt;
+        &lt;div class=&quot;leftArrow&quot;&gt;&lt;a&gt;&lt;img src=&quot;images/left.png&quot;&gt;&lt;/a&gt;&lt;/div&gt;
+        &lt;div class=&quot;rightArrow&quot;&gt;&lt;a&gt;&lt;img src=&quot;images/right.png&quot;&gt;&lt;/a&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;imageControl&quot;&gt;
+        &lt;ul&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;imageList&quot;&gt;
+        &lt;ul&gt;
+            &lt;li&gt;&lt;img rel=&quot;images/main01.jpg&quot; src=&quot;images/main02.jpg&quot;&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;img rel=&quot;images/main02.jpg&quot; src=&quot;images/main01.jpg&quot;&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;img rel=&quot;images/main01.jpg&quot; src=&quot;images/main02.jpg&quot;&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;img rel=&quot;images/main02.jpg&quot; src=&quot;images/main01.jpg&quot;&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;img rel=&quot;images/main01.jpg&quot; src=&quot;images/main02.jpg&quot;&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+And the result.
+<div class="sampleWrapper">
+<div class="sliderHolder">
+    	<div class="nav">
+        	<div class="leftArrow"><a><img src="images/left.png"></a></div>
+            <div class="rightArrow"><a><img src="images/right.png"></a></div>
+        </div>
+        <div class="imageControl">
+        	<ul>
+            	<li class="selected"></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
+        <div class="imageList">
+            <ul>
+                <li><img rel="images/main01.jpg" src="images/main02.jpg"></li>
+                <li><img rel="images/main02.jpg" src="images/main01.jpg"></li>
+                <li><img rel="images/main01.jpg" src="images/main02.jpg"></li>
+                <li><img rel="images/main02.jpg" src="images/main01.jpg"></li>
+                <li><img rel="images/main01.jpg" src="images/main02.jpg"></li>
+            </ul>
+        </div>
+    </div>
+</div>
+</div>
+
+Include the script tag below in your document and get start!
+<pre class="prettyprint">
+&lt;script type='text/javascript' src='js/monster-image-slider.js'&gt;&lt;/script&gt;
+</pre>
+
+<div class="sampleWrapper">
+<h3>Sample 1</h3>
+This is the code needed to achieve this:
+<pre class="prettyprint">
+$('#imgSlider').monsterImageSlider({
+    autoShowLeftRight:true,
+    autoShowControl:false,
+    timer:3000
+});
+</pre>
+
+<div class="resultWrapper">
+    <div id="imgSlider" class="sliderHolder">
+    	<div class="nav">
+        	<div class="leftArrow"><a><img src="images/left.png"></a></div>
+            <div class="rightArrow"><a><img src="images/right.png"></a></div>
+        </div>
+        <div class="imageControl">
+        	<ul>
+            </ul>
+        </div>
+        <div class="imageList">
+            <ul>
+                <li><img rel="images/main01.jpg" src="images/main02.jpg"></li>
+                <li><img rel="images/main02.jpg" src="images/main01.jpg"></li>
+                <li><img rel="images/main01.jpg" src="images/main02.jpg"></li>
+                <li><img rel="images/main02.jpg" src="images/main01.jpg"></li>
+                <li><img rel="images/main01.jpg" src="images/main02.jpg"></li>
+            </ul>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="sampleWrapper">
+<h3>Sample 2</h3>
+This is the code needed to achieve that:
+
+<pre class="prettyprint">
+$('#imgSlider2').monsterImageSlider({
+    autoShowLeftRight:true,
+    autoShowControl:true,
+    timer:0
+});
+</pre>
+<div class="resultWrapper">
+	<div id="imgSlider2" class="sliderHolder">
+    	<div class="nav">
+        	<div class="leftArrow"><a><img src="images/left.png"></a></div>
+            <div class="rightArrow"><a><img src="images/right.png"></a></div>
+        </div>
+        <div class="imageControl">
+        	<ul>
+            </ul>
+        </div>
+        <div class="imageList">
+            <ul>
+                <li><img rel="images/main01.jpg" src="images/main02.jpg"></li>
+                <li><img rel="images/main02.jpg" src="images/main01.jpg"></li>
+                <li><img rel="images/main01.jpg" src="images/main02.jpg"></li>
+                <li><img rel="images/main02.jpg" src="images/main01.jpg"></li>
+                <li><img rel="images/main01.jpg" src="images/main02.jpg"></li>
+            </ul>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="sampleWrapper">
+<h3>Usage</h3>
+Understands default options that can use for this plugin.
+<pre class="prettyprint">
+$('#imgslider').monsterImageSlider({
+    autoShowControl:false, //auto show left right control; true/false
+    autoShowLeftRight:false, //auto show image list control; true/false
+    timer:3000, //slide show timer; 0 = off
+    selectSlide:1, //show which image slide
+    callback:'', //call back function
+    imageHolder:".imageList", //follow by default elements
+    controlHolder:'.imageControl',
+    navHolder:'.nav',
+    navLeftHolder:'.leftArrow',
+    navRightHolder:'.rightArrow',
+    selectedClass:'selected'
+});
+
+//Option can be update later once the same element is init.
+$('#imgslider').monsterImageSlider('update','timer',5000);
+</pre>
+</div>
+</div>
+
+<div class="sampleWrapper">
+	<div class="backNavigation">
+		<div class="button"><a href="http://geometry.my/showcase/dev/">Back to Monster Page</a></div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Monster Gallery Slider</title>
+	<!-- Always update this url with the latest jquery version -->
+	<script type='text/javascript' src='http://code.jquery.com/jquery-1.8.3.js'></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=sunburst"></script>
+    <script type='text/javascript' src='js/monster-gallery-slider.js'></script>
+</head>
+
+<script>
+$(document).ready(function () {
+	$('#thumbgallery').monsterGallerySlider();
+	
+	var selector='#thumbgallery2'
+	$(selector).monsterGallerySlider({
+			selectThumb:2,
+			autoShowLeftRight:true,
+			timer:3000
+			});
+			
+	$('#prevslide').click(function() {
+		$(selector).monsterGallerySlider('prevSlide');
+	})
+	
+	$('#nextslide').click(function() {
+		$(selector).monsterGallerySlider('nextSlide');
+	})
+	
+	$('#nextthumb').click(function() {
+		$(selector).monsterGallerySlider('nextThumb');
+	})
+	
+	$('#goslide').click(function() {
+		$(selector).monsterGallerySlider('goSlide',8);
+	})
+	
+	$('#update').click(function() {
+		$(selector).monsterGallerySlider('update','timer',2000);
+	})
+});
+</script>
+
+<style>
+	body{font-family:Arial, Helvetica, sans-serif; font-size:16px; color:#666;}
+	pre{ font-size:12px;}
+	h1, h3{color:#0F9095; text-align:center;font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;}
+	h1{font-size:58px;}
+	h3{font-size:30px; line-height:30px; height:15px;}
+	.contentWrapper{width:800px; height:auto;margin:auto;}
+	.sampleWrapper{ margin-bottom:100px;}
+	.resultWrapper{margin:30px 0;}
+	.button a{padding:8px 18px; font-size:12px; background:#0F9095; color:#FFF; font-weight:bold;-moz-border-radius:12px;-webkit-border-radius:12px;border-radius:12px;display:inline-block;cursor:pointer; float:left; margin:0 5px;}
+	.button a:hover{background:#333;}
+	.backNavigation{width:200px; height:100px; margin:auto;}
+	.navigation{margin-top:10px; text-align:center;}
+	.navigation:after{content: ".";display:block;clear:both;visibility:hidden;line-height:0;height:0;}
+	.callbackOutput{ width:90%; border:#CCC solid 1px; font-size:12px; padding:10px; margin:10px auto;}
+	
+	/*gallery slider CSS*/
+	.gallerySlider{width:400px; margin:auto;}
+	.gallerySlider .mainHolder{width:400px; height:280px; background:url(/images/gallerybg.jpg) no-repeat;}
+	.gallerySlider .mainHolder .nav{position:absolute;}
+	.gallerySlider .mainHolder .nav .leftArrow, .gallerySlider .mainHolder .nav .rightArrow {position:absolute;top:120px;}
+	.gallerySlider .mainHolder .nav .rightArrow {left:355px;}
+	.gallerySlider .mainHolder .nav a{width:25px;height:30px;cursor:hand;cursor:pointer;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;position:absolute;background:#FFF; padding:10px;}
+	/* galleryList width = (galleryList li thumb width + galleryList li padding left right) * total thumb display */
+	/* 352 = (80 + 8) * 4 */
+	/* galleryList height = same calculation above but height/padding top bottom/margin top bottom*/
+	.galleryList{width:352px;height:110px;display:block;overflow: hidden;position:relative;margin:auto;margin-top:5px;}
+	.galleryList ul{margin:0;padding:0;list-style:none;display:block;position:absolute;width:4000px;top:0;}
+	.galleryList li{float:left;width:80px;height:80px;padding:4px;margin:0px 0px;cursor:hand;cursor:pointer;display:inline;}
+	.galleryList li.selected, .thumbHolder li:hover{background:#86A8AA;}
+	.thumbHolder .leftArrow{float:left;}
+	.thumbHolder .rightArrow{float:right;}
+	.thumbHolder .leftArrow, .thumbHolder .rightArrow{margin-top:25px;width:20px;height:32px;cursor:hand;cursor:pointer;}
+</style>
+
+<body>
+<div class="contentWrapper">
+<h1>Monster Gallery Slider</h1>
+
+<div class="sampleWrapper">
+So you have your standard CSS, which looks like this:
+<pre class="prettyprint">
+/*gallery slider CSS*/
+.gallerySlider{width:400px; margin:auto;}
+.gallerySlider .mainHolder{width:400px; height:280px; background:url(/images/gallerybg.jpg) no-repeat;}
+.gallerySlider .mainHolder .nav{position:absolute;}
+.gallerySlider .mainHolder .nav .leftArrow, .gallerySlider .mainHolder .nav .rightArrow {position:absolute;top:120px;}
+.gallerySlider .mainHolder .nav .rightArrow {left:355px;}
+.gallerySlider .mainHolder .nav a{width:25px;height:30px;cursor:hand;cursor:pointer;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;position:absolute;background:#FFF; padding:10px;}
+/* galleryList width = (galleryList li thumb width + galleryList li padding left right) * total thumb display */
+/* 352 = (80 + 8) * 4 */
+/* galleryList height = same calculation above but height/padding top bottom/margin top bottom*/
+.galleryList{width:352px;height:110px;display:block;overflow:hidden;position:relative;margin:auto;margin-top:5px;}
+.galleryList ul{margin:0;padding:0;list-style:none;display:block;position:absolute;width:4000px;top:0;}
+.galleryList li{float:left;width:80px;height:80px;padding:4px;margin:0px 0px;cursor:hand;cursor:pointer;display:inline;}
+.galleryList li.selected, .thumbHolder li:hover{background:#86A8AA;}
+.thumbHolder .leftArrow{float:left;}
+.thumbHolder .rightArrow{float:right;}
+.thumbHolder .leftArrow, .thumbHolder .rightArrow{margin-top:25px;width:20px;height:32px;cursor:hand;cursor:pointer;}
+</pre>
+
+You have your standard HTML, which looks like this:
+<pre class="prettyprint">
+&lt;div id=&quot;thumbgallery&quot; class=&quot;gallerySlider&quot;&gt;
+    &lt;div class=&quot;mainHolder&quot;&gt;
+        &lt;div class=&quot;nav&quot;&gt;
+            &lt;div class=&quot;leftArrow&quot;&gt;&lt;a&gt;&lt;img src=&quot;images/left.png&quot;&gt;&lt;/a&gt;&lt;/div&gt;
+            &lt;div class=&quot;rightArrow&quot;&gt;&lt;a&gt;&lt;img src=&quot;images/right.png&quot;&gt;&lt;/a&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;imgHolder&quot;&gt;
+            &lt;img src=&quot;images/main01.jpg&quot;&gt; 
+        &lt;/div&gt;
+    &lt;/div&gt;
+    
+    &lt;div class=&quot;thumbHolder&quot;&gt;
+        &lt;div class=&quot;leftArrow&quot;&gt;&lt;a&gt;&lt;img src=&quot;images/left.png&quot;&gt;&lt;/a&gt;&lt;/div&gt;
+        &lt;div class=&quot;rightArrow&quot;&gt;&lt;a&gt;&lt;img src=&quot;images/right.png&quot;&gt;&lt;/a&gt;&lt;/div&gt;
+        &lt;div class=&quot;galleryList&quot;&gt;
+            &lt;ul&gt;
+                &lt;li class=&quot;selected&quot;&gt;&lt;img rel=&quot;images/main01.jpg&quot; src=&quot;images/01.jpg&quot;&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;img rel=&quot;images/main02.jpg&quot; src=&quot;images/02.jpg&quot;&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;img rel=&quot;images/main01.jpg&quot; src=&quot;images/01.jpg&quot;&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;img rel=&quot;images/main02.jpg&quot; src=&quot;images/02.jpg&quot;&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;img rel=&quot;images/main01.jpg&quot; src=&quot;images/01.jpg&quot;&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;img rel=&quot;images/main02.jpg&quot; src=&quot;images/02.jpg&quot;&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;img rel=&quot;images/main01.jpg&quot; src=&quot;images/01.jpg&quot;&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;img rel=&quot;images/main02.jpg&quot; src=&quot;images/02.jpg&quot;&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;img rel=&quot;images/main01.jpg&quot; src=&quot;images/01.jpg&quot;&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;img rel=&quot;images/main02.jpg&quot; src=&quot;images/02.jpg&quot;&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+And the result.
+<div class="sampleWrapper">
+<div class="gallerySlider">
+        <div class="mainHolder">
+        	<div class="nav">
+            	<div class="leftArrow"><a><img src="images/left.png"></a></div>
+            	<div class="rightArrow"><a><img src="images/right.png"></a></div>
+            </div>
+            <div class="imgHolder">
+            	<img src="images/main01.jpg"> 
+            </div>
+        </div>
+        
+        <div class="thumbHolder">
+            <div class="leftArrow"><a><img src="images/left.png"></a></div>
+            <div class="rightArrow"><a><img src="images/right.png"></a></div>
+            <div class="galleryList">
+                <ul>
+                    <li class="selected"><img rel="images/main01.jpg" src="images/01.jpg"></li>
+                    <li><img rel="images/main02.jpg" src="images/02.jpg"></li>
+                    <li><img rel="images/main01.jpg" src="images/01.jpg"></li>
+                    <li><img rel="images/main02.jpg" src="images/02.jpg"></li>
+                    <li><img rel="images/main01.jpg" src="images/01.jpg"></li>
+                    <li><img rel="images/main02.jpg" src="images/02.jpg"></li>
+                    <li><img rel="images/main01.jpg" src="images/01.jpg"></li>
+                    <li><img rel="images/main02.jpg" src="images/02.jpg"></li>
+                    <li><img rel="images/main01.jpg" src="images/01.jpg"></li>
+                    <li><img rel="images/main02.jpg" src="images/02.jpg"></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+Include the script tag below in your document and get start!
+<pre class="prettyprint">
+&lt;script type='text/javascript' src='js/monster-gallery-slider.js'&gt;&lt;/script&gt;
+</pre>
+
+<div class="sampleWrapper">
+<h3>Sample 1</h3>
+This is the code needed to achieve this:
+<pre class="prettyprint">
+$('#thumbgallery').monsterGallerySlider();
+</pre>
+
+<div class="resultWrapper">
+    <div id="thumbgallery" class="gallerySlider">
+        <div class="mainHolder">
+        	<div class="nav">
+            	<div class="leftArrow"><a><img src="images/left.png"></a></div>
+            	<div class="rightArrow"><a><img src="images/right.png"></a></div>
+            </div>
+            <div class="imgHolder">
+            	<img src="images/main01.jpg"> 
+            </div>
+        </div>
+        
+        <div class="thumbHolder">
+            <div class="leftArrow"><a><img src="images/left.png"></a></div>
+            <div class="rightArrow"><a><img src="images/right.png"></a></div>
+            <div class="galleryList">
+                <ul>
+                    <li class="selected"><img rel="images/main01.jpg" src="images/01.jpg"></li>
+                    <li><img rel="images/main02.jpg" src="images/02.jpg"></li>
+                    <li><img rel="images/main01.jpg" src="images/01.jpg"></li>
+                    <li><img rel="images/main02.jpg" src="images/02.jpg"></li>
+                    <li><img rel="images/main01.jpg" src="images/01.jpg"></li>
+                    <li><img rel="images/main02.jpg" src="images/02.jpg"></li>
+                    <li><img rel="images/main01.jpg" src="images/01.jpg"></li>
+                    <li><img rel="images/main02.jpg" src="images/02.jpg"></li>
+                    <li><img rel="images/main01.jpg" src="images/01.jpg"></li>
+                    <li><img rel="images/main02.jpg" src="images/02.jpg"></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+
+<div class="sampleWrapper">
+<h3>Sample 2</h3>
+This is the code needed to achieve this:
+<pre class="prettyprint">
+var selector='#thumbgallery2'
+$(selector).monsterGallerySlider({
+        selectThumb:2,
+        autoShowLeftRight:true,
+        timer:3000
+        });
+        
+$('#prevslide').click(function() {
+    $(selector).monsterGallerySlider('prevSlide');
+})
+
+$('#nextslide').click(function() {
+    $(selector).monsterGallerySlider('nextSlide');
+})
+
+$('#nextthumb').click(function() {
+    $(selector).monsterGallerySlider('nextThumb');
+})
+
+$('#goslide').click(function() {
+    $(selector).monsterGallerySlider('goSlide',8);
+})
+
+$('#update').click(function() {
+    $(selector).monsterGallerySlider('update','timer',2000);
+})
+</pre>
+The buttons can control the pagination as well.
+<div class="navigation">
+	<div id="prevslide" class="button"><a>Prev Slide</a></div>
+    <div id="nextslide" class="button"><a>Next Slide</a></div>
+    <div id="nextthumb" class="button"><a>Next Thumbnails</a></div>
+    <div id="goslide" class="button"><a>Go To Slide 8</a></div>
+    <div id="update" class="button"><a>update timer 2 sec</a></div>
+</div>
+<div class="resultWrapper">
+    <div id="thumbgallery2" class="gallerySlider">
+        <div class="mainHolder">
+        	<div class="nav">
+            	<div class="leftArrow"><a><img src="images/left.png"></a></div>
+            	<div class="rightArrow"><a><img src="images/right.png"></a></div>
+            </div>
+            <div class="imgHolder">
+            	<img src="images/main01.jpg"> 
+            </div>
+        </div>
+        
+        <div class="thumbHolder">
+            <div class="leftArrow"><a><img src="images/left.png"></a></div>
+            <div class="rightArrow"><a><img src="images/right.png"></a></div>
+            <div class="galleryList">
+                <ul>
+                    <li class="selected"><img rel="images/main01.jpg" src="images/01.jpg"></li>
+                    <li><img rel="images/main02.jpg" src="images/02.jpg"></li>
+                    <li><img rel="images/main01.jpg" src="images/01.jpg"></li>
+                    <li><img rel="images/main02.jpg" src="images/02.jpg"></li>
+                    <li><img rel="images/main01.jpg" src="images/01.jpg"></li>
+                    <li><img rel="images/main02.jpg" src="images/02.jpg"></li>
+                    <li><img rel="images/main01.jpg" src="images/01.jpg"></li>
+                    <li><img rel="images/main02.jpg" src="images/02.jpg"></li>
+                    <li><img rel="images/main01.jpg" src="images/01.jpg"></li>
+                    <li><img rel="images/main02.jpg" src="images/02.jpg"></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+
+<div class="sampleWrapper">
+<h3>Usage</h3>
+Understands default options that can use for this plugin.
+<pre class="prettyprint">
+$('#galleryslider').monsterImageSlider({
+    selectThumb:1, //highlight thumnail
+    autoShowLeftRight:false, //auto show left right control; true/false
+    timer:0, //slide show timer; 0 = off
+    callback:'', //call back function
+    galleryHolder:'.galleryList', //follow by default elements
+    controlHolder:'.nav',
+    controlLeftHolder:'.leftArrow',
+    controlRightHolder:'.rightArrow',
+    mainHolder:'.mainHolder',
+    imgHolder:'.imgHolder',
+    thumbHolder:'.thumbHolder',
+    thumbLeftHolder:'.leftArrow',
+    thumbRightHolder:'.rightArrow',
+    selectedClass:'selected'
+});
+
+//Option can be update later once the same element is init.
+$('#galleryslider').monsterImageSlider('update','timer',5000);
+</pre>
+</div>
+</div>
+
+<div class="sampleWrapper">
+	<div class="backNavigation">
+		<div class="button"><a href="http://geometry.my/showcase/dev/">Back to Monster Page</a></div>
+    </div>
+</div>
+</body>
+</html>
