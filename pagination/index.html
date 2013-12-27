@@ -13,7 +13,7 @@
 <script>
 $(function() {
 	<!--Paginate Sample 1 Init-->
-	$('#pagination').mosterPaginate({
+	$('#pagination').monsterPaginate({
 		totalPages:12,
 		display:5,
 		showFirstLast:false
@@ -21,7 +21,7 @@ $(function() {
 	
 	<!--Paginate Sample 2 Init-->
 	var selector2='#secondpagination';
-	$(selector2).mosterPaginate({
+	$(selector2).monsterPaginate({
 		selectPage:15,
 		totalPages:56,
 		display:10,
@@ -60,19 +60,19 @@ $(function() {
 	
 	<!--Paginate Sample 2 additional call-->
 	$('#secondNextPage').click(function() {
-		$(selector2).mosterPaginate('nextPage');
+		$(selector2).monsterPaginate('nextPage');
 	})
 	
 	$('#secondPrevPage').click(function() {
-		$(selector2).mosterPaginate('prevPage');
+		$(selector2).monsterPaginate('prevPage');
 	})
 	
 	$('#secondGoPage').click(function() {
-		$(selector2).mosterPaginate('goPage',13);
+		$(selector2).monsterPaginate('goPage',13);
 	})
 	
 	$('#update').click(function() {
-		$(selector2).mosterPaginate('update','display',8);
+		$(selector2).monsterPaginate('update','display',8);
 	})
 });
 </script>
@@ -202,7 +202,7 @@ Include the script tag below in your document and get start!
 <h3>Sample 1</h3>
 This is the code needed to achieve this:
 <pre class="prettyprint">
-$('#pagination').mosterPaginate({
+$('#pagination').monsterPaginate({
     totalPages:12,
     display:5,
     showFirstLast:false
@@ -224,7 +224,7 @@ This is the code needed to achieve that:
 <pre class="prettyprint">
 <!--Paginate Sample 2 Init-->
 var selector2='#secondpagination';
-$(selector2).mosterPaginate({
+$(selector2).monsterPaginate({
     selectPage:15,
     totalPages:56,
     display:10,
@@ -257,19 +257,19 @@ function onPaginateChange(con){
 
 <!--Paginate Sample 2 additional call-->
 $('#secondNextPage').click(function() {
-    $(selector2).mosterPaginate('nextPage');
+    $(selector2).monsterPaginate('nextPage');
 })
 
 $('#secondPrevPage').click(function() {
-    $(selector2).mosterPaginate('prevPage');
+    $(selector2).monsterPaginate('prevPage');
 })
 
 $('#secondGoPage').click(function() {
-    $(selector2).mosterPaginate('goPage',13);
+    $(selector2).monsterPaginate('goPage',13);
 })
 
 $('#update').click(function() {
-    $(selector2).mosterPaginate('update','display',8);
+    $(selector2).monsterPaginate('update','display',8);
 })
 </pre>
 
@@ -299,7 +299,7 @@ Click the paginate buttons to see callback output here...
 <h3>Usage</h3>
 Understands default options that can use for this plugin.
 <pre class="prettyprint">
-$('#paginate').mosterPaginate({
+$('#paginate').monsterPaginate({
     selectPage:1, //page highlight
     totalPages:15, //total pages
     display:5, //total page to display
@@ -320,7 +320,7 @@ $('#paginate').mosterPaginate({
 });
 
 //Option can be update later once the same element is init.
-$('#paginate').mosterPaginate('update','totalPages',100);
+$('#paginate').monsterPaginate('update','totalPages',100);
 </pre>
 </div>
 </div>

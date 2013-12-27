@@ -80,7 +80,7 @@
 		});
 		
 		//sample 2
-		$('#galleryPaginate2').mosterPaginate({
+		$('#galleryPaginate2').monsterPaginate({
 			selectPage:1,
 			totalPages:2,
 			callback:onPaginateChange
@@ -91,7 +91,7 @@
 		});
 		
 		function onGalleryChange(con){
-			$('#galleryPaginate2').mosterPaginate('update','selectPage',con.selectPage);
+			$('#galleryPaginate2').monsterPaginate('update','selectPage',con.selectPage);
 		}
 		
 		function onPaginateChange(con){
@@ -303,7 +303,7 @@ $('#galleryThumb1').monsterGallery({
 <h3>Sample 2 with Monster Paginate</h3>
 This is the code needed to achieve this:
 <pre class="prettyprint">
-$('#galleryPaginate2').mosterPaginate({
+$('#galleryPaginate2').monsterPaginate({
     selectPage:1,
     totalPages:2,
     callback:onPaginateChange
@@ -314,7 +314,7 @@ $('#galleryThumb2').monsterGallery({
 });
 
 function onGalleryChange(con){
-    $('#galleryPaginate2').mosterPaginate('update','selectPage',con.selectPage);
+    $('#galleryPaginate2').monsterPaginate('update','selectPage',con.selectPage);
 }
 
 function onPaginateChange(con){

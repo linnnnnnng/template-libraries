@@ -5,7 +5,7 @@
  *
  */
  (function($) {
-	var pluginName='mosterPaginate',
+	var pluginName='monsterPaginate',
 		defaults={
 			selectPage:1,
 			totalPages:15,
