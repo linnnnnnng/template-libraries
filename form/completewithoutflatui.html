@@ -65,15 +65,16 @@
 		function onSubmit(con){
 			//con.form - will return form attribute ID 'formRegister' for target multiple form
 			
+			//remove all error class
+			$('#formRegister').find('.formRow').each(function () {
+				$(this).removeClass('formError');
+			});
+			
 			if(con.errorlist.length==0){
 				$('.errMsg').hide()
 				//if the form is ok
 			}else{
 				errorMsg='';
-				//remove all error class
-				$('#formRegister').find('.formRow').each(function () {
-					$(this).removeClass('formError');
-				});
 				
 				//output format {name:'formEmail',type:'input',error:true,validate:'email'}
 				var fieldResult=con.errorlist
@@ -100,11 +101,14 @@
 			var general='*Please complete the mandatory field(s).'
 			var minlength='*Min length.'
 			var checkbox='*Please check at least 1 checkbox.'
+			var radio='*Please select radiobox.'
 			var email='*Please enter a valid email'
 			if(con=='minlength'){
 				return minlength
 			}else if(con=='checkbox'){
 				return checkbox
+			}else if(con=='radio'){
+				return radio
 			}else if(con=='email'){
 				return email
 			}else{
@@ -160,16 +164,16 @@ var errorMsg='';
 function onSubmit(con){
 	//con.form - will return form attribute ID 'formRegister' for target multiple form
     
+    //remove all error class
+    $('#formRegister').find('.formRow').each(function () {
+        $(this).removeClass('formError');
+    });
+    
     if(con.errorlist.length==0){
         $('.errMsg').hide()
         //if the form is ok
     }else{
         errorMsg=''
-        
-        //remove all error class
-        $('#formRegister').find('.formRow').each(function () {
-            $(this).removeClass('formError');
-        });
         
         //output format {name:'formEmail',type:'input',error:true,validate:'email'}
         var fieldResult=con.errorlist
@@ -194,11 +198,14 @@ function getErrorInput(con){
     var general='*Please complete the mandatory field(s).'
     var minlength='*Min length.'
     var checkbox='*Please check at least 1 checkbox.'
+    var radio='*Please select radiobox.'
     var email='*Please enter a valid email'
     if(con=='minlength'){
         return minlength
     }else if(con=='checkbox'){
         return checkbox
+    }else if(con=='radio'){
+        return radio
     }else if(con=='email'){
         return email
     }else{

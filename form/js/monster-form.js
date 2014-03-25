@@ -89,7 +89,8 @@
 			result.name=$(obj).attr('name')
 			if($(obj).attr('type')=='radio'){
 				//Radio validation
-				var radiobox=$("input[name='formRadiosGender']:checked").val();
+				var radioboxName = $(obj).attr('name')  || '';
+				var radiobox=$("input[name='"+radioboxName+"']:checked").val();
 				if (radiobox==undefined){
 					fieldError=true;
 				}else if(radiobox.length == 0){

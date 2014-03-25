@@ -31,12 +31,95 @@
 	.callbackOutput{ width:90%; border:#CCC solid 1px; font-size:12px; padding:10px; margin:10px auto;}
 	
 	/*form*/
-	.formRow{margin:10px 0;}
-	.formError textarea, .formError input[type="text"], .formError input[type="password"], .formError input[type="datetime"], .formError input[type="datetime-local"], .formError input[type="date"], .formError input[type="month"], .formError input[type="time"], .formError input[type="week"], .formError input[type="number"], .formError input[type="email"], .formError input[type="url"], .formError input[type="search"], .formError input[type="tel"], .formError input[type="color"], .formError .uneditable-input { background:#FC0;}
+	.formWrapper{width:520px;}
+	.formRow{font-family:Arial, Helvetica, sans-serif;font-size:13px;margin:5px 0;clear:both;}
+	.formRow label{display:block;margin:5px 10px 0 0;padding:0;}
+	.formRow label.labelName{width:90px;height:30px;float:left;}
+	.formRow label.labelCheckbox{float:left;}
+	.formTextarea{height:65px;}
+	.formRow input[type="text"], .formRow textarea{background:#1ABC9C; color: #fff; border:0 none; box-shadow:none; outline: 0 none; padding: 8px 15px; resize: none; width:380px;}
+	.formRow textarea{width:380px;}
+	.errMsg{font-family:Arial, Helvetica, sans-serif;font-size:13px; color:#F90;display:none;}
+	.formError .styledSelect, .formError textarea, .formError input[type="text"], .formError input[type="password"], .formError input[type="datetime"], .formError input[type="datetime-local"], .formError input[type="date"], .formError input[type="month"], .formError input[type="time"], .formError input[type="week"], .formError input[type="number"], .formError input[type="email"], .formError input[type="url"], .formError input[type="search"], .formError input[type="tel"], .formError input[type="color"], .formError .uneditable-input{background:#FC0;}
+	.submitButton{background:#1ABC9C; padding:10px 20px; color:#FFF; text-decoration:none;}
+	
+	/*custom select start*/
+	.s-hidden {visibility:hidden;padding-right:10px;width:175px;}
+	.select {cursor:pointer;display:inline-block;position:relative;font:normal 11px/22px Arial, Sans-Serif;height:30px;color:#fff;}
+	.styledSelect {position:absolute;top:0;right:0;bottom:0;left:0;background-color:#1ABC9C;padding:5px 15px 0;}
+	.styledSelect:after {content:"";width:34px;height:30px;position:absolute;top:0;right:0;background:url(images/dropdownbtn.jpg) no-repeat scroll center center;}
+	.styledSelect:active, .styledSelect.active {background-color:#149F85;}
+	.options {display:none;position:absolute;top:100%;right:0;left:0;z-index:999;margin:0 0;padding:0;padding-top:5px;list-style:none;background-color:#149F85;color:#fff;}
+	.options li {padding:0 6px;margin:0 0;padding:0 10px;}
+	.options li:hover {background-color:#1ABC9C;color:white;}
+	/*custom select end*/
 </style>
 
 <script>
 	$(function() {
+		$('select').each(function () {
+			// Cache the number of options
+			var $this = $(this),
+				numberOfOptions = $(this).children('option').length;
+	
+			// Hides the select element
+			$this.addClass('s-hidden');
+	
+			// Wrap the select element in a div
+			$this.wrap('<div class="select"></div>');
+	
+			// Insert a styled div to sit over the top of the hidden select element
+			$this.after('<div class="styledSelect"><span></span></div>');
+	
+			// Cache the styled div
+			var $styledSelect = $this.next('div.styledSelect');
+	
+			// Show the first select option in the styled div
+			$styledSelect.text($this.children('option').eq(0).text());
+	
+			// Insert an unordered list after the styled div and also cache the list
+			var $list = $('<ul />', {
+				'class': 'options'
+			}).insertAfter($styledSelect);
+	
+			// Insert a list item into the unordered list for each select option
+			for (var i = 0; i < numberOfOptions; i++) {
+				$('<li />', {
+					text: $this.children('option').eq(i).text(),
+					rel: $this.children('option').eq(i).val()
+				}).appendTo($list);
+			}
+	
+			// Cache the list items
+			var $listItems = $list.children('li');
+	
+			// Show the unordered list when the styled div is clicked (also hides it if the div is clicked again)
+			$styledSelect.click(function (e) {
+				e.stopPropagation();
+				$('div.styledSelect.active').each(function () {
+					$(this).removeClass('active').next('ul.options').hide();
+				});
+				$(this).toggleClass('active').next('ul.options').toggle();
+			});
+	
+			// Hides the unordered list when a list item is clicked and updates the styled div to show the selected list item
+			// Updates the select element to have the value of the equivalent option
+			$listItems.click(function (e) {
+				e.stopPropagation();
+				$styledSelect.text($(this).text()).removeClass('active');
+				$this.val($(this).attr('rel'));
+				$list.hide();
+				/* alert($this.val()); Uncomment this for demonstration! */
+			});
+	
+			// Hides the unordered list when clicking outside of it
+			$(document).click(function () {
+				$styledSelect.removeClass('active');
+				$list.hide();
+			});
+	
+		});
+		
 		//Monster Form
 		$('#formRegister').monsterForm({callback:onSubmit});
 		
@@ -44,15 +127,16 @@
 		function onSubmit(con){
 			//con.form - will return form attribute ID 'formRegister' for target multiple form
 			
+			//remove all error class
+			$('#formRegister').find('.formRow').each(function () {
+				$(this).removeClass('formError');
+			});
+			
 			if(con.errorlist.length==0){
 				$('.errMsg').hide()
 				//if the form is ok
 			}else{
 				errorMsg='';
-				//remove all error class
-				$('#formRegister').find('.formRow').each(function () {
-					$(this).removeClass('formError');
-				});
 				
 				//output format {name:'formEmail',type:'input',error:true,validate:'email'}
 				var fieldResult=con.errorlist
@@ -80,11 +164,14 @@
 			var general='*Please complete the mandatory field(s).'
 			var minlength='*Min length.'
 			var checkbox='*Please check at least 1 checkbox.'
+			var radio='*Please select radiobox.'
 			var email='*Please enter a valid email'
 			if(con=='minlength'){
 				return minlength
 			}else if(con=='checkbox'){
 				return checkbox
+			}else if(con=='radio'){
+				return radio
 			}else if(con=='email'){
 				return email
 			}else{
@@ -99,8 +186,255 @@
 <div class="contentWrapper">
 <h1>Monster Form (Basic)</h1>
 
+
+
+
 <div class="sampleWrapper">
-<h3>Form Sample</h3>
+So you have your standard CSS, which looks like this:
+<pre class="prettyprint">
+/*form*/
+.formWrapper{width:520px;}
+.formRow{font-family:Arial, Helvetica, sans-serif;font-size:13px;margin:5px 0;clear:both;}
+.formRow label{display:block;margin:5px 10px 0 0;padding:0;}
+.formRow label.labelName{width:90px;height:30px;float:left;}
+.formRow label.labelCheckbox{float:left;}
+.formTextarea{height:65px;}
+.formRow input[type="text"], .formRow textarea{background:#1ABC9C; color: #fff; border:0 none; box-shadow:none; outline: 0 none; padding: 8px 15px; resize: none; width:380px;}
+.formRow textarea{width:380px;}
+.errMsg{font-family:Arial, Helvetica, sans-serif;font-size:13px; color:#F90;display:none;}
+.formError .styledSelect, .formError textarea, .formError input[type="text"], .formError input[type="password"], .formError input[type="datetime"], .formError input[type="datetime-local"], .formError input[type="date"], .formError input[type="month"], .formError input[type="time"], .formError input[type="week"], .formError input[type="number"], .formError input[type="email"], .formError input[type="url"], .formError input[type="search"], .formError input[type="tel"], .formError input[type="color"], .formError .uneditable-input{background:#FC0;}
+.submitButton{background:#1ABC9C; padding:10px 20px; color:#FFF; text-decoration:none;}
+</pre>
+
+You have your standard HTML, which looks like this:
+<pre class="prettyprint">
+&lt;form class=&quot;formWrapper&quot;&gt;
+    &lt;div class=&quot;formRow&quot;&gt;
+        &lt;label for=&quot;uName&quot; class=&quot;labelName&quot;&gt;Name&lt;/label&gt;
+        &lt;input id=&quot;uName&quot; name=&quot;formName&quot; required maxlength=&quot;50&quot; type=&quot;text&quot; value=&quot;&quot; /&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;formRow&quot;&gt;
+        &lt;label for=&quot;uRadiosGender&quot; class=&quot;labelName&quot;&gt;Gender:&lt;/label&gt;
+        &lt;label for=&quot;optionsRadios1&quot; class=&quot;labelCheckbox&quot;&gt;&lt;input id=&quot;optionsRadios1&quot; name=&quot;uRadiosGender&quot; required type=&quot;radio&quot; value=&quot;option1&quot;&gt;Beau&lt;/label&gt;
+        &lt;label for=&quot;optionsRadios2&quot; class=&quot;labelCheckbox&quot;&gt;&lt;input id=&quot;optionsRadios2&quot; name=&quot;uRadiosGender&quot; required type=&quot;radio&quot; value=&quot;option2&quot;&gt;Bow&lt;/label&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;formRow&quot;&gt;
+        &lt;label for=&quot;uEmail&quot; class=&quot;labelName&quot;&gt;Email:&lt;/label&gt;
+        &lt;input id=&quot;uEmail&quot; name=&quot;formEmail&quot; validate=&quot;email&quot; required type=&quot;text&quot; value=&quot;&quot; &gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;formRow&quot;&gt;
+        &lt;label for=&quot;uMobile&quot; class=&quot;labelName&quot;&gt;Contact&lt;/label&gt;
+        &lt;input id=&quot;uMobile&quot; name=&quot;formMobile&quot; class=&quot;numberOnly&quot; maxlength=&quot;15&quot; minlength=&quot;3&quot; required type=&quot;text&quot; value=&quot;&quot; /&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;formRow&quot;&gt;
+        &lt;label for=&quot;uIq&quot; class=&quot;labelName&quot;&gt;IQ:&lt;/label&gt;
+        &lt;select id=&quot;uIq&quot; name=&quot;iq&quot; required&gt;
+            &lt;option value=&quot;&quot;&gt;Select your IQ&lt;/option&gt;
+            &lt;option&gt;Severely challenged&lt;/option&gt;
+            &lt;option&gt;Challenged&lt;/option&gt;
+            &lt;option&gt;Below average&lt;/option&gt;
+            &lt;option&gt;Average&lt;/option&gt;
+            &lt;option&gt;Above average&lt;/option&gt;
+            &lt;option&gt;Gifted&lt;/option&gt;
+            &lt;option&gt;Genius&lt;/option&gt;
+            &lt;option&gt;Extraordinary genius&lt;/option&gt;
+        &lt;/select&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;formRow&quot;&gt;
+        &lt;label class=&quot;labelName&quot;&gt;Your virtues:&lt;/label&gt;
+            &lt;label for=&quot;checkbox1&quot; class=&quot;labelCheckbox&quot;&gt;
+            &lt;input id=&quot;checkbox1&quot; name=&quot;virtue&quot; required type=&quot;checkbox&quot; value=&quot;&quot;&gt;
+            Bravery
+            &lt;/label&gt;
+            &lt;label for=&quot;checkbox2&quot; class=&quot;labelCheckbox&quot;&gt;
+            &lt;input id=&quot;checkbox2&quot; name=&quot;virtue&quot; required type=&quot;checkbox&quot; value=&quot;&quot;&gt;
+            Patience
+            &lt;/label&gt;
+            &lt;label for=&quot;checkbox3&quot; class=&quot;labelCheckbox&quot;&gt;
+            &lt;input id=&quot;checkbox3&quot; name=&quot;virtue&quot; required type=&quot;checkbox&quot; value=&quot;&quot;&gt;
+            Honesty
+            &lt;/label&gt;
+            &lt;label for=&quot;checkbox4&quot; class=&quot;labelCheckbox&quot;&gt;
+            &lt;input id=&quot;checkbox4&quot; name=&quot;virtue&quot; required type=&quot;checkbox&quot; value=&quot;&quot;&gt;
+            Confused
+            &lt;/label&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;formRow formTextarea&quot;&gt;
+        &lt;label for=&quot;uTestimonial&quot; class=&quot;labelName&quot;&gt;Where do you see yourself in five years?&lt;/label&gt;
+        &lt;textarea id=&quot;uTestimonial&quot; name=&quot;testimonial&quot; required&gt;&lt;/textarea&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;formRow&quot;&gt;
+        &lt;label class=&quot;labelName&quot;&gt;&lt;/label&gt;
+        &lt;label for=&quot;tncCheck&quot;&gt;
+            &lt;input id=&quot;tncCheck&quot; name=&quot;tnc&quot; required type=&quot;checkbox&quot;&gt;Do you certify that the abobe is true and complete to the best of your knowledge?				
+        &lt;/label&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;formRow&quot;&gt;
+        &lt;label class=&quot;labelName&quot;&gt;&lt;/label&gt;
+        &lt;div class=&quot;errMsg&quot; id=&quot;errorRequire&quot;&gt;*Please complete the mandatory field(s).&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;formRow&quot;&gt;
+        &lt;label class=&quot;labelName&quot;&gt;&lt;/label&gt;
+        &lt;a href=&quot;javascript:void(0)&quot; class=&quot;submitButton&quot; id=&quot;formSubmit&quot;&gt;Submit&lt;/a&gt;
+    &lt;/div&gt;
+ &lt;/form&gt; 
+</pre>
+
+If your using the custom dropdown list, CSS and JS must be include in the html.
+<pre class="prettyprint">
+/*Custom dropdown list*/
+.s-hidden {visibility:hidden;padding-right:10px;width:175px;}
+.select {cursor:pointer;display:inline-block;position:relative;font:normal 11px/22px Arial, Sans-Serif;height:30px;color:#fff;}
+.styledSelect {position:absolute;top:0;right:0;bottom:0;left:0;background-color:#1ABC9C;padding:5px 15px 0;}
+.styledSelect:after {content:"";width:34px;height:30px;position:absolute;top:0;right:0;background:url(images/dropdownbtn.jpg) no-repeat scroll center center;}
+.styledSelect:active, .styledSelect.active {background-color:#149F85;}
+.options {display:none;position:absolute;top:100%;right:0;left:0;z-index:999;margin:0 0;padding:0;padding-top:5px;list-style:none;background-color:#149F85;color:#fff;}
+.options li {padding:0 6px;margin:0 0;padding:0 10px;}
+.options li:hover {background-color:#1ABC9C;color:white;}
+
+/*Custom Dropdown JS*/
+$(&#39;select&#39;).each(function () {
+    // Cache the number of options
+    var $this = $(this),
+        numberOfOptions = $(this).children(&#39;option&#39;).length;
+
+    // Hides the select element
+    $this.addClass(&#39;s-hidden&#39;);
+
+    // Wrap the select element in a div
+    $this.wrap(&#39;&lt;div class=&quot;select&quot;&gt;&lt;/div&gt;&#39;);
+
+    // Insert a styled div to sit over the top of the hidden select element
+    $this.after(&#39;&lt;div class=&quot;styledSelect&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;&#39;);
+
+    // Cache the styled div
+    var $styledSelect = $this.next(&#39;div.styledSelect&#39;);
+
+    // Show the first select option in the styled div
+    $styledSelect.text($this.children(&#39;option&#39;).eq(0).text());
+
+    // Insert an unordered list after the styled div and also cache the list
+    var $list = $(&#39;&lt;ul /&gt;&#39;, {
+        &#39;class&#39;: &#39;options&#39;
+    }).insertAfter($styledSelect);
+
+    // Insert a list item into the unordered list for each select option
+    for (var i = 0; i &lt; numberOfOptions; i++) {
+        $(&#39;&lt;li /&gt;&#39;, {
+            text: $this.children(&#39;option&#39;).eq(i).text(),
+            rel: $this.children(&#39;option&#39;).eq(i).val()
+        }).appendTo($list);
+    }
+
+    // Cache the list items
+    var $listItems = $list.children(&#39;li&#39;);
+
+    // Show the unordered list when the styled div is clicked (also hides it if the div is clicked again)
+    $styledSelect.click(function (e) {
+        e.stopPropagation();
+        $(&#39;div.styledSelect.active&#39;).each(function () {
+            $(this).removeClass(&#39;active&#39;).next(&#39;ul.options&#39;).hide();
+        });
+        $(this).toggleClass(&#39;active&#39;).next(&#39;ul.options&#39;).toggle();
+    });
+
+    // Hides the unordered list when a list item is clicked and updates the styled div to show the selected list item
+    // Updates the select element to have the value of the equivalent option
+    $listItems.click(function (e) {
+        e.stopPropagation();
+        $styledSelect.text($(this).text()).removeClass(&#39;active&#39;);
+        $this.val($(this).attr(&#39;rel&#39;));
+        $list.hide();
+        /* alert($this.val()); Uncomment this for demonstration! */
+    });
+
+    // Hides the unordered list when clicking outside of it
+    $(document).click(function () {
+        $styledSelect.removeClass(&#39;active&#39;);
+        $list.hide();
+    });
+
+});
+</pre>
+
+<div class="resultWrapper">
+	<form class="formWrapper">
+        <div class="formRow">
+        	<label for="uName" class="labelName">Name</label>
+            <input id="uName" name="formName" required maxlength="50" type="text" value="" />
+        </div>
+        <div class="formRow">
+            <label for="uRadiosGender" class="labelName">Gender:</label>
+            <label for="optionsRadios1" class="labelCheckbox"><input id="optionsRadios1" name="uRadiosGender" required type="radio" value="option1">Beau</label>
+            <label for="optionsRadios2" class="labelCheckbox"><input id="optionsRadios2" name="uRadiosGender" required type="radio" value="option2">Bow</label>
+        </div>
+        <div class="formRow">
+            <label for="uEmail" class="labelName">Email:</label>
+            <input id="uEmail" name="formEmail" validate="email" required type="text" value="" >
+        </div>
+        <div class="formRow">
+            <label for="uMobile" class="labelName">Contact</label>
+            <input id="uMobile" name="formMobile" class="numberOnly" maxlength="15" minlength="3" required type="text" value="" />
+        </div>
+        <div class="formRow">
+            <label for="uIq" class="labelName">IQ:</label>
+            <select id="uIq" name="iq" required>
+                <option value="">Select your IQ</option>
+                <option>Severely challenged</option>
+                <option>Challenged</option>
+                <option>Below average</option>
+                <option>Average</option>
+                <option>Above average</option>
+                <option>Gifted</option>
+                <option>Genius</option>
+                <option>Extraordinary genius</option>
+            </select>
+        </div>
+        <div class="formRow">
+            <label class="labelName">Your virtues:</label>
+                <label for="checkbox1" class="labelCheckbox">
+                <input id="checkbox1" name="virtue" required type="checkbox" value="">
+                Bravery
+                </label>
+                <label for="checkbox2" class="labelCheckbox">
+                <input id="checkbox2" name="virtue" required type="checkbox" value="">
+                Patience
+                </label>
+                <label for="checkbox3" class="labelCheckbox">
+                <input id="checkbox3" name="virtue" required type="checkbox" value="">
+                Honesty
+                </label>
+                <label for="checkbox4" class="labelCheckbox">
+                <input id="checkbox4" name="virtue" required type="checkbox" value="">
+                Confused
+                </label>
+        </div>
+        <div class="formRow formTextarea">
+            <label for="uTestimonial" class="labelName">Where do you see yourself in five years?</label>
+            <textarea id="uTestimonial" name="testimonial" required></textarea>
+        </div>
+        <div class="formRow">
+        	<label class="labelName"></label>
+            <label for="tncCheck">
+                <input id="tncCheck" name="tnc" required type="checkbox">Do you certify that the abobe is true and complete to the best of your knowledge?				
+            </label>
+        </div>
+        <div class="formRow">
+        	<label class="labelName"></label>
+            <div class="errMsg" id="errorRequire">*Please complete the mandatory field(s).</div>
+        </div>
+        <div class="formRow">
+        	<label class="labelName"></label>
+            <a href="javascript:void(0)" class="submitButton" id="formSubmit">Submit</a>
+        </div>
+     </form> 
+</div>
+
+
+
+
+<div class="sampleWrapper">
+<h3>Monster Form Sample</h3>
 
 Include the script tag below in your document and get start!
 <pre class="prettyprint">
@@ -117,16 +451,16 @@ var errorMsg='';
 function onSubmit(con){
 	//con.form - will return form attribute ID 'formRegister' for target multiple form
     
+    //remove all error class
+    $('#formRegister').find('.formRow').each(function () {
+        $(this).removeClass('formError');
+    });
+    
     if(con.errorlist.length==0){
         $('.errMsg').hide()
         //if the form is ok
     }else{
         errorMsg=''
-        
-        //remove all error class
-        $('#formRegister').find('.formRow').each(function () {
-            $(this).removeClass('formError');
-        });
         
         //output format {name:'formEmail',type:'input',error:true,validate:'email'}
         var fieldResult=con.errorlist
@@ -163,35 +497,29 @@ function getErrorInput(con){
     }
 }
 </pre>
+
 <div class="resultWrapper">
-    <form id="formRegister">
+    <form id="formRegister" class="formWrapper">
         <div class="formRow">
-            <label>
-            	<input type="text" required value="Name" rel="Name" id="uName" maxlength="50" name="name" />
-            </label>
+        	<label for="rName" class="labelName">Name</label>
+            <input type="text" required id="rName" maxlength="50" name="rName" value="" />
         </div>
         <div class="formRow">
-            <label>Gender:</label>
-            <label><input required type="radio" name="formRadiosGender" id="optionsRadios1" value="option1">Beau</label>
-            <label><input required type="radio" name="formRadiosGender" id="optionsRadios2" value="option2">Bow</label>
+            <label for="rRadiosGender" class="labelName">Gender:</label>
+            <label for="roptionsRadios1" class="labelCheckbox"><input id="roptionsRadios1" name="rRadiosGender" required type="radio" value="option1">Beau</label>
+            <label for="roptionsRadios2" class="labelCheckbox"><input id="roptionsRadios2" name="rRadiosGender" required type="radio" value="option2">Bow</label>
         </div>
         <div class="formRow">
-            <label for="uBirth">Born since: </label>
-            <div><input type="text" id="uBirth" name="formBirth" required ></div>
+            <label for="rEmail" class="labelName">Email:</label>
+            <input type="text" validate="email" required id="rEmail" name="rEmail" value="" >
         </div>
         <div class="formRow">
-            <label for="uEmail">
-            <input type="text" validate="email" required id="uEmail" name="formEmail" value="Email" rel="Email" >
-            </label>
+            <label for="rMobile" class="labelName">Contact</label>
+            <input id="rMobile" name="rMobile" class="numberOnly" minlength="3" required type="text" value="" maxlength="15" />
         </div>
         <div class="formRow">
-            <label for="uMobile">
-            <input type="text" required class="numberOnly" name="formMobile" value="Contact" rel="Contact" id="uMobile" maxlength="15" minlength="3" />
-            </label>
-        </div>
-        <div class="formRow">
-            <label>IQ:</label>
-            <select id="iq" value="iq" rel="iq" name="iq" required >
+            <label for="rIq" class="labelName">IQ:</label>
+            <select id="rIq" name="rIq" required>
                 <option value="">Select your IQ</option>
                 <option>Severely challenged</option>
                 <option>Challenged</option>
@@ -204,43 +532,42 @@ function getErrorInput(con){
             </select>
         </div>
         <div class="formRow">
-            <label>Your virtues:</label>
-            <div class="checkboxes_container">
-                <label for="checkbox1">
-                <input type="checkbox" value="" id="checkbox1" name="virtue" required>
+            <label class="labelName">Your virtues:</label>
+                <label for="rcheckbox1" class="labelCheckbox">
+                <input type="checkbox" value="" id="rcheckbox1" name="rvirtue" required>
                 Bravery
                 </label>
-                <label for="checkbox2">
-                <input type="checkbox" value="" id="checkbox2" name="virtue" required>
+                <label for="rcheckbox2" class="labelCheckbox">
+                <input type="checkbox" value="" id="rcheckbox2" name="rvirtue" required>
                 Patience
                 </label>
-                <label for="checkbox3">
-                <input type="checkbox" value="" id="checkbox3" name="virtue" required>
+                <label for="rcheckbox3" class="labelCheckbox">
+                <input type="checkbox" value="" id="rcheckbox3" name="rvirtue" required>
                 Honesty
                 </label>
-                <label for="checkbox4">
-                <input type="checkbox" value="" id="checkbox4" name="virtue" required>
+                <label for="rcheckbox4" class="labelCheckbox">
+                <input type="checkbox" value="" id="rcheckbox4" name="rvirtue" required>
                 Confused
                 </label>
-                <label for="checkbox5">
-                <input type="checkbox" value="" id="checkbox5" name="virtue" required>
-                Overwhelmed
-                </label>
-            </div>	
+        </div>
+        <div class="formRow formTextarea">
+            <label for="uTestimonial" class="labelName">Where do you see yourself in five years?</label>
+            <textarea id="uTestimonial" name="testimonial" rel="Your message here..." required>Your message here…
+            </textarea>
         </div>
         <div class="formRow">
-            Where do you see yourself in five years?<br/>
-            <textarea name="testimonial" rows="2" cols="50" required></textarea>
-        </div>
-        <div class="formRow">
-            <label for="tncCheck">
-                <input name="tnc" type="checkbox" required id="tncCheck">					
+        	<label class="labelName"></label>
+            <label for="rtncCheck">
+                <input id="rtncCheck" name="rtnc" type="checkbox" required>Do you certify that the abobe is true and complete to the best of your knowledge?				
             </label>
-            <label>Do you certify that the abobe is true and complete to the best of your knowledge?</label>
         </div>
-        <div class="errMsg" id="errorRequire">*Please complete the mandatory field(s).</div>
         <div class="formRow">
-            <a href="javascript:void(0)" class="btn btn-primary btn-large btnSubmit" id="formSubmit">Submit</a>
+        	<label class="labelName"></label>
+            <div class="errMsg" id="errorRequire">*Please complete the mandatory field(s).</div>
+        </div>
+        <div class="formRow">
+        	<label class="labelName"></label>
+            <a href="javascript:void(0)" class="submitButton" id="formSubmit">Submit</a>
         </div>
      </form> 
 </div>

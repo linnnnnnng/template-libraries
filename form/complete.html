@@ -99,16 +99,16 @@
 		function onSubmit(con){
 			//con.form - will return form attribute ID 'formRegister' for target multiple form
 			
+			//remove all error class
+			$('#formRegister').find('.formRow').each(function () {
+				$(this).removeClass('control-group error');
+			});
+			
 			if(con.errorlist.length==0){
 				$('.errMsg').hide()
 				//if the form is ok
 			}else{
 				errorMsg=''
-				
-				//remove all error class
-				$('#formRegister').find('.formRow').each(function () {
-					$(this).removeClass('control-group error');
-				});
 				
 				//output format {name:'formEmail',type:'input',error:true,validate:'email'}
 				var fieldResult=con.errorlist
@@ -134,11 +134,14 @@
 			var general='*Please complete the mandatory field(s).'
 			var minlength='*Min length.'
 			var checkbox='*Please check at least 1 checkbox.'
+			var radio='*Please select radiobox.'
 			var email='*Please enter a valid email'
 			if(con=='minlength'){
 				return minlength
 			}else if(con=='checkbox'){
 				return checkbox
+			}else if(con=='radio'){
+				return radio
 			}else if(con=='email'){
 				return email
 			}else{
@@ -236,8 +239,8 @@ And the result.
                 <label class="radio radioBtn"><input type="radio" name="formRadiosGender1" id="optionsRadios2" value="option2" checked="">Radio 2</label>
             </div>
             <div class="formRow">
-                <label class="checkbox checkboxBtn" for="checkbox1">
-                    <input type="checkbox" value="" id="checkbox1" name="virtue" required>
+                <label class="checkbox checkboxBtn" for="checkbox0">
+                    <input type="checkbox" value="" id="checkbox0" name="virtue1" required>
                     Checkbox
                 </label>
             </div>
@@ -297,16 +300,16 @@ var errorMsg='';
 function onSubmit(con){
 	//con.form - will return form attribute ID 'formRegister' for target multiple form
     
+    //remove all error class
+    $('#formRegister').find('.formRow').each(function () {
+        $(this).removeClass('control-group error');
+    });
+    
     if(con.errorlist.length==0){
         $('.errMsg').hide()
         //if the form is ok
     }else{
         errorMsg=''
-        
-        //remove all error class
-        $('#formRegister').find('.formRow').each(function () {
-            $(this).removeClass('control-group error');
-        });
         
         //output format {name:'formEmail',type:'input',error:true,validate:'email'}
         var fieldResult=con.errorlist
@@ -331,11 +334,14 @@ function getErrorInput(con){
     var general='*Please complete the mandatory field(s).'
     var minlength='*Min length.'
     var checkbox='*Please check at least 1 checkbox.'
+    var radio='*Please select radiobox.'
     var email='*Please enter a valid email'
     if(con=='minlength'){
         return minlength
     }else if(con=='checkbox'){
         return checkbox
+    }else if(con=='radio'){
+        return radio
     }else if(con=='email'){
         return email
     }else{
@@ -508,7 +514,7 @@ You have your standard HTML, which looks like this:
             <label class="checkbox checkboxBtn tncboxLabel" for="tncCheck">
                 <input name="tnc" type="checkbox" id="tncCheck" required>					
             </label>
-            <label class="tncCopyLabel">Do you certify that the abobe is true and complete to the best of your knowledge?</label>
+            <label class="tncCopyLabel" for="tncCheck">Do you certify that the abobe is true and complete to the best of your knowledge?</label>
         </div>
         <div class="errMsg" id="errorRequire">*Please complete the mandatory field(s).</div>
         <div class="formRow">
