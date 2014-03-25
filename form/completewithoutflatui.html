@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Monster Gallery</title>
+	<title>Monster Form (Complete)</title>
 	<meta name="description" content="">
    	<link href="css/jquery-ui-custom.css" rel="stylesheet">
    
@@ -63,12 +63,13 @@
 		
 		var errorMsg='';
 		function onSubmit(con){
-			if(con.status=="success"){
+			//con.form - will return form attribute ID 'formRegister' for target multiple form
+			
+			if(con.errorlist.length==0){
 				$('.errMsg').hide()
 				//if the form is ok
 			}else{
-				errorMsg=''
-				
+				errorMsg='';
 				//remove all error class
 				$('#formRegister').find('.formRow').each(function () {
 					$(this).removeClass('formError');
@@ -80,6 +81,7 @@
 					//add error class to input
 					$('#formRegister').find('[name='+fieldResult[i].name+']').closest('.formRow').addClass('formError');
 					console.log(fieldResult[i].name+' '+fieldResult[i].type+' '+fieldResult[i].error+' '+fieldResult[i].validate)
+					
 					//find error message
 					if(errorMsg==''){
 						if(fieldResult[i].validate==''){
@@ -99,14 +101,14 @@
 			var minlength='*Min length.'
 			var checkbox='*Please check at least 1 checkbox.'
 			var email='*Please enter a valid email'
-			if(con=='input'){
-				return general
-			}else if(con=='minlength'){
+			if(con=='minlength'){
 				return minlength
 			}else if(con=='checkbox'){
 				return checkbox
 			}else if(con=='email'){
 				return email
+			}else{
+				return general	
 			}
 		}
 	});
@@ -115,7 +117,7 @@
 
 <body>
 <div class="contentWrapper">
-<h1>Monster Form</h1>
+<h1>Monster Form (Complete)</h1>
 
 <div class="sampleWrapper">
 <h3>Form Sample</h3>
@@ -156,7 +158,9 @@ $('#formRegister').monsterForm({callback:onSubmit});
 
 var errorMsg='';
 function onSubmit(con){
-    if(con.status=="success"){
+	//con.form - will return form attribute ID 'formRegister' for target multiple form
+    
+    if(con.errorlist.length==0){
         $('.errMsg').hide()
         //if the form is ok
     }else{
@@ -191,14 +195,14 @@ function getErrorInput(con){
     var minlength='*Min length.'
     var checkbox='*Please check at least 1 checkbox.'
     var email='*Please enter a valid email'
-    if(con=='input'){
-        return general
-    }else if(con=='minlength'){
+    if(con=='minlength'){
         return minlength
     }else if(con=='checkbox'){
         return checkbox
     }else if(con=='email'){
         return email
+    }else{
+        return general	
     }
 }
 </pre>
@@ -284,49 +288,12 @@ function getErrorInput(con){
         </div>
         <div class="errMsg" id="errorRequire">*Please complete the mandatory field(s).</div>
         <div class="formRow">
-            <a href="javascript:void(0)" class="btn btn-primary btn-large btnSubmit" id="formRegisterSubmit">Submit</a>
+            <a href="javascript:void(0)" class="btn btn-primary btn-large btnSubmit" id="formSubmit">Submit</a>
         </div>
      </form> 
 </div>
 
-<div class="sampleWrapper">
-<h3>Usage</h3>
-Understands default options that can use for this plugin.
-<pre class="prettyprint">
-$('#gallery').monsterImageSlider({
-    numberOnlyClass:'numberOnly', // class for restrict number only
-    submitID:'#formRegisterSubmit', //submit button ID
-    callback:'' //callback function
-});
-</pre>
-
-To make the input field auto focus, add attribute rel = 'name'
-<pre class="prettyprint">
-&lt;input type=&quot;text&quot; name=&quot;name&quot; value=&quot;name&quot; rel=&quot;name&quot; id=&quot;name&quot; /&gt;
-</pre>
-
-To make the require input field, add required
-<pre class="prettyprint">
-&lt;input required type=&quot;text&quot; name=&quot;ic&quot; value=&quot;ic&quot; id=&quot;ic&quot; rel=&quot;ic&quot;/&gt;
-</pre>
-
-To restrict the input field to number only, add class 'numberOnly'
-<pre class="prettyprint">
-&lt;input class=&quot;numberOnly&quot; type=&quot;text&quot; name=&quot;contact&quot; value=&quot;contact&quot; id=&quot;contact&quot; /&gt;
-</pre>
-
-To validate email address, add validate='email'
-<pre class="prettyprint">
-&lt;input type=&quot;text&quot; validate=&quot;email&quot; required id=&quot;email&quot; name=&quot;email&quot; value=&quot;email&quot; rel=&quot;email&quot; &gt;
-</pre>
-
-To validate input min length, add minlength='5'
-<pre class="prettyprint">
-&lt;input type=&quot;text&quot; required name=&quot;contact&quot; value=&quot;contact&quot; rel=&quot;contact&quot; id=&quot;contact&quot; minlength=&quot;3&quot; /&gt;
-</pre>
-
-</div>
-</div>
+<iframe src="document.html" width="100%" height="850px" frameborder="0" scrolling="no"></iframe>
 
 
 

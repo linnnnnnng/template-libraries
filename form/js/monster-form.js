@@ -8,7 +8,7 @@
 	var pluginName='monsterForm',
 		defaults={
 			numberOnlyClass:'numberOnly',
-			submitID:'#formRegisterSubmit',
+			submitID:'#formSubmit',
 			callback:''
         },
 		m=0,fieldResult=[];
@@ -74,7 +74,7 @@
 			
 			if($.isFunction(_opts.callback)){
 				var returnData={
-					status:'fail',
+					form:_self.attr('id'),
 					errorlist:fieldResult
 				}
 				_opts.callback(returnData);
@@ -95,7 +95,7 @@
 				}else if(radiobox.length == 0){
 					fieldError=true;
 				}
-				result.type='radio'
+				result.type='radio';
 			}else if($(obj).attr('type')=='checkbox'){
 				//Checkboxes validation
 				var checkboxName = $(obj).attr('name')  || '';
@@ -103,7 +103,7 @@
 				if (checkboxField.length == 0){
 					fieldError=true;
 				}
-				result.type='checkbox'
+				result.type='checkbox';
 			}else if($(obj).attr('validate') == 'email'){
 				if($(obj).val()== $(obj).attr('rel') || $(obj).val()== ""){
 					fieldError=true;

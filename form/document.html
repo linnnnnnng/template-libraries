@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Monster Gallery</title>
+	<meta name="description" content="">
+	
+    <link href="css/flat-ui.css" rel="stylesheet">
+   	<link href="css/jquery-ui-custom.css" rel="stylesheet">
+   
+	<!-- Always update this url with the latest jquery version -->
+	<script src='http://code.jquery.com/jquery-1.8.3.js'></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=sunburst"></script>
+</head>
+
+<style>
+	body{font-family:Arial, Helvetica, sans-serif; font-size:16px; color:#666;}
+	pre{ font-size:12px;}
+	h1, h3{color:#0F9095; text-align:center;font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;}
+	h1{font-size:58px;}
+	h3{font-size:30px; line-height:30px;}
+	.contentWrapper{width:800px; height:auto;margin:auto;}
+	.sampleWrapper{ margin-bottom:100px;}
+	.resultWrapper{margin:30px 0;}
+	.button a{padding:8px 18px; font-size:12px; background:#0F9095; color:#FFF;font-weight:bold;-moz-border-radius:12px;-webkit-border-radius:12px;border-radius:12px;display:inline-block;cursor:pointer; float:left; margin:0 5px;}
+	.button a:hover{background:#333;}
+	.backNavigation{width:200px; height:100px; margin:auto;}
+	.navigation{margin-top:10px; text-align:center;}
+	.navigation:after{content: ".";display:block;clear:both;visibility:hidden;line-height:0;height:0;}
+	.callbackOutput{ width:90%; border:#CCC solid 1px; font-size:12px; padding:10px; margin:10px auto;}
+	.redmark{ color:#C00;}
+</style>
+
+<script>
+	
+</script>
+</head>
+
+<body>
+
+<div class="sampleWrapper">
+<h3>Usage</h3>
+<div class="redmark">
+*Important the form must be init by this format, submit button must stay inside the form wrapper, and submit button ID by deafult is #formSubmit.
+</div>
+<pre class="prettyprint">
+&lt;form id=&quot;yourForm&quot;&gt;
+	&lt;input type=&quot;text&quot; validate=&quot;email&quot; required id=&quot;uEmail&quot; name=&quot;formEmail&quot; value=&quot;Email&quot; rel=&quot;Email&quot; &gt;
+    &lt;div id=&quot;formSubmit&quot;&gt;&lt;a href=&quot;&quot;&gt;Submit&lt;/a&gt;&lt;/div&gt;
+&lt;/form&gt;
+</pre>
+
+Understands default options that can use for this plugin.
+<pre class="prettyprint">
+$('#yourForm').monsterForm({
+    numberOnlyClass:'numberOnly', // class for restrict number only
+    submitID:'#formSubmit', //submit button ID
+    callback:'' //callback function
+});
+</pre>
+
+<div class="redmark">
+*Important every input must have attritute 'name' in order for plugin to verify error.
+</div>
+
+To make the input field auto focus, add attribute rel = 'name'
+<pre class="prettyprint">
+&lt;input id=&quot;name&quot; name=&quot;name&quot; rel=&quot;name&quot; type=&quot;text&quot; value=&quot;name&quot; /&gt;
+</pre>
+
+To make the require input field, add attribute required
+<pre class="prettyprint">
+&lt;input id=&quot;ic&quot; name=&quot;ic&quot; rel=&quot;ic&quot; required type=&quot;text&quot; value=&quot;ic&quot; /&gt;
+</pre>
+
+To restrict the input field to number only, add class 'numberOnly'
+<pre class="prettyprint">
+&lt;input class=&quot;numberOnly&quot; id=&quot;contact&quot; name=&quot;contact&quot; type=&quot;text&quot; value=&quot;contact&quot; /&gt;
+</pre>
+
+To validate email address, add attribute validate='email'
+<pre class="prettyprint">
+&lt;input id=&quot;email&quot; name=&quot;email&quot; validate=&quot;email&quot; rel=&quot;email&quot; required type=&quot;text&quot; value=&quot;email&quot; /&gt;
+</pre>
+
+To validate input min length, attribute add minlength='5'
+<pre class="prettyprint">
+&lt;input id=&quot;contact&quot; name=&quot;contact&quot; rel=&quot;contact&quot; required minlength=&quot;3&quot; type=&quot;text&quot; value=&quot;contact&quot; /&gt;
+</pre>
+
+</div>
+</div>
+
+</body>
+</html>

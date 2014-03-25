@@ -1,74 +1,34 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<title>Monster Plugins</title>
-	<meta name="description" content="">
-	
-	<!-- Always update this url with the latest jquery version -->
-	<script type='text/javascript' src='http://code.jquery.com/jquery-1.8.3.js'></script>
-    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=sunburst"></script>
-</head>
-
+<link rel="stylesheet" href="../../css/prettify.css">
 <style>
-	body{font-family:Arial, Helvetica, sans-serif; font-size:16px; color:#666;}
-	pre{ font-size:12px;}
-	h1, h3{color:#0F9095; text-align:center;font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;}
-	h1{font-size:58px;}
-	h3{font-size:30px; line-height:30px; height:15px;}
-	.contentWrapper{width:800px; height:auto;margin:auto;}
-	.sampleWrapper{ margin-bottom:100px;}
-	.resultWrapper{margin:30px 0;}
-	.button a{padding:8px 18px; font-size:12px; background:#0F9095; color:#FFF;font-weight:bold;-moz-border-radius:12px;-webkit-border-radius:12px;border-radius:12px;display:inline-block;cursor:pointer; float:left; margin:0 5px;}
-	.button a:hover{background:#333;}
-	.backNavigation{width:200px; height:100px; margin:auto;}
-	.navigation{margin-top:10px; text-align:center;}
-	.navigation:after{content: ".";display:block;clear:both;visibility:hidden;line-height:0;height:0;}
-	.callbackOutput{ width:90%; border:#CCC solid 1px; font-size:12px; padding:10px; margin:10px auto;}
-	
-	.codeWrapper{margin-top:50px;}
-	.listButton{color:#0F9095; text-decoration:none;}
-	.listTitle{ font-weight:bold; margin-top:10px; margin-bottom:5px;}
+@font-face {
+    font-family: 'helveticaMd';
+    src: url('../../fonts/HelveticaMd.eot');
+    src: url('../../fonts/HelveticaMd.eot?#iefix') format('embedded-opentype'),
+         url('../../fonts/HelveticaMd.woff') format('woff'),
+         url('../../fonts/HelveticaMd.ttf') format('truetype'),
+         url('../../fonts/HelveticaMd.svg#HelveticaMd') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+body {margin:0;padding:0;margin-top:-40px;}
+.contentWrapper{width:690px; height:auto;margin:auto;}
+.codeTitle {font:22px 'helveticaMd', Arial, sans-serif;}
+.codeDesc {}
+.codeWrapper{margin-top:50px;}
+pre {
+border:1px solid #ccc !important;background:#f0f0f0 !important;
+ white-space: pre-wrap;       /* css-3 */
+ white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+ white-space: -pre-wrap;      /* Opera 4-6 */
+ white-space: -o-pre-wrap;    /* Opera 7 */
+ word-wrap: break-word;       /* Internet Explorer 5.5+ */
+ padding:10px !important;
+}
 </style>
-<script>
-$(function() {
-	var num=1
-	$( ".sampleWrapper li" ).each(function( index ) {
-		$('.sampleWrapper div.codeWrapper .codeTitle').eq(num-1).html($('.sampleWrapper li').eq(num-1).html())
-		$('.sampleWrapper div.codeWrapper').eq(num-1).attr('id','code'+num);
-		$('.sampleWrapper div.codeWrapper').eq(num-1).find('div.codeTitle').prepend(num+'. ')
-		$(this).find('a').attr('href','#code'+num);
-		num++;
-	});
-});
-</script>
-</head>
 
-<body>
 <div class="contentWrapper">
-<h1>Monster Plugins</h1>
 
-<div class="sampleWrapper">
-<ol>
-<li><a class="listButton" href="">Get Parameter Value</a></li>
-<li><a class="listButton" href="">Validate Email</a></li>
-<li><a class="listButton" href="">Randomize Array</a></li>
-
-<div class="listTitle">Tablet & Mobile</div>
-<li><a class="listButton" href="">Detect Mobile Browsers</a></li>
-<li><a class="listButton" href="">Check Mobile IOS/Android Version</a></li>
-<li><a class="listButton" href="">Check Mobile Orientation</a></li>
-<li><a class="listButton" href="">Device Orientation Data</a></li>
-<li><a class="listButton" href="">Detect iPhone's App Mode</a></li>
-
-<div class="listTitle">Games</div>
-<li><a class="listButton" href="">Format score (adding extra zero in front of number)</a></li>
-<li><a class="listButton" href="">Get angle between two points</a></li>
-<li><a class="listButton" href="">Get distance between two points</a></li>
-</ol>
-
-
-<div class="codeWrapper">
+<div class="codeWrapper" rel="General">
 <div class="codeTitle">Get Parameter Value</div>
 <pre class="prettyprint">
 function getParameterValue(source, name ){
@@ -87,7 +47,7 @@ getParameterValue('/gallery/?galleryfilter=all','galleryfilter') //return all
 </div>
 
 
-<div class="codeWrapper">
+<div class="codeWrapper" rel="General">
 <div class="codeTitle">Validate Email</div>
 <pre class="prettyprint">
 function validateEmail($email) {
@@ -105,28 +65,28 @@ validateEmail('email@email.com') //return true
 </div>
 
 
-<div class="codeWrapper">
+<div class="codeWrapper" rel="General">
 <div class="codeTitle">Randomize Array</div>
 <pre class="prettyprint">
 function shuffle(array) {
-    var currentIndex = array.length
-    , temporaryValue
-    , randomIndex
-    ;
-    
-    // While there remain elements to shuffle...
-    while (0 !== currentIndex) {
-        // Pick a remaining element...
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        
-        // And swap it with the current element.
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-    }
-    
-    return array;
+	var currentIndex = array.length
+	, temporaryValue
+	, randomIndex
+	;
+	
+	// While there remain elements to shuffle...
+	while (0 !== currentIndex) {
+		// Pick a remaining element...
+		randomIndex = Math.floor(Math.random() * currentIndex);
+		currentIndex -= 1;
+		
+		// And swap it with the current element.
+		temporaryValue = array[currentIndex];
+		array[currentIndex] = array[randomIndex];
+	array[randomIndex] = temporaryValue;
+	}
+	
+	return array;
 }
 
 shuffle(yourArray);
@@ -134,11 +94,39 @@ shuffle(yourArray);
 </div>
 
 
-<div class="codeWrapper">
-<div class="codeTitle">Detect Mobile Browsers using jQuery</div>
+<div class="codeWrapper" rel="General">
+<div class="codeTitle">Location host name</div>
+<pre class="prettyprint">
+console.log(window.location.href);
+//output: http://www.geometry.com/showcase/dev/
+
+console.log(window.location.hostname);
+//output: www.geometry.com
+ 
+console.log(window.location.host);
+//output: www.geometry.com
+ 
+console.log(window.location.pathname);
+//output: /showcase/dev/
+ 
+console.log(window.location.protocol);
+//output: http:
+ 
+console.log(window.location.port);
+//output: (an empty string)
+ 
+//regular expression to check if a string is a hostname.
+console.log(window.location.hostname.match(/^.*?-?(\w*)\./)[1]);
+//output: www
+</pre>
+</div>
+
+
+<div class="codeWrapper" rel="Mobile & Tablet">
+<div class="codeTitle">Detect Mobile Browsers</div>
 <pre class="prettyprint">
 function isDeviceMobile(){
- 	var isMobile = false;
+	var isMobile = false;
 	if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Opera Mobile|Kindle|Windows Phone|PSP|AvantGo|Atomic Web Browser|Blazer|Chrome Mobile|Dolphin|Dolfin|Doris|GO Browser|Jasmine|MicroB|Mobile Firefox|Mobile Safari|Mobile Silk|Motorola Internet Browser|NetFront|NineSky|Nokia Web Browser|Obigo|Openwave Mobile Browser|Palm Pre web browser|Polaris|PS Vita browser|Puffin|QQbrowser|SEMC Browser|Skyfire|Tear|TeaShark|UC Browser|uZard Web|wOSBrowser|Yandex.Browser mobile/i.test(navigator.userAgent)) isMobile = true;
 	return isMobile;
 }
@@ -147,9 +135,8 @@ function isDeviceMobile(){
 </pre>
 </div>
 
-
-<div class="codeWrapper">
-<div class="codeTitle">Check Mobile IOS/Android Version</div>
+<div class="codeWrapper" rel="Mobile & Tablet">
+<div class="codeTitle">Check IOS/Android Version</div>
 <pre class="prettyprint">
 function getDeviceVer() {
 	var ua = navigator.userAgent;
@@ -179,9 +166,8 @@ function getDeviceVer() {
 </pre>
 </div>
 
-
-<div class="codeWrapper">
-<div class="codeTitle">Check Mobile Orientation</div>
+<div class="codeWrapper" rel="Mobile & Tablet">
+<div class="codeTitle">Check Orientation</div>
 <pre class="prettyprint">
 $(window).bind('orientationchange', function() {
 	checkMobileOrientation();
@@ -198,9 +184,7 @@ function checkMobileOrientation() {
 </pre>
 </div>
 
-
-
-<div class="codeWrapper">
+<div class="codeWrapper" rel="Mobile & Tablet">
 <div class="codeTitle">Device Orientation Data</div>
 <pre class="prettyprint">
 //Check for compatibility
@@ -216,9 +200,7 @@ if (window.DeviceOrientationEvent) {
 </pre>
 </div>
 
-
-
-<div class="codeWrapper">
+<div class="codeWrapper" rel="Mobile & Tablet">
 <div class="codeTitle">Detect iPhone's App Mode</div>
 <pre class="prettyprint">
 //Check for compatibility
@@ -228,31 +210,30 @@ var safari = /safari/.test( userAgent ),
 var ios = /iphone|ipod|ipad/.test( userAgent );
 
 if( ios ) {
-    if ( !standalone && safari ) {
-        //browser
-    } else if ( standalone && !safari ) {
-        //standalone
-    } else if ( !standalone && !safari ) {
-        //uiwebview  
-    };   
+	if ( !standalone && safari ) {
+		//browser
+	} else if ( standalone && !safari ) {
+		//standalone
+	} else if ( !standalone && !safari ) {
+		//uiwebview  
+	};   
 }else{
 	//not ios
 }
 </pre>
 </div>
 
-
-
-<div class="codeWrapper">
-<div class="codeTitle">Adding extra zero in front of number</div>
+<div class="codeWrapper" rel="Games">
+<div class="codeTitle">Format score</div>
+<div class="codeDesc">Adding extra zero in front of number</div>
 <pre class="prettyprint">
 function formatScores (n, length) {
-    var str = (n > 0 ? n : -n) + "";
-    var zeros = "";
-    for (var i = length - str.length; i > 0; i--)
-        zeros += "0";
-    zeros += str;
-    return n >= 0 ? zeros : "-" + zeros;
+	var str = (n > 0 ? n : -n) + "";
+	var zeros = "";
+	for (var i = length - str.length; i > 0; i--)
+		zeros += "0";
+	zeros += str;
+	return n >= 0 ? zeros : "-" + zeros;
 }
 
 //formatScores (1, 3) =   "001"
@@ -261,10 +242,8 @@ function formatScores (n, length) {
 </pre>
 </div>
 
-
-
-<div class="codeWrapper">
-<div class="codeTitle"></div>
+<div class="codeWrapper" rel="Games">
+<div class="codeTitle">Get Angle Between 2 Points</div>
 <pre class="prettyprint">
 function getAngle(sx, sy, ex, ey) {
 	var nr = Math.atan2((sy-ey),(sx-ex)); //angle in radians (Cartesian system)
@@ -275,10 +254,8 @@ function getAngle(sx, sy, ex, ey) {
 </pre>
 </div>
 
-
-
-<div class="codeWrapper">
-<div class="codeTitle"></div>
+<div class="codeWrapper" rel="Games">
+<div class="codeTitle">Get Distance Between 2 Points</div>
 <pre class="prettyprint">
 function getDistance(sx, sy, ex, ey) {
 	var dis = Math.sqrt(Math.pow(sx - ex, 2) + Math.pow(sy - ey, 2));
@@ -288,13 +265,27 @@ function getDistance(sx, sy, ex, ey) {
 </div>
 
 
+<div class="codeWrapper" rel="Debug">
+<div class="codeTitle">Find highest z-index on page</div>
+<pre class="prettyprint">
+var maxZ = Math.max.apply(null,$.map($('body > *'), function(e,n){
+       if($(e).css('position')=='absolute')
+            return parseInt($(e).css('z-index'))||1 ;
+       })
+);
+alert(maxZ);
+</pre>
+</div>
+
+<div class="codeWrapper" rel="Debug">
+<div class="codeTitle">Get the element under cursor</div>
+<pre class="prettyprint">
+$('*').live('click', function() { console.log($(this).attr('id')) });
+</pre>
+</div>
 
 </div>
-<div class="sampleWrapper">
-	<div class="backNavigation">
-		<div class="button"><a href="http://geometry.my/showcase/dev/">Back to Monster Page</a></div>
-    </div>
-</div>
 
-</body>
-</html>
+
+
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
