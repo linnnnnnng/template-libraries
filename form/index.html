@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Monster Form (Basic)</title>
+	<title>Monster Form</title>
 	<meta name="description" content="">
    	<link href="css/jquery-ui-custom.css" rel="stylesheet">
    
@@ -59,8 +59,7 @@
 	$(function() {
 		$('select').each(function () {
 			// Cache the number of options
-			var $this = $(this),
-				numberOfOptions = $(this).children('option').length;
+			var $this = $(this),numberOfOptions = $(this).children('option').length;
 	
 			// Hides the select element
 			$this.addClass('s-hidden');
@@ -184,7 +183,7 @@
 
 <body>
 <div class="contentWrapper">
-<h1>Monster Form (Basic)</h1>
+<h1>Monster Form</h1>
 
 
 
@@ -280,7 +279,7 @@ You have your standard HTML, which looks like this:
  &lt;/form&gt; 
 </pre>
 
-If your using the custom dropdown list, CSS and JS must be include in the html.
+Below is the CSS and JS for custom dropdown.
 <pre class="prettyprint">
 /*Custom dropdown list*/
 .s-hidden {visibility:hidden;padding-right:10px;width:175px;}
@@ -357,6 +356,7 @@ $(&#39;select&#39;).each(function () {
 });
 </pre>
 
+And the result:
 <div class="resultWrapper">
 	<form class="formWrapper">
         <div class="formRow">
