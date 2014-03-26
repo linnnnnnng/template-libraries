@@ -4,14 +4,15 @@
 	<meta charset="utf-8">
 	<title>Monster Form (Complete)</title>
 	<meta name="description" content="">
-	
-    <link href="css/flat-ui.css" rel="stylesheet">
    	<link href="css/jquery-ui-custom.css" rel="stylesheet">
    
 	<!-- Always update this url with the latest jquery version -->
 	<script src='http://code.jquery.com/jquery-1.8.3.js'></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=sunburst"></script>
+    
+    <script src="js/monster-date-dropdown.js"></script>
+	<script src="js/monster-form.js"></script>
 </head>
 
 <style>
@@ -31,43 +32,8 @@
 	.callbackOutput{ width:90%; border:#CCC solid 1px; font-size:12px; padding:10px; margin:10px auto;}
 	
 	/*form*/
-	form {width:460px;margin:0 auto;}
-	form div.formRow {width: 100%;clear:both;min-height:35px;height:auto;margin-bottom:10px;}
-	form input{float:left;}
-	form div.formRow .formLabel {width:100px;float:left;padding-top:10px;}
-	input {background:#1ABC9C;display:block;}
-	.country .dk_container {width:360px;}
-	.radioBtn, .checkboxBtn {float:left;width:85px;}
-	.radio input[type="radio"], .checkbox input[type="checkbox"] {display:none;}
-	.radio {margin-bottom:0px;margin-top:7px;}
-	.year_container, .month_container, .day_container {float:left;margin-right:5px;width:115px;}
-	.dk_container.dk_shown {width:115px;}
-	#dk_container_iq {width:360px;}
-	.errMsg{display:none;color:#E74C3C;margin-bottom:10px;}
-	.btnSubmit {display:block;width:150px;border-radius: 6px;text-align:center;}
-	.checkboxes_container {float:left;width:360px;height:70px;}
-	input, textarea, .uneditable-input {width:450px;}
-	.tncboxLabel {width:0px;}
-	.tncCopyLabel {float:left;width:420px;}
-	textarea {margin-top:5px;resize: none;}
-	.control-group.error textarea, .control-group.error input[type="text"], .control-group.error input[type="password"], .control-group.error input[type="datetime"], .control-group.error input[type="datetime-local"], .control-group.error input[type="date"], .control-group.error input[type="month"], .control-group.error input[type="time"], .control-group.error input[type="week"], .control-group.error input[type="number"], .control-group.error input[type="email"], .control-group.error input[type="url"], .control-group.error input[type="search"], .control-group.error input[type="tel"], .control-group.error input[type="color"], .control-group.error .uneditable-input {}
-	
-	/*Date Calendar*/
-	.ui-widget-content{background:#34495E;border:none;}
-	.ui-widget-header {background:#34495E;border:none;color:#19ae90;}
-	.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {color:#e1e1e1;background:#19ae90;}
-	.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {border:none;}
-	.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {border:none;background:#1E7564;color:#e1e1e1;}
-	.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {border:none;background:#e1e1e1;color:#19ae90;}
-	.ui-widget-header a {background:#1ABC9C;}
-	.ui-widget-header a:hover {background:#19ae90;}
-	.ui-state-hover .ui-icon, .ui-state-focus .ui-icon {
-		background-image: url("../images/ui-lightness/ui-icons_ffffff_256x240.png");
-	}
-	.ui-icon-circle-triangle-e{}
-	.ui-datepicker th {color:#1ABC9C;}
-	.ui-datepicker .ui-datepicker-next-hover {top:2px;right:2px;border:none;}
-	.ui-datepicker .ui-datepicker-prev-hover {left:2px;top:2px;border:none;}
+	.formRow{margin:10px 0;}
+	.formError textarea, .formError input[type="text"], .formError input[type="password"], .formError input[type="datetime"], .formError input[type="datetime-local"], .formError input[type="date"], .formError input[type="month"], .formError input[type="time"], .formError input[type="week"], .formError input[type="number"], .formError input[type="email"], .formError input[type="url"], .formError input[type="search"], .formError input[type="tel"], .formError input[type="color"], .formError .uneditable-input { background:#FC0;}
 </style>
 
 <script>
@@ -101,21 +67,22 @@
 			
 			//remove all error class
 			$('#formRegister').find('.formRow').each(function () {
-				$(this).removeClass('control-group error');
+				$(this).removeClass('formError');
 			});
 			
 			if(con.errorlist.length==0){
 				$('.errMsg').hide()
 				//if the form is ok
 			}else{
-				errorMsg=''
+				errorMsg='';
 				
 				//output format {name:'formEmail',type:'input',error:true,validate:'email'}
 				var fieldResult=con.errorlist
 				for(var i in fieldResult){
 					//add error class to input
-					$('#formRegister').find('[name='+fieldResult[i].name+']').closest('.formRow').addClass('control-group error');
+					$('#formRegister').find('[name='+fieldResult[i].name+']').closest('.formRow').addClass('formError');
 					console.log(fieldResult[i].name+' '+fieldResult[i].type+' '+fieldResult[i].error+' '+fieldResult[i].validate)
+					
 					//find error message
 					if(errorMsg==''){
 						if(fieldResult[i].validate==''){
@@ -155,109 +122,12 @@
 <body>
 <div class="contentWrapper">
 <h1>Monster Form (Complete)</h1>
-<div class="sampleWrapper">
-<h3>Flat UI</h3>
-Include the script tag below in your document and get start!
-<pre class="prettyprint">
-//Flat UI CSS
-&lt;link href=&quot;css/flat-ui.css&quot; rel=&quot;stylesheet&quot;&gt;
-
-//Script below must insert after the content; before &lt;/body&gt; to make it work
-//flat UI init
-&lt;script src=&quot;js/custom_checkbox_and_radio.js&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;js/custom_radio.js&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;js/application.js&quot;&gt;&lt;/script&gt;
-</pre>
 
 <div class="sampleWrapper">
-So you have your custom CSS, which looks like this:
-<pre class="prettyprint">
-form {width:460px;margin:0 auto;}
-form div.formRow {width: 100%;clear:both;min-height:35px;height:auto;margin-bottom:10px;}
-form input{float:left;}
-form div.formRow .formLabel {width:100px;float:left;padding-top:10px;}
-input {background:#1ABC9C;display:block;}
-.country .dk_container {width:360px;}
-.radioBtn, .checkboxBtn {float:left;width:85px;}
-.radio input[type="radio"], .checkbox input[type="checkbox"] {display:none;}
-.radio {margin-bottom:0px;margin-top:7px;}
-.year_container, .month_container, .day_container {float:left;margin-right:5px;width:115px;}
-.dk_container.dk_shown {width:115px;}
-#dk_container_iq {width:360px;}
-.errMsg{display:none;color:#E74C3C;margin-bottom:10px;}
-.btnSubmit {display:block;width:150px;border-radius: 6px;text-align:center;}
-.checkboxes_container {float:left;width:360px;height:70px;}
-input, textarea, .uneditable-input {width:450px;}
-.tncboxLabel {width:0px;}
-.tncCopyLabel {float:left;width:420px;}
-textarea {margin-top:5px;resize: none;}
-.control-group.error textarea, .control-group.error input[type="text"], .control-group.error input[type="password"], .control-group.error input[type="datetime"], .control-group.error input[type="datetime-local"], .control-group.error input[type="date"], .control-group.error input[type="month"], .control-group.error input[type="time"], .control-group.error input[type="week"], .control-group.error input[type="number"], .control-group.error input[type="email"], .control-group.error input[type="url"], .control-group.error input[type="search"], .control-group.error input[type="tel"], .control-group.error input[type="color"], .control-group.error .uneditable-input {}
-</pre>
-
-You have your standard HTML, which looks like this:
-<pre class="prettyprint">
-&lt;form id=&quot;formSample&quot;&gt;
-    &lt;div class=&quot;formRow&quot;&gt;
-        &lt;label&gt;
-        &lt;input type=&quot;text&quot; value=&quot;Name&quot; id=&quot;uName&quot; name=&quot;name&quot; /&gt;
-        &lt;/label&gt;
-    &lt;/div&gt;
-    &lt;div class=&quot;formRow&quot;&gt;
-        &lt;label for=&quot;uEmail&quot;&gt;
-        &lt;input type=&quot;text&quot; validate=&quot;email&quot; required id=&quot;uEmail&quot; name=&quot;formEmail&quot; value=&quot;Email&quot; rel=&quot;Email&quot; &gt;
-        &lt;/label&gt;
-    &lt;/div&gt;
-    &lt;div class=&quot;formRow&quot;&gt;
-        &lt;label class=&quot;formLabel&quot;&gt;Gender:&lt;/label&gt;
-        &lt;label class=&quot;radio radioBtn&quot;&gt;&lt;input type=&quot;radio&quot; name=&quot;formRadiosGender&quot; id=&quot;optionsRadios1&quot; value=&quot;option1&quot;&gt;Radio 1&lt;/label&gt;
-        &lt;label class=&quot;radio radioBtn&quot;&gt;&lt;input type=&quot;radio&quot; name=&quot;formRadiosGender&quot; id=&quot;optionsRadios2&quot; value=&quot;option2&quot; checked=&quot;&quot;&gt;Radio 2&lt;/label&gt;
-    &lt;/div&gt;
-    &lt;div class=&quot;formRow&quot;&gt;
-        &lt;label class=&quot;checkbox checkboxBtn&quot; for=&quot;checkbox1&quot;&gt;
-            &lt;input type=&quot;checkbox&quot; value=&quot;&quot; id=&quot;checkbox1&quot; name=&quot;virtue&quot; required&gt;
-            Checkbox
-        &lt;/label&gt;
-    &lt;/div&gt;
-&lt;/form&gt;
-</pre>
-And the result.
-<div class="sampleWrapper">
-		<form id="formSample1">
-            <div class="formRow">
-                <label>
-                <input type="text" value="Name1" id="uName1" name="name" />
-                </label>
-            </div>
-            <div class="formRow">
-                <label for="uEmail">
-                <input type="text" validate="email" required id="uEmail1" name="formEmail1" value="Email" rel="Email" >
-                </label>
-            </div>
-            <div class="formRow">
-                <label class="formLabel">Gender:</label>
-                <label class="radio radioBtn"><input type="radio" name="formRadiosGender1" id="optionsRadios1" value="option1">Radio 1</label>
-                <label class="radio radioBtn"><input type="radio" name="formRadiosGender1" id="optionsRadios2" value="option2" checked="">Radio 2</label>
-            </div>
-            <div class="formRow">
-                <label class="checkbox checkboxBtn" for="checkbox0">
-                    <input type="checkbox" value="" id="checkbox0" name="virtue1" required>
-                    Checkbox
-                </label>
-            </div>
-        </form>
-</div>
-</div>
-
-
-
-
-<div class="sampleWrapper">
-<h3>Monster Form</h3>
+<h3>Form Sample</h3>
 
 Include the script tag below in your document and get start!
 <pre class="prettyprint">
-//Flat UI CSS
-&lt;link href=&quot;css/flat-ui.css&quot; rel=&quot;stylesheet&quot;&gt;
 //jQuery UI CSS
 &lt;link href=&quot;css/jquery-ui-custom.css&quot; rel=&quot;stylesheet&quot;&gt;
 
@@ -269,12 +139,6 @@ Include the script tag below in your document and get start!
 
 //monster form
 &lt;script src=&quot;js/monster-form.js&quot;&gt;&lt;/script&gt;
-
-//Script below must insert after the content; before &lt;/body&gt; to make it work
-//flat UI init
-&lt;script src=&quot;js/custom_checkbox_and_radio.js&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;js/custom_radio.js&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;js/application.js&quot;&gt;&lt;/script&gt;
 </pre>
 
 This is the code needed to achieve this:
@@ -302,7 +166,7 @@ function onSubmit(con){
     
     //remove all error class
     $('#formRegister').find('.formRow').each(function () {
-        $(this).removeClass('control-group error');
+        $(this).removeClass('formError');
     });
     
     if(con.errorlist.length==0){
@@ -315,7 +179,7 @@ function onSubmit(con){
         var fieldResult=con.errorlist
         for(var i in fieldResult){
             //add error class to input
-            $('#formRegister').find('[name='+fieldResult[i].name+']').closest('.formRow').addClass('control-group error');
+            $('#formRegister').find('[name='+fieldResult[i].name+']').closest('.formRow').addClass('formError');
             //find error message
             if(errorMsg==''){
                 if(fieldResult[i].validate==''){
@@ -349,108 +213,21 @@ function getErrorInput(con){
     }
 }
 </pre>
-You have your standard HTML, which looks like this:
-<pre class="prettyprint">
-&lt;form id=&quot;formRegister&quot;&gt;
-    &lt;div class=&quot;formRow&quot;&gt;
-        &lt;label&gt;
-        &lt;input type=&quot;text&quot; required class=&quot;fName&quot; value=&quot;Name&quot; rel=&quot;Name&quot; id=&quot;uName&quot; maxlength=&quot;50&quot; name=&quot;name&quot; /&gt;
-        &lt;/label&gt;
-    &lt;/div&gt;	
-    &lt;div class=&quot;formRow&quot;&gt;
-        &lt;label class=&quot;formLabel&quot;&gt;Gender:&lt;/label&gt;
-        &lt;label class=&quot;radio radioBtn&quot;&gt;&lt;input required type=&quot;radio&quot; name=&quot;formRadiosGender&quot; id=&quot;optionsRadios1&quot; value=&quot;option1&quot;&gt;Beau&lt;/label&gt;
-        &lt;label class=&quot;radio radioBtn&quot;&gt;&lt;input required type=&quot;radio&quot; name=&quot;formRadiosGender&quot; id=&quot;optionsRadios2&quot; value=&quot;option2&quot; checked=&quot;&quot;&gt;Bow&lt;/label&gt;
-    &lt;/div&gt;
-    &lt;div class=&quot;formRow&quot;&gt;
-        &lt;label class=&quot;dob formLabel&quot; for=&quot;uBirth&quot;&gt;Born since: &lt;/label&gt;
-        &lt;input type=&quot;text&quot; id=&quot;uBirth&quot; name=&quot;formBirth&quot; required &gt;
-    &lt;/div&gt;			
-    &lt;div class=&quot;formRow&quot;&gt;
-        &lt;label for=&quot;datepicker&quot;&gt;
-        &lt;input type=&quot;text&quot; id=&quot;datepicker&quot; value=&quot;Prefered date&quot; rel=&quot;Prefered date&quot; name=&quot;formDate&quot; &gt;
-        &lt;/label&gt;
-    &lt;/div&gt;
-    &lt;div class=&quot;formRow&quot;&gt;
-        &lt;label for=&quot;uEmail&quot;&gt;
-        &lt;input type=&quot;text&quot; validate=&quot;email&quot; required id=&quot;uEmail&quot; name=&quot;formEmail&quot; value=&quot;Email&quot; rel=&quot;Email&quot; &gt;
-        &lt;/label&gt;
-    &lt;/div&gt;
-    &lt;div class=&quot;formRow&quot;&gt;
-        &lt;label for=&quot;uMobile&quot;&gt;
-        &lt;input type=&quot;text&quot; required class=&quot;numberOnly&quot; name=&quot;formMobile&quot; value=&quot;Contact&quot; rel=&quot;Contact&quot; id=&quot;uMobile&quot; maxlength=&quot;15&quot; minlength=&quot;3&quot; /&gt;
-        &lt;/label&gt;
-    &lt;/div&gt;
-    &lt;div class=&quot;formRow&quot;&gt;
-        &lt;label class=&quot;iq formLabel&quot;&gt;IQ:&lt;/label&gt;
-        &lt;select id=&quot;iq&quot; value=&quot;iq&quot; rel=&quot;iq&quot; name=&quot;iq&quot; required &gt;
-            &lt;option value=&quot;&quot;&gt;Select your IQ&lt;/option&gt;
-            &lt;option&gt;Severely challenged&lt;/option&gt;
-            &lt;option&gt;Challenged&lt;/option&gt;
-            &lt;option&gt;Below average&lt;/option&gt;
-            &lt;option&gt;Average&lt;/option&gt;
-            &lt;option&gt;Above average&lt;/option&gt;
-            &lt;option&gt;Gifted&lt;/option&gt;
-            &lt;option&gt;Genius&lt;/option&gt;
-            &lt;option&gt;Extraordinary genius&lt;/option&gt;
-        &lt;/select&gt;
-    &lt;/div&gt;
-    &lt;div class=&quot;formRow&quot;&gt;
-        &lt;label class=&quot;formLabel&quot;&gt;Your virtues:&lt;/label&gt;
-        &lt;div class=&quot;checkboxes_container&quot;&gt;
-            &lt;label class=&quot;checkbox checkboxBtn&quot; for=&quot;checkbox1&quot;&gt;
-            &lt;input type=&quot;checkbox&quot; value=&quot;&quot; id=&quot;checkbox1&quot; name=&quot;virtue&quot; required&gt;
-            Bravery
-            &lt;/label&gt;
-            &lt;label class=&quot;checkbox checkboxBtn&quot; for=&quot;checkbox2&quot;&gt;
-            &lt;input type=&quot;checkbox&quot; value=&quot;&quot; id=&quot;checkbox2&quot; name=&quot;virtue&quot; required&gt;
-            Patience
-            &lt;/label&gt;
-            &lt;label class=&quot;checkbox checkboxBtn&quot; for=&quot;checkbox3&quot;&gt;
-            &lt;input type=&quot;checkbox&quot; value=&quot;&quot; id=&quot;checkbox3&quot; name=&quot;virtue&quot; required&gt;
-            Honesty
-            &lt;/label&gt;
-            &lt;label class=&quot;checkbox checkboxBtn&quot; for=&quot;checkbox4&quot;&gt;
-            &lt;input type=&quot;checkbox&quot; value=&quot;&quot; id=&quot;checkbox4&quot; name=&quot;virtue&quot; required&gt;
-            Confused
-            &lt;/label&gt;
-            &lt;label class=&quot;checkbox checkboxBtn&quot; for=&quot;checkbox5&quot;&gt;
-            &lt;input type=&quot;checkbox&quot; value=&quot;&quot; id=&quot;checkbox5&quot; name=&quot;virtue&quot; required&gt;
-            Overwhelmed
-            &lt;/label&gt;
-        &lt;/div&gt;	
-    &lt;/div&gt;
-    &lt;div class=&quot;formRow&quot;&gt;
-        Where do you see yourself in five years?
-        &lt;textarea name=&quot;testimonial&quot; rows=&quot;2&quot; cols=&quot;50&quot; required&gt;&lt;/textarea&gt;
-    &lt;/div&gt;
-    &lt;div class=&quot;formRow&quot;&gt;
-        &lt;label class=&quot;checkbox checkboxBtn tncboxLabel&quot; for=&quot;tncCheck&quot;&gt;
-            &lt;input name=&quot;tnc&quot; type=&quot;checkbox&quot; id=&quot;tncCheck&quot; required&gt;					
-        &lt;/label&gt;
-        &lt;label class=&quot;tncCopyLabel&quot;&gt;Do you certify that the abobe is true and complete to the best of your knowledge?&lt;/label&gt;
-    &lt;/div&gt;
-    &lt;div class=&quot;errMsg&quot; id=&quot;errorRequire&quot;&gt;*Please complete the mandatory field(s).&lt;/div&gt;
-    &lt;div class=&quot;formRow&quot;&gt;
-        &lt;a href=&quot;javascript:void(0)&quot; class=&quot;btn btn-primary btn-large btnSubmit&quot; id=&quot;formSubmit&quot;&gt;Submit&lt;/a&gt;
-    &lt;/div&gt;
- &lt;/form&gt;
-</pre>
 <div class="resultWrapper">
     <form id="formRegister">
         <div class="formRow">
             <label>
-            <input type="text" required class="fName" value="Name" rel="Name" id="uName" maxlength="50" name="name" />
+            	<input type="text" required value="Name" rel="Name" id="uName" maxlength="50" name="name" />
             </label>
-        </div>	
-        <div class="formRow">
-            <label class="formLabel">Gender:</label>
-            <label class="radio radioBtn"><input required type="radio" name="formRadiosGender" id="optionsRadios1" value="option1">Beau</label>
-            <label class="radio radioBtn"><input required type="radio" name="formRadiosGender" id="optionsRadios2" value="option2" checked="">Bow</label>
         </div>
         <div class="formRow">
-            <label class="dob formLabel" for="uBirth">Born since: </label>
-            <input type="text" id="uBirth" name="formBirth" required >
+            <label>Gender:</label>
+            <label><input required type="radio" name="formRadiosGender" id="optionsRadios1" value="option1">Beau</label>
+            <label><input required type="radio" name="formRadiosGender" id="optionsRadios2" value="option2">Bow</label>
+        </div>
+        <div class="formRow">
+            <label for="uBirth">Born since: </label>
+            <div><input type="text" id="uBirth" name="formBirth" required ></div>
         </div>			
         <div class="formRow">
             <label for="datepicker">
@@ -468,7 +245,7 @@ You have your standard HTML, which looks like this:
             </label>
         </div>
         <div class="formRow">
-            <label class="iq formLabel">IQ:</label>
+            <label>IQ:</label>
             <select id="iq" value="iq" rel="iq" name="iq" required >
                 <option value="">Select your IQ</option>
                 <option>Severely challenged</option>
@@ -482,45 +259,45 @@ You have your standard HTML, which looks like this:
             </select>
         </div>
         <div class="formRow">
-            <label class="formLabel">Your virtues:</label>
+            <label>Your virtues:</label>
             <div class="checkboxes_container">
-                <label class="checkbox checkboxBtn" for="checkbox1">
+                <label for="checkbox1">
                 <input type="checkbox" value="" id="checkbox1" name="virtue" required>
                 Bravery
                 </label>
-                <label class="checkbox checkboxBtn" for="checkbox2">
+                <label for="checkbox2">
                 <input type="checkbox" value="" id="checkbox2" name="virtue" required>
                 Patience
                 </label>
-                <label class="checkbox checkboxBtn" for="checkbox3">
+                <label for="checkbox3">
                 <input type="checkbox" value="" id="checkbox3" name="virtue" required>
                 Honesty
                 </label>
-                <label class="checkbox checkboxBtn" for="checkbox4">
+                <label for="checkbox4">
                 <input type="checkbox" value="" id="checkbox4" name="virtue" required>
                 Confused
                 </label>
-                <label class="checkbox checkboxBtn" for="checkbox5">
+                <label for="checkbox5">
                 <input type="checkbox" value="" id="checkbox5" name="virtue" required>
                 Overwhelmed
                 </label>
             </div>	
         </div>
         <div class="formRow">
-            Where do you see yourself in five years?
+            Where do you see yourself in five years?<br/>
             <textarea name="testimonial" rows="2" cols="50" required></textarea>
         </div>
         <div class="formRow">
-            <label class="checkbox checkboxBtn tncboxLabel" for="tncCheck">
-                <input name="tnc" type="checkbox" id="tncCheck" required>					
+            <label for="tncCheck">
+                <input name="tnc" type="checkbox" required id="tncCheck">					
             </label>
-            <label class="tncCopyLabel" for="tncCheck">Do you certify that the abobe is true and complete to the best of your knowledge?</label>
+            <label>Do you certify that the abobe is true and complete to the best of your knowledge?</label>
         </div>
         <div class="errMsg" id="errorRequire">*Please complete the mandatory field(s).</div>
         <div class="formRow">
             <a href="javascript:void(0)" class="btn btn-primary btn-large btnSubmit" id="formSubmit">Submit</a>
         </div>
-     </form>
+     </form> 
 </div>
 
 <iframe src="document.html" width="100%" height="850px" frameborder="0" scrolling="no"></iframe>
@@ -568,7 +345,6 @@ $('#dropdown').monsterDateDropdown({
 </pre>
 
 </div>
-</div>
 
 
 
@@ -579,26 +355,6 @@ Include the script tag below in your document and get start!
 <pre class="prettyprint">
 &lt;link href=&quot;css/jquery-ui-custom.css&quot; rel=&quot;stylesheet&quot;&gt;
 &lt;script src=&quot;http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js&quot;&gt;&lt;/script&gt;
-</pre>
-
-So you have your custom CSS, which looks like this:
-<pre class="prettyprint">
-/*Date Calendar*/
-.ui-widget-content{background:#34495E;border:none;}
-.ui-widget-header {background:#34495E;border:none;color:#19ae90;}
-.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {color:#e1e1e1;background:#19ae90;}
-.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {border:none;}
-.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {border:none;background:#1E7564;color:#e1e1e1;}
-.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {border:none;background:#e1e1e1;color:#19ae90;}
-.ui-widget-header a {background:#1ABC9C;}
-.ui-widget-header a:hover {background:#19ae90;}
-.ui-state-hover .ui-icon, .ui-state-focus .ui-icon {
-    background-image: url("../images/ui-lightness/ui-icons_ffffff_256x240.png");
-}
-.ui-icon-circle-triangle-e{}
-.ui-datepicker th {color:#1ABC9C;}
-.ui-datepicker .ui-datepicker-next-hover {top:2px;right:2px;border:none;}
-.ui-datepicker .ui-datepicker-prev-hover {left:2px;top:2px;border:none;}
 </pre>
 
 This is the code needed to achieve this:
@@ -613,6 +369,7 @@ $("#date").datepicker({
     <input type="text" id="date" value="Click to select date" name="formDate" >
 </div>
 </div>
+</div>
 
 <div class="sampleWrapper">
 	<div class="backNavigation">
@@ -620,13 +377,6 @@ $("#date").datepicker({
     </div>
 </div>
 
-<script src="js/jquery.dropkick-1.0.0.js"></script>
-<script src="js/custom_checkbox_and_radio.js"></script>
-<script src="js/custom_radio.js"></script>
-<script src="js/application.js"></script>
-
-<script src="js/monster-date-dropdown.js"></script>
-<script src="js/monster-form.js"></script>
 
 </body>
 </html>
