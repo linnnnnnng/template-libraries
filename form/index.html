@@ -59,28 +59,29 @@
 	$(function() {
 		$('select').each(function () {
 			// Cache the number of options
-			var $this = $(this),numberOfOptions = $(this).children('option').length;
-	
+			var $this = $(this),
+				numberOfOptions = $(this).children('option').length;
+		
 			// Hides the select element
 			$this.addClass('s-hidden');
-	
+		
 			// Wrap the select element in a div
 			$this.wrap('<div class="select"></div>');
-	
+		
 			// Insert a styled div to sit over the top of the hidden select element
 			$this.after('<div class="styledSelect"><span></span></div>');
-	
+		
 			// Cache the styled div
 			var $styledSelect = $this.next('div.styledSelect');
-	
+		
 			// Show the first select option in the styled div
 			$styledSelect.text($this.children('option').eq(0).text());
-	
+		
 			// Insert an unordered list after the styled div and also cache the list
 			var $list = $('<ul />', {
 				'class': 'options'
 			}).insertAfter($styledSelect);
-	
+		
 			// Insert a list item into the unordered list for each select option
 			for (var i = 0; i < numberOfOptions; i++) {
 				$('<li />', {
@@ -88,19 +89,24 @@
 					rel: $this.children('option').eq(i).val()
 				}).appendTo($list);
 			}
-	
+		
 			// Cache the list items
 			var $listItems = $list.children('li');
-	
+		
 			// Show the unordered list when the styled div is clicked (also hides it if the div is clicked again)
 			$styledSelect.click(function (e) {
 				e.stopPropagation();
-				$('div.styledSelect.active').each(function () {
-					$(this).removeClass('active').next('ul.options').hide();
-				});
-				$(this).toggleClass('active').next('ul.options').toggle();
+				
+				$(this).toggleClass('active');
+				$(this).next('ul.options').toggle();
+				
+				//auto position
+				var optionoff = $(this).next('ul.options').offset();
+				if((optionoff.top+$(this).next('ul.options').height()+20)>$(document).height()){
+					$(this).next('ul.options').css('top', - ($(this).next('ul.options').height()-20));
+				}
 			});
-	
+		
 			// Hides the unordered list when a list item is clicked and updates the styled div to show the selected list item
 			// Updates the select element to have the value of the equivalent option
 			$listItems.click(function (e) {
@@ -110,13 +116,12 @@
 				$list.hide();
 				/* alert($this.val()); Uncomment this for demonstration! */
 			});
-	
+		
 			// Hides the unordered list when clicking outside of it
 			$(document).click(function () {
 				$styledSelect.removeClass('active');
 				$list.hide();
 			});
-	
 		});
 		
 		//Monster Form
@@ -279,7 +284,7 @@ You have your standard HTML, which looks like this:
  &lt;/form&gt; 
 </pre>
 
-Below is the CSS and JS for custom dropdown.
+Below is the CSS for custom dropdown.
 <pre class="prettyprint">
 /*Custom dropdown list*/
 .s-hidden {visibility:hidden;padding-right:10px;width:175px;}
@@ -290,7 +295,13 @@ Below is the CSS and JS for custom dropdown.
 .options {display:none;position:absolute;top:100%;right:0;left:0;z-index:999;margin:0 0;padding:0;padding-top:5px;list-style:none;background-color:#149F85;color:#fff;}
 .options li {padding:0 6px;margin:0 0;padding:0 10px;}
 .options li:hover {background-color:#1ABC9C;color:white;}
+</pre>
 
+Below is the image for custom dropdown.<br/>
+<img src='images/dropdownbtn.jpg' /><br/><br/>
+
+Below is the JS for custom dropdown.
+<pre class="prettyprint">
 /*Custom Dropdown JS*/
 $(&#39;select&#39;).each(function () {
     // Cache the number of options
@@ -331,10 +342,15 @@ $(&#39;select&#39;).each(function () {
     // Show the unordered list when the styled div is clicked (also hides it if the div is clicked again)
     $styledSelect.click(function (e) {
         e.stopPropagation();
-        $(&#39;div.styledSelect.active&#39;).each(function () {
-            $(this).removeClass(&#39;active&#39;).next(&#39;ul.options&#39;).hide();
-        });
-        $(this).toggleClass(&#39;active&#39;).next(&#39;ul.options&#39;).toggle();
+        
+        $(this).toggleClass(&#39;active&#39;);
+        $(this).next(&#39;ul.options&#39;).toggle();
+        
+        //auto position
+        var optionoff = $(this).next(&#39;ul.options&#39;).offset();
+        if((optionoff.top+$(this).next(&#39;ul.options&#39;).height()+20)&gt;$(document).height()){
+            $(this).next(&#39;ul.options&#39;).css(&#39;top&#39;, - ($(this).next(&#39;ul.options&#39;).height()-20));
+        }
     });
 
     // Hides the unordered list when a list item is clicked and updates the styled div to show the selected list item
@@ -352,7 +368,6 @@ $(&#39;select&#39;).each(function () {
         $styledSelect.removeClass(&#39;active&#39;);
         $list.hide();
     });
-
 });
 </pre>
 
