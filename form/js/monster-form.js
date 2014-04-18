@@ -85,7 +85,8 @@
 	$.fn[pluginName].validateField=function(obj) {
 		var fieldError=false;
 		var result={name:'',type:'input',error:fieldError,validate:''}
-		if($(obj).attr('required')){
+		var disabled=$(obj).attr('disabled')==undefined?false:true;
+		if($(obj).attr('required')&&disabled==false){
 			result.name=$(obj).attr('name')
 			if($(obj).attr('type')=='radio'){
 				//Radio validation
