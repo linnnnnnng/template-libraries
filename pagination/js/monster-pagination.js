@@ -39,7 +39,6 @@
 			return this.each(function () {
 				var $this=$(this);
 				var _opts=$.extend({},defaults,options);
-				_opts.maxPaginate=_opts.totalPages>_opts.display?Math.ceil(_opts.totalPages/_opts.display):1;
 				$this.data('plugin_' + pluginName, _opts);
 				$.fn[pluginName].presentPaginate($this);
 				$.fn[pluginName].constructPaginate($this);
@@ -52,6 +51,7 @@
 		return obj.each(function(){
 			var _self=$(this);
 			var _opts=_self.data('plugin_'+pluginName);
+			_opts.maxPaginate=_opts.totalPages>_opts.display?Math.ceil(_opts.totalPages/_opts.display):1;
 			sp=(_opts.curPaginate*_opts.display)-(_opts.display-1)
 			ep=_opts.curPaginate*_opts.display
 			ep=ep>_opts.totalPages?_opts.totalPages:ep;
