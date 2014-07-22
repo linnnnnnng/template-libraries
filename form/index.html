@@ -75,8 +75,9 @@
 			var $styledSelect = $this.next('div.styledSelect');
 		
 			// Show the first select option in the styled div
-			$styledSelect.text($this.children('option').eq(0).text());
-		
+			//$styledSelect.text($this.children('option').eq(0).text());
+			$styledSelect.text($this.find(":selected").text());
+			
 			// Insert an unordered list after the styled div and also cache the list
 			var $list = $('<ul />', {
 				'class': 'options'
@@ -321,7 +322,7 @@ $(&#39;select&#39;).each(function () {
     var $styledSelect = $this.next(&#39;div.styledSelect&#39;);
 
     // Show the first select option in the styled div
-    $styledSelect.text($this.children(&#39;option&#39;).eq(0).text());
+    $styledSelect.text($this.find(&#39;:selected&#39;).text());
 
     // Insert an unordered list after the styled div and also cache the list
     var $list = $(&#39;&lt;ul /&gt;&#39;, {
