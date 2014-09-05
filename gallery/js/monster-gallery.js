@@ -32,7 +32,7 @@
 			var $this=$(this);
 			var _opts=$this.data('plugin_'+pluginName);
 			if(_opts!=undefined)
-				commandGallery(this,options,value,value2)
+				$.fn[pluginName].commandGallery(this,options,value,value2)
 		}else{
 			return this.each(function () {
 				var $this=$(this);
@@ -61,41 +61,41 @@
 				})
 			});
 			_target=_self.find(_opts.controlHolder+' '+_opts.controlPrev)
-			if(cE(_target))
+			if($.fn[pluginName].cE(_target))
 				_target.unbind("click");
 				_target.click(function() {
 					$.fn[pluginName].activeGallery(_self, 'gallery', false);
 					$.fn[pluginName].callbackGallery(_self,'prevPage');
 				})
 			_target=_self.find(_opts.controlHolder+' '+_opts.controlNext)
-			if(cE(_target))
+			if($.fn[pluginName].cE(_target))
 				_target.unbind("click");
 				_target.click(function() {
 					$.fn[pluginName].activeGallery(_self,'gallery',true);
 					$.fn[pluginName].callbackGallery(_self,'nextPage');
 				})
 			_target=_self.find(_opts.overlayHolder+' '+_opts.overlayPrev)
-			if(!cE(_target))
+			if(!$.fn[pluginName].cE(_target))
 				_target=$(_opts.overlayHolder+' '+_opts.overlayPrev)
-			if(cE(_target))
+			if($.fn[pluginName].cE(_target))
 				_target.unbind("click");
 				_target.click(function() {
 					$.fn[pluginName].activeGallery(_self,'overlay',false);
 					$.fn[pluginName].callbackGallery(_self,'prevImage');
 				})
 			_target=_self.find(_opts.overlayHolder+' '+_opts.overlayNext)
-			if(!cE(_target))
+			if(!$.fn[pluginName].cE(_target))
 				_target=$(_opts.overlayHolder+' '+_opts.overlayNext)
-			if(cE(_target))
+			if($.fn[pluginName].cE(_target))
 				_target.unbind("click");
 				_target.click(function() {
 					$.fn[pluginName].activeGallery(_self,'overlay',true);
 					$.fn[pluginName].callbackGallery(_self,'nextImage');
 				})
 			_target=_self.find(_opts.overlayHolder+' '+_opts.overlayClose)
-			if(!cE(_target))
+			if(!$.fn[pluginName].cE(_target))
 				_target=$(_opts.overlayHolder+' '+_opts.overlayClose)
-			if(cE(_target))
+			if($.fn[pluginName].cE(_target))
 				_target.unbind("click");
 				_target.click(function() {
 					$.fn[pluginName].toggleOverlay(_self,false);
@@ -173,32 +173,32 @@
 			var _self=$(this);
 			var _opts=_self.data('plugin_'+pluginName);
 			var _target=_self.find(_opts.overlayHolder+' '+_opts.overlayPrev)
-			if(!cE(_target))
+			if(!$.fn[pluginName].cE(_target))
 				_target=$(_opts.overlayHolder+' '+_opts.overlayPrev)
-			if(cE(_target))
+			if($.fn[pluginName].cE(_target))
 				if(_opts.selectThumb==1){
 					_target.addClass('disabled')
 				}else{
 					_target.removeClass('disabled')
 				}
 			_target=_self.find(_opts.overlayHolder+' '+_opts.overlayNext)
-			if(!cE(_target))
+			if(!$.fn[pluginName].cE(_target))
 				_target=$(_opts.overlayHolder+' '+_opts.overlayNext)
-			if(cE(_target))
+			if($.fn[pluginName].cE(_target))
 				if(_opts.selectThumb==_opts.totalThumbs){
 					_target.addClass('disabled')
 				}else{
 					_target.removeClass('disabled')
 				}
 			_target=_self.find(_opts.controlHolder+' '+_opts.controlPrev)
-			if(cE(_target))
+			if($.fn[pluginName].cE(_target))
 				if(_opts.selectPage==1){
 					_target.addClass('disabled')
 				}else{
 					_target.removeClass('disabled')
 				}
 			_target=_self.find(_opts.controlHolder+' '+_opts.controlNext)
-			if(cE(_target))
+			if($.fn[pluginName].cE(_target))
 				if(_opts.selectPage==_opts.totalPages){
 					_target.addClass('disabled')
 				}else{
@@ -212,9 +212,9 @@
 			var _self=$(this);
 			var _opts=_self.data('plugin_'+pluginName);
 			var _target=_self.find(_opts.overlayHolder+' '+_opts.overlayImgHolder)
-			if(!cE(_target))
+			if(!$.fn[pluginName].cE(_target))
 				_target=$(_opts.overlayHolder+' '+_opts.overlayImgHolder)
-			if(cE(_target)){
+			if($.fn[pluginName].cE(_target)){
 				_target.empty();
 				$('<img />')
 					.attr('src', _self.find(_opts.galleryListHolder+' li').eq(p-1).find('img').attr('rel'))
@@ -233,9 +233,9 @@
 			var _self=$(this);
 			var _opts=_self.data('plugin_'+pluginName);
 			var _target=_self.find(_opts.overlayHolder)
-			if(!cE(_target))
+			if(!$.fn[pluginName].cE(_target))
 				_target=$(_opts.overlayHolder)
-			if(cE(_target))
+			if($.fn[pluginName].cE(_target))
 				if(con){
 					_target.fadeIn('fast');
 				}else{
@@ -255,10 +255,10 @@
 			}
 		});
     }
-	function cE(t){
+	$.fn[pluginName].cE=function(t){
 		return t.length==0?false:true
 	}
-	function commandGallery(obj,command,value,value2){
+	$.fn[pluginName].commandGallery=function(obj,command,value,value2){
 		return obj.each(function(){
 			var _self=$(this);
 			var _opts=_self.data('plugin_'+pluginName);

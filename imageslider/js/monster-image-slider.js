@@ -26,7 +26,7 @@
 	
 	$.fn[pluginName]=function(options,value,value2) {
 		if(typeof options=='string'){
-			commandImageSlider(this, options,value,value2)
+			$.fn[pluginName].commandImageSlider(this, options,value,value2)
 		}else{
 			return this.each(function () {
 				var $this=$(this);
@@ -154,7 +154,7 @@
 			}
 		});
     }
-	function commandImageSlider(obj,command,value,value2){
+	$.fn[pluginName].commandImageSlider=function(obj,command,value,value2){
 		return obj.each(function(){
 			var _self=$(this);
 			var _opts=_self.data('plugin_'+pluginName);

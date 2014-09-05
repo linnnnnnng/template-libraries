@@ -15,7 +15,7 @@
 	
 	$.fn[pluginName]=function(options,value,value2) {
 		if(typeof options=='string'){
-			commandForm(this, options,value,value2)
+			//$.fn[pluginName].commandForm(this, options,value,value2)
 		}else{
 			return this.each(function () {
 				var $this=$(this);
@@ -109,7 +109,7 @@
 			}else if($(obj).attr('validate') == 'email'){
 				if($(obj).val()== $(obj).attr('rel') || $(obj).val()== ""){
 					fieldError=true;
-				}else if(!validateEmail($(obj).val())){	
+				}else if(!$.fn[pluginName].validateEmail($(obj).val())){	
 					fieldError=true;
 					result.validate='email'
 				}
@@ -118,7 +118,7 @@
 				if($(obj).val()== $(obj).attr('rel') || $(obj).val()==""){
 					fieldError=true;
 				}else if($(obj).attr('minlength')){
-					if(validateMinLength($(obj).val(),$(obj).attr('minlength'))){	
+					if($.fn[pluginName].validateMinLength($(obj).val(),$(obj).attr('minlength'))){	
 						fieldError=true;
 						result.validate='minlength'
 					}
@@ -160,16 +160,14 @@
 			});	
 		}
 	}
-	
-	function validateMinLength(value, length){
+	$.fn[pluginName].validateMinLength=function(value, length){
 		if(value.length<length){
 			return true;
 		}else{
 			return false;
 		}
 	}
-	
-	function validateEmail($email) {
+	$.fn[pluginName].validateEmail=function($email) {
 		var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
 		if( !emailReg.test( $email ) ) {
 			return false;

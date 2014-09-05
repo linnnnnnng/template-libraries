@@ -34,7 +34,7 @@
 			var $this=$(this);
 			var _opts=$this.data('plugin_'+pluginName);
 			if(_opts!=undefined)
-				commandPaginate(this, options,value,value2)
+				$.fn[pluginName].commandPaginate(this,options,value,value2)
 		}else{
 			return this.each(function () {
 				var $this=$(this);
@@ -170,7 +170,7 @@
 			}
 		});
     }
-	function commandPaginate(obj,command,value,value2){
+	$.fn[pluginName].commandPaginate=function(obj,command,value,value2){
 		return obj.each(function(){
 			var _self=$(this);
 			var _opts=_self.data('plugin_'+pluginName);
