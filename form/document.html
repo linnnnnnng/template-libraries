@@ -87,9 +87,14 @@ To validate email address, add attribute validate='email'
 &lt;input id=&quot;email&quot; name=&quot;email&quot; validate=&quot;email&quot; rel=&quot;email&quot; required type=&quot;text&quot; value=&quot;email&quot; /&gt;
 </pre>
 
-To validate input min length, attribute add minlength='5'
+To validate input file type, add attribute filetype='.jpg, .jpeg, .png'
 <pre class="prettyprint">
-&lt;input id=&quot;contact&quot; name=&quot;contact&quot; rel=&quot;contact&quot; required minlength=&quot;3&quot; type=&quot;text&quot; value=&quot;contact&quot; /&gt;
+&lt;input id=&quot;uploadfile&quot; name=&quot;uploadfile&quot; required type=&quot;file&quot; filetype=&quot;.jpg, .jpeg, .png&quot; /&gt;
+</pre>
+
+To validate input file size, add attribute filesize='10000000'
+<pre class="prettyprint">
+&lt;input id=&quot;uploadfile&quot; name=&quot;uploadfile&quot; required type=&quot;file&quot; filesize=&quot;1000000&quot; /&gt;
 </pre>
 
 </div>

@@ -11,7 +11,9 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=sunburst"></script>
     
+    <script src="js/monster-date-dropdown.js"></script>
 	<script src="js/monster-form.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
 </head>
 
 <style>
@@ -25,10 +27,13 @@
 	.resultWrapper{margin:30px 0;}
 	.button a{padding:8px 18px; font-size:12px; background:#0F9095; color:#FFF;font-weight:bold;-moz-border-radius:12px;-webkit-border-radius:12px;border-radius:12px;display:inline-block;cursor:pointer; float:left; margin:0 5px;}
 	.button a:hover{background:#333;}
-	.backNavigation{width:200px; height:100px; margin:auto;}
+	.backNavigation{width:200px; height:100px   ; margin:auto;}
 	.navigation{margin-top:10px; text-align:center;}
 	.navigation:after{content: ".";display:block;clear:both;visibility:hidden;line-height:0;height:0;}
 	.callbackOutput{ width:90%; border:#CCC solid 1px; font-size:12px; padding:10px; margin:10px auto;}
+	.btnDownload{padding:10px 20px; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; font-size:20px; background:#1ABC9C; text-decoration:none; color:#FFF; -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px;}
+	.btnDownload:hover{ background:#0F9095;}
+	.downloadWrapper{ width:100%; text-align:center; height:40px; margin:20px 0;}
 	
 	/*form*/
 	.formWrapper{width:520px;}
@@ -53,87 +58,54 @@
 	.options li {padding:0 6px;margin:0 0;padding:0 10px;}
 	.options li:hover {background-color:#1ABC9C;color:white;}
 	/*custom select end*/
+	
+	
+	/*Date Calendar*/
+	.ui-widget-content{background:#34495E;border:none;}
+	.ui-widget-header {background:#34495E;border:none;color:#19ae90;}
+	.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {color:#e1e1e1;background:#19ae90;}
+	.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {border:none;}
+	.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {border:none;background:#1E7564;color:#e1e1e1;}
+	.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {border:none;background:#e1e1e1;color:#19ae90;}
+	.ui-widget-header a {background:#1ABC9C;}
+	.ui-widget-header a:hover {background:#19ae90;}
+	.ui-state-hover .ui-icon, .ui-state-focus .ui-icon {
+		background-image: url("../images/ui-lightness/ui-icons_ffffff_256x240.png");
+	}
+	.ui-icon-circle-triangle-e{}
+	.ui-datepicker th {color:#1ABC9C;}
+	.ui-datepicker .ui-datepicker-next-hover {top:2px;right:2px;border:none;}
+	.ui-datepicker .ui-datepicker-prev-hover {left:2px;top:2px;border:none;}
 </style>
 
 <script>
 	$(function() {
-		$('select').each(function () {
-			// Cache the number of options
-			var $this = $(this),
-				numberOfOptions = $(this).children('option').length;
-		
-			// Hides the select element
-			$this.addClass('s-hidden');
-		
-			// Wrap the select element in a div
-			$this.wrap('<div class="select"></div>');
-		
-			// Insert a styled div to sit over the top of the hidden select element
-			$this.after('<div class="styledSelect"><span></span></div>');
-		
-			// Cache the styled div
-			var $styledSelect = $this.next('div.styledSelect');
-		
-			// Show the first select option in the styled div
-			//$styledSelect.text($this.children('option').eq(0).text());
-			$styledSelect.text($this.find(":selected").text());
-			
-			// Insert an unordered list after the styled div and also cache the list
-			var $list = $('<ul />', {
-				'class': 'options'
-			}).insertAfter($styledSelect);
-		
-			// Insert a list item into the unordered list for each select option
-			for (var i = 0; i < numberOfOptions; i++) {
-				$('<li />', {
-					text: $this.children('option').eq(i).text(),
-					rel: $this.children('option').eq(i).val()
-				}).appendTo($list);
-			}
-		
-			// Cache the list items
-			var $listItems = $list.children('li');
-		
-			// Show the unordered list when the styled div is clicked (also hides it if the div is clicked again)
-			$styledSelect.click(function (e) {
-				e.stopPropagation();
-				
-				$(this).toggleClass('active');
-				$(this).next('ul.options').toggle();
-				
-				//auto position
-				var optionoff = $(this).next('ul.options').offset();
-				if((optionoff.top+$(this).next('ul.options').height()+20)>$(document).height()){
-					$(this).next('ul.options').css('top', - ($(this).next('ul.options').height()-20));
-				}
-			});
-		
-			// Hides the unordered list when a list item is clicked and updates the styled div to show the selected list item
-			// Updates the select element to have the value of the equivalent option
-			$listItems.click(function (e) {
-				e.stopPropagation();
-				$styledSelect.text($(this).text()).removeClass('active');
-				$this.val($(this).attr('rel'));
-				$list.hide();
-				/* alert($this.val()); Uncomment this for demonstration! */
-			});
-		
-			// Hides the unordered list when clicking outside of it
-			$(document).click(function () {
-				$styledSelect.removeClass('active');
-				$list.hide();
-			});
+		//Monster Date Picker
+		$("#date").datepicker({
+			format: 'dd.mm.yyyy',
+			startDate: '01.01.1920',
+			endDate: ''
 		});
+
+		//Monster Date Dropdown
+		$('#datedropdown').monsterDateDropdown();
 		
 		//Monster Form
 		$('#formRegister').monsterForm({callback:onSubmit});
+		$('#resetButton').click(function(){
+			$(':input','#formRegister')
+			  .not(':button, :submit, :reset, :hidden')
+			  .val('')
+			  .removeAttr('checked')
+			  .removeAttr('selected');
+		});
 		
 		var errorMsg='';
 		function onSubmit(con){
-			//con.form - will return form attribute ID 'formRegister' for target multiple form
+			//con.form - will return form target wrapper eg. '#formRegister', this is for target multiple form purpose
 			
 			//remove all error class
-			$('#formRegister').find('.formRow').each(function () {
+			$(con.form).find('.formRow').each(function () {
 				$(this).removeClass('formError');
 			});
 			
@@ -147,7 +119,7 @@
 				var fieldResult=con.errorlist
 				for(var i in fieldResult){
 					//add error class to input
-					$('#formRegister').find('[name='+fieldResult[i].name+']').closest('.formRow').addClass('formError');
+					$(con.form).find('[name='+fieldResult[i].name+']').closest('.formRow').addClass('formError');
 					console.log(fieldResult[i].name+' '+fieldResult[i].type+' '+fieldResult[i].error+' '+fieldResult[i].validate)
 					
 					//find error message
@@ -166,11 +138,15 @@
 		
 		//Check error message
 		function getErrorInput(con){
-			var general='*Please complete the mandatory field(s).'
-			var minlength='*Min length.'
-			var checkbox='*Please check at least 1 checkbox.'
-			var radio='*Please select radiobox.'
-			var email='*Please enter a valid email'
+			var general='Please complete the mandatory field(s) to proceed.';
+			var minlength='*Min length.';
+			var checkbox='Please tick box to agree with the Terms and Conditions to proceed.';
+			var email='Please enter a valid email.';
+			var radio='*Please select radiobox.';
+			var fileupload='Please upload a photo to proceed.';
+			var filetype='Please upload images in .jpg .png and .jpeg format only.';
+			var filesize='The size of your image file must not be more than 5MB.';
+			
 			if(con=='minlength'){
 				return minlength
 			}else if(con=='checkbox'){
@@ -179,6 +155,12 @@
 				return radio
 			}else if(con=='email'){
 				return email
+			}else if(con=='fileupload'){
+				return fileupload
+			}else if(con=='filesize'){
+				return filesize
+			}else if(con=='filetype'){
+				return filetype
 			}else{
 				return general	
 			}
@@ -285,93 +267,6 @@ You have your standard HTML, which looks like this:
  &lt;/form&gt; 
 </pre>
 
-Below is the CSS for custom dropdown.
-<pre class="prettyprint">
-/*Custom dropdown list*/
-.s-hidden {visibility:hidden;padding-right:10px;width:175px;}
-.select {cursor:pointer;display:inline-block;position:relative;font:normal 11px/22px Arial, Sans-Serif;height:30px;color:#fff;}
-.styledSelect {position:absolute;top:0;right:0;bottom:0;left:0;background-color:#1ABC9C;padding:5px 15px 0;}
-.styledSelect:after {content:"";width:34px;height:30px;position:absolute;top:0;right:0;background:url(images/dropdownbtn.jpg) no-repeat scroll center center;}
-.styledSelect:active, .styledSelect.active {background-color:#149F85;}
-.options {display:none;position:absolute;top:100%;right:0;left:0;z-index:999;margin:0 0;padding:0;padding-top:5px;list-style:none;background-color:#149F85;color:#fff;}
-.options li {padding:0 6px;margin:0 0;padding:0 10px;}
-.options li:hover {background-color:#1ABC9C;color:white;}
-</pre>
-
-Below is the image for custom dropdown.<br/>
-<img src='images/dropdownbtn.jpg' /><br/><br/>
-
-Below is the JS for custom dropdown.
-<pre class="prettyprint">
-/*Custom Dropdown JS*/
-$(&#39;select&#39;).each(function () {
-    // Cache the number of options
-    var $this = $(this),
-        numberOfOptions = $(this).children(&#39;option&#39;).length;
-
-    // Hides the select element
-    $this.addClass(&#39;s-hidden&#39;);
-
-    // Wrap the select element in a div
-    $this.wrap(&#39;&lt;div class=&quot;select&quot;&gt;&lt;/div&gt;&#39;);
-
-    // Insert a styled div to sit over the top of the hidden select element
-    $this.after(&#39;&lt;div class=&quot;styledSelect&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;&#39;);
-
-    // Cache the styled div
-    var $styledSelect = $this.next(&#39;div.styledSelect&#39;);
-
-    // Show the first select option in the styled div
-    $styledSelect.text($this.find(&#39;:selected&#39;).text());
-
-    // Insert an unordered list after the styled div and also cache the list
-    var $list = $(&#39;&lt;ul /&gt;&#39;, {
-        &#39;class&#39;: &#39;options&#39;
-    }).insertAfter($styledSelect);
-
-    // Insert a list item into the unordered list for each select option
-    for (var i = 0; i &lt; numberOfOptions; i++) {
-        $(&#39;&lt;li /&gt;&#39;, {
-            text: $this.children(&#39;option&#39;).eq(i).text(),
-            rel: $this.children(&#39;option&#39;).eq(i).val()
-        }).appendTo($list);
-    }
-
-    // Cache the list items
-    var $listItems = $list.children(&#39;li&#39;);
-
-    // Show the unordered list when the styled div is clicked (also hides it if the div is clicked again)
-    $styledSelect.click(function (e) {
-        e.stopPropagation();
-        
-        $(this).toggleClass(&#39;active&#39;);
-        $(this).next(&#39;ul.options&#39;).toggle();
-        
-        //auto position
-        var optionoff = $(this).next(&#39;ul.options&#39;).offset();
-        if((optionoff.top+$(this).next(&#39;ul.options&#39;).height()+20)&gt;$(document).height()){
-            $(this).next(&#39;ul.options&#39;).css(&#39;top&#39;, - ($(this).next(&#39;ul.options&#39;).height()-20));
-        }
-    });
-
-    // Hides the unordered list when a list item is clicked and updates the styled div to show the selected list item
-    // Updates the select element to have the value of the equivalent option
-    $listItems.click(function (e) {
-        e.stopPropagation();
-        $styledSelect.text($(this).text()).removeClass(&#39;active&#39;);
-        $this.val($(this).attr(&#39;rel&#39;));
-        $list.hide();
-        /* alert($this.val()); Uncomment this for demonstration! */
-    });
-
-    // Hides the unordered list when clicking outside of it
-    $(document).click(function () {
-        $styledSelect.removeClass(&#39;active&#39;);
-        $list.hide();
-    });
-});
-</pre>
-
 And the result:
 <div class="resultWrapper">
 	<form class="formWrapper">
@@ -458,6 +353,10 @@ Include the script tag below in your document and get start!
 &lt;script src=&quot;js/monster-form.js&quot;&gt;&lt;/script&gt;
 </pre>
 
+<div class="downloadWrapper">
+	<a href="js/monster-form.js" class="btnDownload" target="_blank">DOWNLOAD monster-form.js</a>
+</div>
+
 This is the code needed to achieve this:
 <pre class="prettyprint">
 //Monster Form
@@ -465,10 +364,10 @@ $('#formRegister').monsterForm({callback:onSubmit});
 
 var errorMsg='';
 function onSubmit(con){
-	//con.form - will return form attribute ID 'formRegister' for target multiple form
+    //con.form - will return form target wrapper eg. '#formRegister', this is for target multiple form purpose
     
     //remove all error class
-    $('#formRegister').find('.formRow').each(function () {
+    $(con.form).find('.formRow').each(function () {
         $(this).removeClass('formError');
     });
     
@@ -476,13 +375,15 @@ function onSubmit(con){
         $('.errMsg').hide()
         //if the form is ok
     }else{
-        errorMsg=''
+        errorMsg='';
         
         //output format {name:'formEmail',type:'input',error:true,validate:'email'}
         var fieldResult=con.errorlist
         for(var i in fieldResult){
             //add error class to input
-            $('#formRegister').find('[name='+fieldResult[i].name+']').closest('.formRow').addClass('formError');
+            $(con.form).find('[name='+fieldResult[i].name+']').closest('.formRow').addClass('formError');
+            console.log(fieldResult[i].name+' '+fieldResult[i].type+' '+fieldResult[i].error+' '+fieldResult[i].validate)
+            
             //find error message
             if(errorMsg==''){
                 if(fieldResult[i].validate==''){
@@ -492,22 +393,36 @@ function onSubmit(con){
                 }
             }
         }
+        
         $('.errMsg').show().html(errorMsg)
     }
 }
 
 //Check error message
 function getErrorInput(con){
-    var general='*Please complete the mandatory field(s).'
-    var minlength='*Min length.'
-    var checkbox='*Please check at least 1 checkbox.'
-    var email='*Please enter a valid email'
+    var general='Please complete the mandatory field(s) to proceed.';
+    var minlength='*Min length.';
+    var checkbox='Please tick box to agree with the Terms and Conditions to proceed.';
+    var email='Please enter a valid email.';
+    var radio='*Please select radiobox.';
+    var fileupload='Please upload a photo to proceed.';
+    var filetype='Please upload images in .jpg .png and .jpeg format only.';
+    var filesize='The size of your image file must not be more than 5MB.';
+    
     if(con=='minlength'){
         return minlength
     }else if(con=='checkbox'){
         return checkbox
+    }else if(con=='radio'){
+        return radio
     }else if(con=='email'){
         return email
+    }else if(con=='fileupload'){
+        return fileupload
+    }else if(con=='filesize'){
+        return filesize
+    }else if(con=='filetype'){
+        return filetype
     }else{
         return general	
     }
@@ -532,6 +447,10 @@ function getErrorInput(con){
         <div class="formRow">
             <label for="rMobile" class="labelName">Contact</label>
             <input id="rMobile" name="rMobile" class="numberOnly" minlength="3" required type="text" value="" maxlength="15" />
+        </div>
+        <div class="formRow">
+            <label for="rFile" class="labelName">File</label>
+            <input id="rFile" name="rFile" type="file" filesize="1000000" filetype="jpg, jpeg, png" required />
         </div>
         <div class="formRow">
             <label for="rIq" class="labelName">IQ:</label>
@@ -568,8 +487,7 @@ function getErrorInput(con){
         </div>
         <div class="formRow formTextarea">
             <label for="uTestimonial" class="labelName">Where do you see yourself in five years?</label>
-            <textarea id="uTestimonial" name="testimonial" rel="Your message here..." required>Your message here…
-            </textarea>
+            <textarea id="uTestimonial" name="testimonial" rel="Your message here..." required></textarea>
         </div>
         <div class="formRow">
         	<label class="labelName"></label>
@@ -588,7 +506,103 @@ function getErrorInput(con){
      </form> 
 </div>
 
-<iframe src="document.html" width="100%" height="850px" frameborder="0" scrolling="no"></iframe>
+<iframe src="document.html" width="100%" height="950px" frameborder="0" scrolling="no"></iframe>
+
+
+<div class="sampleWrapper">
+<h3>Monster Date Dropdown</h3>
+Include the script tag below in your document and get start!
+<pre class="prettyprint">
+&lt;script src=&quot;js/monster-date-dropdown.js&quot;&gt;&lt;/script&gt;
+</pre>
+<div class="downloadWrapper">
+	<a href="js/monster-date-dropdown.js" class="btnDownload" target="_blank">DOWNLOAD monster-date-dropdown.js</a>
+</div>
+
+You have your standard HTML, which looks like this:
+<pre class="prettyprint">
+&lt;input type=&quot;text&quot; id=&quot;datedropdown&quot; name=&quot;datedropdown&quot; &gt;
+</pre>
+
+This is the code needed to achieve this:
+<pre class="prettyprint">
+$('#datedropdown').monsterDateDropdown();
+</pre>
+<div class="resultWrapper">
+		<div class="formRow">
+            <label for="datedropdown">
+            <input type="text" id="datedropdown" name="datedropdown" >
+            </label>
+        </div>
+</div>
+</div>
+<div class="sampleWrapper">
+<h3>Usage</h3>
+Understands default options that can use for this plugin.
+<pre class="prettyprint">
+$('#dropdown').monsterDateDropdown({
+    dateFormat:'yyyy-m-d', //output date format yyyy-mm-dd
+    monthNames: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'], //month list
+    yearStart:'1920', //year start
+    yearEnd:'', //year end; auto select current year if is empty
+    yearDistance:0, //distance from start to current year; auto replace yearStart and yearEnd
+    yearDefault:"Year", //default year select
+    monthDefault: "Month", //default month select
+    dayDefault: "Date", //default date select
+    yearClass:'yearlist',  //default year class
+    dayClass:'daylist', //default day class
+    monthClass:'monthlist' //default month class
+});
+</pre>
+</div>
+
+
+
+<div class="sampleWrapper">
+<h3>jQuery Datepicker</h3>
+
+For default style sheets, include below:
+<pre class="prettyprint">
+&lt;link href=&quot;css/jquery-ui-custom.css&quot; rel=&quot;stylesheet&quot;&gt;
+</pre>
+
+Or to set custom style sheets, include below:
+<pre class="prettyprint">
+.ui-widget-content{background:#34495E;border:none;}
+.ui-widget-header {background:#34495E;border:none;color:#19ae90;}
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {color:#e1e1e1;background:#19ae90;}
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {border:none;}
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {border:none;background:#1E7564;color:#e1e1e1;}
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {border:none;background:#e1e1e1;color:#19ae90;}
+.ui-widget-header a {background:#1ABC9C;}
+.ui-widget-header a:hover {background:#19ae90;}
+.ui-state-hover .ui-icon, .ui-state-focus .ui-icon {
+    background-image: url("../images/ui-lightness/ui-icons_ffffff_256x240.png");
+}
+.ui-icon-circle-triangle-e{}
+.ui-datepicker th {color:#1ABC9C;}
+.ui-datepicker .ui-datepicker-next-hover {top:2px;right:2px;border:none;}
+.ui-datepicker .ui-datepicker-prev-hover {left:2px;top:2px;border:none;}
+</pre>
+
+Include the script tag below in your document and get start!
+<pre class="prettyprint">
+&lt;script src=&quot;http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js&quot;&gt;&lt;/script&gt;
+</pre>
+
+This is the code needed to achieve this:
+<pre class="prettyprint">
+$("#date").datepicker({
+    format: 'dd.mm.yyyy',
+    startDate: '01.01.1920',
+    endDate: ''
+});
+</pre>
+<div class="resultWrapper">
+    <input type="text" id="date" value="Click to select date" name="formDate" >
+</div>
+</div>
+</div>
 
 
 <div class="sampleWrapper">

@@ -264,6 +264,58 @@ function getDistance(sx, sy, ex, ey) {
 </pre>
 </div>
 
+<div class="codeWrapper" rel="Form">
+<div class="codeTitle">Check Upload File Type</div>
+<pre class="prettyprint">
+(function($) {
+    $.fn.checkFileType = function(options) {
+        var defaults = {
+            allowedExtensions: [],
+            success: function() {},
+            error: function() {}
+        };
+        options = $.extend(defaults, options);
+        return this.each(function() {
+            $(this).on('change', function() {
+                var value = $(this).val(),
+                    file = value.toLowerCase(),
+                    extension = file.substring(file.lastIndexOf('.') + 1);
+                if ($.inArray(extension, options.allowedExtensions) == -1) {
+                    options.error();
+                    $(this).focus();
+                } else {
+                    options.success();
+                }
+            });
+        });
+    };
+
+})(jQuery);
+
+$('#fileUpload').checkFileType({
+    allowedExtensions: ['jpg', 'jpeg', 'png'],
+    success: function() {
+        //success;
+    },
+    error: function() {
+        //error;
+    }
+});
+</pre>
+</div>
+
+
+<div class="codeWrapper" rel="Form">
+<div class="codeTitle">Reset Input</div>
+<pre class="prettyprint">
+$(':input','#targetForm')
+    .not(':button, :submit, :reset, :hidden')
+    .val('')
+    .removeAttr('checked')
+    .removeAttr('selected');
+</pre>
+</div>
+
 
 <div class="codeWrapper" rel="Debug">
 <div class="codeTitle">Find highest z-index on page</div>

@@ -15,7 +15,7 @@
 	
 	$.fn[pluginName]=function(options,value,value2) {
 		if(typeof options=='string'){
-			//$.fn[pluginName].commandForm(this, options,value,value2)
+			$.fn[pluginName].commandForm(this, options,value,value2)
 		}else{
 			return this.each(function () {
 				var $this=$(this);
@@ -74,7 +74,7 @@
 			
 			if($.isFunction(_opts.callback)){
 				var returnData={
-					form:_self.attr('id'),
+					form:_self,
 					errorlist:fieldResult
 				}
 				_opts.callback(returnData);
@@ -88,7 +88,21 @@
 		var disabled=$(obj).attr('disabled')==undefined?false:true;
 		if($(obj).attr('required')&&disabled==false){
 			result.name=$(obj).attr('name')
-			if($(obj).attr('type')=='radio'){
+			if($(obj).attr('type')=='file'){
+				var filesize = $(obj).attr('filesize');
+				var filetype = $(obj).attr('filetype');
+				
+				if ($(obj).val()==""){
+					fieldError=true;
+					result.type='fileupload';
+				}else if(filesize!=undefined&&$(obj)[0].files[0].size>filesize){
+					fieldError=true;
+					result.type='filesize';
+				}else if(filetype!=undefined&&$.fn[pluginName].validateFileType(filetype, $(obj)[0].files[0].name)==false){
+					fieldError=true;
+					result.type='filetype';
+				}
+			}else if($(obj).attr('type')=='radio'){
 				//Radio validation
 				var radioboxName = $(obj).attr('name')  || '';
 				var radiobox=$("input[name='"+radioboxName+"']:checked").val();
@@ -174,5 +188,30 @@
 		} else {
 			return true;
 		}		
+	}
+	$.fn[pluginName].validateFileType=function(type, name) {
+		var allowedExtensions = type.split(',');
+		var value = name,
+			file = value.toLowerCase(),
+			extension = file.substring(file.lastIndexOf('.') + 1);
+		if ($.inArray(extension, allowedExtensions) == -1) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	$.fn[pluginName].commandForm=function(obj,command,value,value2){
+		return obj.each(function(){
+			var _self=$(this);
+			var _opts=_self.data('plugin_'+pluginName);
+			switch(command) {
+				default:
+				/*default:
+				if(_opts[value]!=undefined){
+					_opts[value]=value2;
+					$.fn[pluginName].constructPaginate(_self);
+				}*/
+			}
+		});
 	}
 })(jQuery);

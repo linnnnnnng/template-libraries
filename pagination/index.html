@@ -91,6 +91,9 @@ $(function() {
 	.navigation{margin-top:10px; text-align:center;}
 	.navigation:after{content: ".";display:block;clear:both;visibility:hidden;line-height:0;height:0;}
 	.callbackOutput{ width:90%; border:#CCC solid 1px; font-size:12px; padding:10px; margin:10px auto;}
+	.btnDownload{padding:10px 20px; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; font-size:20px; background:#1ABC9C; text-decoration:none; color:#FFF; -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px;}
+	.btnDownload:hover{ background:#0F9095;}
+	.downloadWrapper{ width:100%; text-align:center; height:40px; margin:20px 0;}
 	
 	/*Pagination Light*/
 	.paginate{margin:auto;height:20px;margin-top:20px;}
@@ -104,7 +107,7 @@ $(function() {
 	.paginateDark ul{margin:0; padding:0; list-style:none;}
 	.paginateDark li{width:auto; height:auto; padding:5px 10px; float:left;font-size:12px; color:#1BBC9B; font-weight:bold;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;margin:0 3px;cursor:pointer;cursor:hand;display:block;background:#1BBC9B;color:#fff;border:#1BBC9B solid 1px;}
 	.paginateDark li.selected, .paginateDark li:hover{background:#fff; color:#1BBC9B;border:#1BBC9B solid 1px;}
-	.paginateDark li.selected{cursor:none;}
+	.paginateDark li.selected{cursor:default;}
 	.paginateDark li.disabled{background:#1BBC9B;color:#CCC;cursor:default;}
 </style>
 
@@ -197,6 +200,10 @@ Include the script tag below in your document and get start!
 <pre class="prettyprint">
 &lt;script type='text/javascript' src='js/monster-pagination.js'&gt;&lt;/script&gt;
 </pre>
+
+<div class="downloadWrapper">
+	<a href="js/monster-pagination.js" class="btnDownload" target="_blank">DOWNLOAD monster-pagination.js</a>
+</div>
 
 <div class="sampleWrapper">
 <h3>Sample 1</h3>
