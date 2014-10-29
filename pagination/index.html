@@ -98,7 +98,7 @@ $(function() {
 	/*Pagination Light*/
 	.paginate{margin:auto;height:20px;margin-top:20px;}
 	.paginate ul{margin:0; padding:0; list-style:none;}
-	.paginate li{width:auto; height:auto;float:left;width:auto; height:auto; padding:5px 10px; border:#1BBC9B solid 1px; font-size:12px; color:#1BBC9B; font-weight:bold;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;margin:0 3px;cursor:pointer;cursor:hand;}
+	.paginate li{width:auto; height:auto;float:left;padding:5px 10px; border:#1BBC9B solid 1px; font-size:12px; color:#1BBC9B; font-weight:bold;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;margin:0 3px;cursor:pointer;cursor:hand;}
 	.paginate li.selected, .paginate li:hover{background:#1BBC9B; color:#FFF;}
 	.paginate li.disabled{background:#fff;color:#CCC;cursor:default;}
 	
@@ -122,7 +122,7 @@ So you have your standard CSS, which looks like this:
 /*Pagination Light*/
 .paginate{margin:auto;height:20px;margin-top:20px;}
 .paginate ul{margin:0; padding:0; list-style:none;}
-.paginate li{width:auto; height:auto;float:left;width:auto; height:auto; padding:5px 10px; border:#1BBC9B solid 1px; font-size:12px; color:#1BBC9B; font-weight:bold;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;margin:0 3px;cursor:pointer;cursor:hand;}
+.paginate li{width:auto; height:auto;float:left; padding:5px 10px; border:#1BBC9B solid 1px; font-size:12px; color:#1BBC9B; font-weight:bold;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;margin:0 3px;cursor:pointer;cursor:hand;}
 .paginate li.selected, .paginate li:hover{background:#1BBC9B; color:#FFF;}
 .paginate li.disabled{background:#fff;color:#CCC;cursor:none;cursor:default;}
 
@@ -304,7 +304,8 @@ Click the paginate buttons to see callback output here...
 
 <div class="sampleWrapper">
 <h3>Usage</h3>
-Understands default options that can use for this plugin.
+Understands default options that can use for this plugin.<br/>
+<i>The paginate wrapper Width is auto adjust by init and update, it only work when the div wrapper is visible.</i>
 <pre class="prettyprint">
 $('#paginate').monsterPaginate({
     selectPage:1, //page highlight
