@@ -121,6 +121,19 @@ console.log(window.location.hostname.match(/^.*?-?(\w*)\./)[1]);
 </pre>
 </div>
 
+<div class="codeWrapper" rel="General">
+<div class="codeTitle">Calculate pagination</div>
+<pre class="prettyprint">
+var totalGalleryPerPage=4;
+var totalGallery=10;
+var totalPages=totalGallery/totalGalleryPerPage;
+if (String(totalPages).indexOf('.') > -1){
+    totalPages=Math.floor(totalPages)+1;
+}
+//totalPages = 3
+</pre>
+</div>
+
 
 <div class="codeWrapper" rel="Mobile & Tablet">
 <div class="codeTitle">Detect Mobile Browsers</div>
