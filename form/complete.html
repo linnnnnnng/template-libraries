@@ -33,6 +33,7 @@
 	
 	/*form*/
 	.formRow{margin:10px 0;}
+	.placeholder{color:#999;}
 	.formError textarea, .formError input[type="text"], .formError input[type="password"], .formError input[type="datetime"], .formError input[type="datetime-local"], .formError input[type="date"], .formError input[type="month"], .formError input[type="time"], .formError input[type="week"], .formError input[type="number"], .formError input[type="email"], .formError input[type="url"], .formError input[type="search"], .formError input[type="tel"], .formError input[type="color"], .formError .uneditable-input { background:#FC0;}
 </style>
 
@@ -66,7 +67,7 @@
 			//con.form - will return form attribute ID 'formRegister' for target multiple form
 			
 			//remove all error class
-			$('#formRegister').find('.formRow').each(function () {
+			$(con.form).find('.formRow').each(function () {
 				$(this).removeClass('formError');
 			});
 			
@@ -80,7 +81,7 @@
 				var fieldResult=con.errorlist
 				for(var i in fieldResult){
 					//add error class to input
-					$('#formRegister').find('[name='+fieldResult[i].name+']').closest('.formRow').addClass('formError');
+					$(con.form).find('[name='+fieldResult[i].name+']').closest('.formRow').addClass('formError');
 					console.log(fieldResult[i].name+' '+fieldResult[i].type+' '+fieldResult[i].error+' '+fieldResult[i].validate)
 					
 					//find error message
@@ -165,7 +166,7 @@ function onSubmit(con){
 	//con.form - will return form attribute ID 'formRegister' for target multiple form
     
     //remove all error class
-    $('#formRegister').find('.formRow').each(function () {
+    $(con.form).find('.formRow').each(function () {
         $(this).removeClass('formError');
     });
     
@@ -179,7 +180,7 @@ function onSubmit(con){
         var fieldResult=con.errorlist
         for(var i in fieldResult){
             //add error class to input
-            $('#formRegister').find('[name='+fieldResult[i].name+']').closest('.formRow').addClass('formError');
+            $(con.form).find('[name='+fieldResult[i].name+']').closest('.formRow').addClass('formError');
             //find error message
             if(errorMsg==''){
                 if(fieldResult[i].validate==''){
@@ -217,7 +218,7 @@ function getErrorInput(con){
     <form id="formRegister">
         <div class="formRow">
             <label>
-            	<input type="text" required value="Name" rel="Name" id="uName" maxlength="50" name="name" />
+            	<input type="text" required placeholder="Name" id="uName" maxlength="50" name="name" />
             </label>
         </div>
         <div class="formRow">
@@ -231,22 +232,22 @@ function getErrorInput(con){
         </div>			
         <div class="formRow">
             <label for="datepicker">
-            <input type="text" id="datepicker" value="Prefered date" rel="Prefered date" name="formDate" >
+            <input type="text" id="datepicker" placeholder="Prefered date" name="formDate" >
             </label>
         </div>
         <div class="formRow">
             <label for="uEmail">
-            <input type="text" validate="email" required id="uEmail" name="formEmail" value="Email" rel="Email" >
+            <input type="text" validate="email" required id="uEmail" name="formEmail" placeholder="Email" >
             </label>
         </div>
         <div class="formRow">
             <label for="uMobile">
-            <input type="text" required class="numberOnly" name="formMobile" value="Contact" rel="Contact" id="uMobile" maxlength="15" minlength="3" />
+            <input type="text" required class="numberOnly" name="formMobile" placeholder="Contact" id="uMobile" maxlength="15" minlength="3" />
             </label>
         </div>
         <div class="formRow">
             <label>IQ:</label>
-            <select id="iq" value="iq" rel="iq" name="iq" required >
+            <select id="iq" name="iq" required >
                 <option value="">Select your IQ</option>
                 <option>Severely challenged</option>
                 <option>Challenged</option>

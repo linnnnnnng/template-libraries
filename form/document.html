@@ -31,10 +31,6 @@
 	.callbackOutput{ width:90%; border:#CCC solid 1px; font-size:12px; padding:10px; margin:10px auto;}
 	.redmark{ color:#C00;}
 </style>
-
-<script>
-	
-</script>
 </head>
 
 <body>
@@ -46,7 +42,7 @@
 </div>
 <pre class="prettyprint">
 &lt;form id=&quot;yourForm&quot;&gt;
-	&lt;input type=&quot;text&quot; validate=&quot;email&quot; required id=&quot;uEmail&quot; name=&quot;formEmail&quot; value=&quot;Email&quot; rel=&quot;Email&quot; &gt;
+	&lt;input type=&quot;text&quot; validate=&quot;email&quot; required id=&quot;uEmail&quot; name=&quot;formEmail&quot; value=&quot;Email&quot; placeholder=&quot;Email&quot; &gt;
     &lt;div id=&quot;formSubmit&quot;&gt;&lt;a href=&quot;&quot;&gt;Submit&lt;/a&gt;&lt;/div&gt;
 &lt;/form&gt;
 </pre>
@@ -67,34 +63,34 @@ $('#yourForm').monsterForm({
 </pre>
 </div>
 
-To make the input field auto on/off focus, add attribute rel='your label name'
+To make the input field auto on/off focus, add attribute placeholder='your label name'
 <pre class="prettyprint">
-&lt;input id=&quot;name&quot; name=&quot;name&quot; rel=&quot;name&quot; type=&quot;text&quot; value=&quot;name&quot; /&gt;
+&lt;input type=&quot;text&quot; id=&quot;name&quot; name=&quot;name&quot; value=&quot;name&quot; placeholder=&quot;your label name&quot; /&gt;
 </pre>
 
 To make the require input field, add attribute required
 <pre class="prettyprint">
-&lt;input id=&quot;ic&quot; name=&quot;ic&quot; rel=&quot;ic&quot; required type=&quot;text&quot; value=&quot;ic&quot; /&gt;
+&lt;input type=&quot;text&quot; id=&quot;ic&quot; name=&quot;ic&quot; value=&quot;ic&quot; required /&gt;
 </pre>
 
 To restrict the input field to number only, add class 'numberOnly'
 <pre class="prettyprint">
-&lt;input id=&quot;contact&quot; name=&quot;contact&quot; class=&quot;numberOnly&quot; type=&quot;text&quot; value=&quot;contact&quot; /&gt;
+&lt;input type=&quot;text&quot; id=&quot;contact&quot; name=&quot;contact&quot; value=&quot;contact&quot; class=&quot;numberOnly&quot; /&gt;
 </pre>
 
 To validate email address, add attribute validate='email'
 <pre class="prettyprint">
-&lt;input id=&quot;email&quot; name=&quot;email&quot; validate=&quot;email&quot; rel=&quot;email&quot; required type=&quot;text&quot; value=&quot;email&quot; /&gt;
+&lt;input type=&quot;text&quot; id=&quot;email&quot; name=&quot;email&quot; value=&quot;email&quot; required validate=&quot;email&quot; /&gt;
 </pre>
 
 To validate input file type, add attribute filetype='.jpg,.jpeg,.png' (seperate each file format with comma, no spacing)
 <pre class="prettyprint">
-&lt;input id=&quot;uploadfile&quot; name=&quot;uploadfile&quot; required type=&quot;file&quot; filetype=&quot;.jpg,.jpeg,.png&quot; /&gt;
+&lt;input type=&quot;file&quot; id=&quot;uploadfile&quot; name=&quot;uploadfile&quot; required filetype=&quot;.jpg,.jpeg,.png&quot; /&gt;
 </pre>
 
 To validate input file size, add attribute filesize='10000000' (2MB = 2000000)
 <pre class="prettyprint">
-&lt;input id=&quot;uploadfile&quot; name=&quot;uploadfile&quot; required type=&quot;file&quot; filesize=&quot;1000000&quot; /&gt;
+&lt;input type=&quot;file&quot; id=&quot;uploadfile&quot; name=&quot;uploadfile&quot; required filesize=&quot;1000000&quot; /&gt;
 </pre>
 
 </div>

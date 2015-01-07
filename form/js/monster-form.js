@@ -8,6 +8,7 @@
 	var pluginName='monsterForm',
 		defaults={
 			numberOnlyClass:'numberOnly',
+			placeholderClass:'placeholder',
 			submitID:'#formSubmit',
 			callback:''
         },
@@ -30,19 +31,10 @@
 		return obj.each(function(){
 			var _self=$(this);
 			var _opts=_self.data('plugin_'+pluginName);
-			_self.find('input').each(function(){
-				if($(this).rel!='')
-					$.fn[pluginName].constructField($(this));
+			_self.find('input[type=text],input[type=date],input[type=datetime],input[type=email],input[type=number],input[type=password],input[type=tel],input[type=time],input[type=url],input[type=week],textarea').each(function(){
+				$.fn[pluginName].constructField($(this));
 				if($(this).hasClass(_opts.numberOnlyClass))
 					$.fn[pluginName].constructField($(this),'number');
-			});
-			_self.find('select').each(function(){
-				if($(this).rel!='')
-					$.fn[pluginName].constructField($(this));
-			});
-			_self.find('textarea').each(function(){
-				if($(this).rel!='')
-					$.fn[pluginName].constructField($(this));
 			});
 			_self.find(_opts.submitID).unbind("click");
 			_self.find(_opts.submitID).click(function(){
@@ -121,7 +113,7 @@
 				}
 				result.type='checkbox';
 			}else if($(obj).attr('validate') == 'email'){
-				if($(obj).val()== $(obj).attr('rel') || $(obj).val()== ""){
+				if($(obj).val()== $(obj).attr('placeholder') || $(obj).val()== ""){
 					fieldError=true;
 				}else if(!$.fn[pluginName].validateEmail($(obj).val())){	
 					fieldError=true;
@@ -129,7 +121,7 @@
 				}
 				result.type='input'
 			}else {	
-				if($(obj).val()== $(obj).attr('rel') || $(obj).val()==""){
+				if($(obj).val()== $(obj).attr('placeholder') || $(obj).val()==""){
 					fieldError=true;
 				}else if($(obj).attr('minlength')){
 					if($.fn[pluginName].validateMinLength($(obj).val(),$(obj).attr('minlength'))){	
@@ -160,18 +152,33 @@
 						event.preventDefault(); 
 					}   
 				}
+				$.fn[pluginName].checkPlaceholder(obj);
 			});
 		}else{
 			$(obj).live('focus', function(){
-				if($(obj).val()==$(obj).attr('rel')){
+				if($(obj).val()==$(obj).attr('placeholder')){
 					$(obj).val('');
 				}
+				$.fn[pluginName].checkPlaceholder(obj);
 			}).live('blur', function(){
 				if($(obj).val()==''){
-					var inputtitle=$(obj).attr('rel');
+					var inputtitle=$(obj).attr('placeholder');
 					$(obj).val(inputtitle);
 				}
-			});	
+				$.fn[pluginName].checkPlaceholder(obj);
+			}).on("input change", function() {
+				$.fn[pluginName].checkPlaceholder(obj);
+			});
+		}
+		$.fn[pluginName].checkPlaceholder(obj);
+	}
+	$.fn[pluginName].checkPlaceholder=function(obj) {
+		if(obj.attr('placeholder') !== undefined){
+			if($(obj).val()==$(obj).attr('placeholder') || $(obj).val() == ''){
+				$(obj).addClass('placeholder');
+			}else{
+				$(obj).removeClass('placeholder');
+			}
 		}
 	}
 	$.fn[pluginName].validateMinLength=function(value, length){

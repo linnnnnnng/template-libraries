@@ -51,6 +51,7 @@
 	.tncCopyLabel {float:left;width:420px;}
 	textarea {margin-top:5px;resize: none;}
 	.control-group.error textarea, .control-group.error input[type="text"], .control-group.error input[type="password"], .control-group.error input[type="datetime"], .control-group.error input[type="datetime-local"], .control-group.error input[type="date"], .control-group.error input[type="month"], .control-group.error input[type="time"], .control-group.error input[type="week"], .control-group.error input[type="number"], .control-group.error input[type="email"], .control-group.error input[type="url"], .control-group.error input[type="search"], .control-group.error input[type="tel"], .control-group.error input[type="color"], .control-group.error .uneditable-input {}
+	textarea.placeholder, input.placeholder[type="text"], input.placeholder[type="password"], input.placeholder[type="datetime"], input.placeholder[type="datetime-local"], input.placeholder[type="date"], input.placeholder[type="month"], input.placeholder[type="time"], input.placeholder[type="week"], input.placeholder[type="number"], input.placeholder[type="email"], input.placeholder[type="url"], input.placeholder[type="search"], input.placeholder[type="tel"], input.placeholder[type="color"], .uneditable-input.placeholder{color:#FFF;}
 	
 	/*Date Calendar*/
 	.ui-widget-content{background:#34495E;border:none;}
@@ -100,7 +101,7 @@
 			//con.form - will return form attribute ID 'formRegister' for target multiple form
 			
 			//remove all error class
-			$('#formRegister').find('.formRow').each(function () {
+			$(con.form).find('.formRow').each(function () {
 				$(this).removeClass('control-group error');
 			});
 			
@@ -114,7 +115,7 @@
 				var fieldResult=con.errorlist
 				for(var i in fieldResult){
 					//add error class to input
-					$('#formRegister').find('[name='+fieldResult[i].name+']').closest('.formRow').addClass('control-group error');
+					$(con.form).find('[name='+fieldResult[i].name+']').closest('.formRow').addClass('control-group error');
 					console.log(fieldResult[i].name+' '+fieldResult[i].type+' '+fieldResult[i].error+' '+fieldResult[i].validate)
 					//find error message
 					if(errorMsg==''){
@@ -192,6 +193,7 @@ input, textarea, .uneditable-input {width:450px;}
 .tncCopyLabel {float:left;width:420px;}
 textarea {margin-top:5px;resize: none;}
 .control-group.error textarea, .control-group.error input[type="text"], .control-group.error input[type="password"], .control-group.error input[type="datetime"], .control-group.error input[type="datetime-local"], .control-group.error input[type="date"], .control-group.error input[type="month"], .control-group.error input[type="time"], .control-group.error input[type="week"], .control-group.error input[type="number"], .control-group.error input[type="email"], .control-group.error input[type="url"], .control-group.error input[type="search"], .control-group.error input[type="tel"], .control-group.error input[type="color"], .control-group.error .uneditable-input {}
+textarea.placeholder, input.placeholder[type="text"], input.placeholder[type="password"], input.placeholder[type="datetime"], input.placeholder[type="datetime-local"], input.placeholder[type="date"], input.placeholder[type="month"], input.placeholder[type="time"], input.placeholder[type="week"], input.placeholder[type="number"], input.placeholder[type="email"], input.placeholder[type="url"], input.placeholder[type="search"], input.placeholder[type="tel"], input.placeholder[type="color"], .uneditable-input.placeholder{color:#FFF;}
 </pre>
 
 You have your standard HTML, which looks like this:
@@ -301,7 +303,7 @@ function onSubmit(con){
 	//con.form - will return form attribute ID 'formRegister' for target multiple form
     
     //remove all error class
-    $('#formRegister').find('.formRow').each(function () {
+    $(con.form).find('.formRow').each(function () {
         $(this).removeClass('control-group error');
     });
     
@@ -315,7 +317,7 @@ function onSubmit(con){
         var fieldResult=con.errorlist
         for(var i in fieldResult){
             //add error class to input
-            $('#formRegister').find('[name='+fieldResult[i].name+']').closest('.formRow').addClass('control-group error');
+            $(con.form).find('[name='+fieldResult[i].name+']').closest('.formRow').addClass('control-group error');
             //find error message
             if(errorMsg==''){
                 if(fieldResult[i].validate==''){
@@ -354,7 +356,7 @@ You have your standard HTML, which looks like this:
 &lt;form id=&quot;formRegister&quot;&gt;
     &lt;div class=&quot;formRow&quot;&gt;
         &lt;label&gt;
-        &lt;input type=&quot;text&quot; required class=&quot;fName&quot; value=&quot;Name&quot; rel=&quot;Name&quot; id=&quot;uName&quot; maxlength=&quot;50&quot; name=&quot;name&quot; /&gt;
+        &lt;input type=&quot;text&quot; required class=&quot;fName&quot; placeholder=&quot;Name&quot; id=&quot;uName&quot; maxlength=&quot;50&quot; name=&quot;name&quot; /&gt;
         &lt;/label&gt;
     &lt;/div&gt;	
     &lt;div class=&quot;formRow&quot;&gt;
@@ -368,22 +370,22 @@ You have your standard HTML, which looks like this:
     &lt;/div&gt;			
     &lt;div class=&quot;formRow&quot;&gt;
         &lt;label for=&quot;datepicker&quot;&gt;
-        &lt;input type=&quot;text&quot; id=&quot;datepicker&quot; value=&quot;Prefered date&quot; rel=&quot;Prefered date&quot; name=&quot;formDate&quot; &gt;
+        &lt;input type=&quot;text&quot; id=&quot;datepicker&quot; placeholder=&quot;Prefered date&quot; name=&quot;formDate&quot; &gt;
         &lt;/label&gt;
     &lt;/div&gt;
     &lt;div class=&quot;formRow&quot;&gt;
         &lt;label for=&quot;uEmail&quot;&gt;
-        &lt;input type=&quot;text&quot; validate=&quot;email&quot; required id=&quot;uEmail&quot; name=&quot;formEmail&quot; value=&quot;Email&quot; rel=&quot;Email&quot; &gt;
+        &lt;input type=&quot;text&quot; validate=&quot;email&quot; required id=&quot;uEmail&quot; name=&quot;formEmail&quot; placeholder=&quot;Email&quot; &gt;
         &lt;/label&gt;
     &lt;/div&gt;
     &lt;div class=&quot;formRow&quot;&gt;
         &lt;label for=&quot;uMobile&quot;&gt;
-        &lt;input type=&quot;text&quot; required class=&quot;numberOnly&quot; name=&quot;formMobile&quot; value=&quot;Contact&quot; rel=&quot;Contact&quot; id=&quot;uMobile&quot; maxlength=&quot;15&quot; minlength=&quot;3&quot; /&gt;
+        &lt;input type=&quot;text&quot; required class=&quot;numberOnly&quot; name=&quot;formMobile&quot; placeholder=&quot;Contact&quot; id=&quot;uMobile&quot; maxlength=&quot;15&quot; minlength=&quot;3&quot; /&gt;
         &lt;/label&gt;
     &lt;/div&gt;
     &lt;div class=&quot;formRow&quot;&gt;
         &lt;label class=&quot;iq formLabel&quot;&gt;IQ:&lt;/label&gt;
-        &lt;select id=&quot;iq&quot; value=&quot;iq&quot; rel=&quot;iq&quot; name=&quot;iq&quot; required &gt;
+        &lt;select id=&quot;iq&quot; name=&quot;iq&quot; required &gt;
             &lt;option value=&quot;&quot;&gt;Select your IQ&lt;/option&gt;
             &lt;option&gt;Severely challenged&lt;/option&gt;
             &lt;option&gt;Challenged&lt;/option&gt;
@@ -440,7 +442,7 @@ You have your standard HTML, which looks like this:
     <form id="formRegister">
         <div class="formRow">
             <label>
-            <input type="text" required class="fName" value="Name" rel="Name" id="uName" maxlength="50" name="name" />
+            <input type="text" required class="fName" placeholder="Name" id="uName" maxlength="50" name="name" />
             </label>
         </div>	
         <div class="formRow">
@@ -454,22 +456,22 @@ You have your standard HTML, which looks like this:
         </div>			
         <div class="formRow">
             <label for="datepicker">
-            <input type="text" id="datepicker" value="Prefered date" rel="Prefered date" name="formDate" >
+            <input type="text" id="datepicker" placeholder="Prefered date" name="formDate" >
             </label>
         </div>
         <div class="formRow">
             <label for="uEmail">
-            <input type="text" validate="email" required id="uEmail" name="formEmail" value="Email" rel="Email" >
+            <input type="text" validate="email" required id="uEmail" name="formEmail" placeholder="Email" >
             </label>
         </div>
         <div class="formRow">
             <label for="uMobile">
-            <input type="text" required class="numberOnly" name="formMobile" value="Contact" rel="Contact" id="uMobile" maxlength="15" minlength="3" />
+            <input type="text" required class="numberOnly" name="formMobile" placeholder="Contact" id="uMobile" maxlength="15" minlength="3" />
             </label>
         </div>
         <div class="formRow">
             <label class="iq formLabel">IQ:</label>
-            <select id="iq" value="iq" rel="iq" name="iq" required >
+            <select id="iq" name="iq" required >
                 <option value="">Select your IQ</option>
                 <option>Severely challenged</option>
                 <option>Challenged</option>

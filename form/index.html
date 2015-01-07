@@ -37,6 +37,7 @@
 	
 	/*form*/
 	.formWrapper{width:520px;}
+	.placeholder{color:#999;}
 	.formRow{font-family:Arial, Helvetica, sans-serif;font-size:13px;margin:5px 0;clear:both;}
 	.formRow label{display:block;margin:5px 10px 0 0;padding:0;}
 	.formRow label.labelName{width:90px;height:30px;float:left;}
@@ -145,7 +146,7 @@
 			var radio='*Please select radiobox.';
 			var fileupload='Please upload a photo to proceed.';
 			var filetype='Please upload images in .jpg .png and .jpeg format only.';
-			var filesize='The size of your image file must not be more than 5MB.';
+			var filesize='The size of your image file must not be more than 1MB.';
 			
 			if(con=='minlength'){
 				return minlength
@@ -181,6 +182,7 @@ So you have your standard CSS, which looks like this:
 <pre class="prettyprint">
 /*form*/
 .formWrapper{width:520px;}
+.placeholder{color:#999;}
 .formRow{font-family:Arial, Helvetica, sans-serif;font-size:13px;margin:5px 0;clear:both;}
 .formRow label{display:block;margin:5px 10px 0 0;padding:0;}
 .formRow label.labelName{width:90px;height:30px;float:left;}
@@ -407,7 +409,7 @@ function getErrorInput(con){
     var radio='*Please select radiobox.';
     var fileupload='Please upload a photo to proceed.';
     var filetype='Please upload images in .jpg .png and .jpeg format only.';
-    var filesize='The size of your image file must not be more than 5MB.';
+    var filesize='The size of your image file must not be more than 1MB.';
     
     if(con=='minlength'){
         return minlength
@@ -487,7 +489,7 @@ function getErrorInput(con){
         </div>
         <div class="formRow formTextarea">
             <label for="uTestimonial" class="labelName">Where do you see yourself in five years?</label>
-            <textarea id="uTestimonial" name="testimonial" rel="Your message here..." required></textarea>
+            <textarea id="uTestimonial" name="testimonial" placeholder="Your message here..." required></textarea>
         </div>
         <div class="formRow">
         	<label class="labelName"></label>
