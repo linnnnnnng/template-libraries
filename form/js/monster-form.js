@@ -31,8 +31,9 @@
 		return obj.each(function(){
 			var _self=$(this);
 			var _opts=_self.data('plugin_'+pluginName);
-			_self.find('input[type=text],input[type=date],input[type=datetime],input[type=email],input[type=number],input[type=password],input[type=tel],input[type=time],input[type=url],input[type=week],textarea').each(function(){
-				$.fn[pluginName].constructField($(this));
+			_self.find('input,textarea').each(function(){
+				if($(this).attr('placeholder') !== undefined)
+					$.fn[pluginName].constructField($(this));
 				if($(this).hasClass(_opts.numberOnlyClass))
 					$.fn[pluginName].constructField($(this),'number');
 			});
@@ -152,27 +153,28 @@
 						event.preventDefault(); 
 					}   
 				}
-				$.fn[pluginName].checkPlaceholder(obj);
 			});
 		}else{
+			if($(obj).val()=='')
+				$(obj).val($(obj).attr('placeholder'));
 			$(obj).live('focus', function(){
 				if($(obj).val()==$(obj).attr('placeholder')){
 					$(obj).val('');
 				}
-				$.fn[pluginName].checkPlaceholder(obj);
+				$.fn[pluginName].togglePlaceholderClass(obj);
 			}).live('blur', function(){
 				if($(obj).val()==''){
 					var inputtitle=$(obj).attr('placeholder');
 					$(obj).val(inputtitle);
 				}
-				$.fn[pluginName].checkPlaceholder(obj);
+				$.fn[pluginName].togglePlaceholderClass(obj);
 			}).on("input change", function() {
-				$.fn[pluginName].checkPlaceholder(obj);
+				$.fn[pluginName].togglePlaceholderClass(obj);
 			});
+			$.fn[pluginName].togglePlaceholderClass(obj);
 		}
-		$.fn[pluginName].checkPlaceholder(obj);
 	}
-	$.fn[pluginName].checkPlaceholder=function(obj) {
+	$.fn[pluginName].togglePlaceholderClass=function(obj) {
 		if(obj.attr('placeholder') !== undefined){
 			if($(obj).val()==$(obj).attr('placeholder') || $(obj).val() == ''){
 				$(obj).addClass('placeholder');
