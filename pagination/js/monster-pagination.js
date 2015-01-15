@@ -15,6 +15,8 @@
 			firstText:"First",
 			lastText:"Last",
 			showFirstLast:true,
+			autoPrevNext:false,
+			autoFirstLast:false,
 			curPaginate:1,
 			maxPaginate:1,
 			callback:'',
@@ -63,23 +65,48 @@
 					_class+=' '+_opts.selectedClass;
 				_self.find('ul').append('<li class="'+_class+'"><a class="'+_opts.pageLink+'">'+m+'</a></li>');
 			}
-			_class=_opts.prevClass
+			var disStatus;
+			_class=_opts.prevClass;
+			disStatus=false;
 			if(_opts.curPaginate==1)
-				_class+=' '+_opts.disabledClass
-			_self.find('ul').prepend('<li class="'+_class+'"><a class="'+_opts.pageLink+'">'+_opts.prevText+'</a></li>');
-			_class=_opts.nextClass
+				_class+=' '+_opts.disabledClass;
+			if(_opts.autoPrevNext){
+				if(_class!=_opts.prevClass)
+					disStatus=true;
+			}
+			if(!disStatus)
+				_self.find('ul').prepend('<li class="'+_class+'"><a class="'+_opts.pageLink+'">'+_opts.prevText+'</a></li>');
+			_class=_opts.nextClass;
+			disStatus=false;
 			if(_opts.curPaginate==_opts.maxPaginate)
-				_class+=' '+_opts.disabledClass
-			_self.find('ul').append('<li class="'+_class+'"><a class="'+_opts.pageLink+'">'+_opts.nextText+'</a></li>')
+				_class+=' '+_opts.disabledClass;
+			if(_opts.autoPrevNext){
+				if(_class!=_opts.nextClass)
+					disStatus=true;
+			}
+			if(!disStatus)
+				_self.find('ul').append('<li class="'+_class+'"><a class="'+_opts.pageLink+'">'+_opts.nextText+'</a></li>');
 			if(_opts.showFirstLast){
-				_class=_opts.firstClass
+				_class=_opts.firstClass;
+				disStatus=false;
 				if(_opts.curPaginate==1)
-					_class+=' '+_opts.disabledClass
-				_self.find('ul').prepend('<li class="'+_class+'"><a class="'+_opts.pageLink+'">'+_opts.firstText+'</a></li>')
-				_class=_opts.lastClass
+					_class+=' '+_opts.disabledClass;
+				if(_opts.autoFirstLast){
+					if(_class!=_opts.firstClass)
+						disStatus=true;
+				}
+				if(!disStatus)
+					_self.find('ul').prepend('<li class="'+_class+'"><a class="'+_opts.pageLink+'">'+_opts.firstText+'</a></li>')
+				_class=_opts.lastClass;
+				disStatus=false;
 				if(_opts.curPaginate==_opts.maxPaginate)
-					_class+=' '+_opts.disabledClass
-				_self.find('ul').append('<li class="'+_class+'"><a class="'+_opts.pageLink+'">'+_opts.lastText+'</a></li>')	
+					_class+=' '+_opts.disabledClass;
+				if(_opts.autoFirstLast){
+					if(_class!=_opts.lastClass)
+						disStatus=true;
+				}
+				if(!disStatus)
+					_self.find('ul').append('<li class="'+_class+'"><a class="'+_opts.pageLink+'">'+_opts.lastText+'</a></li>')	
 			}
 			var tW=0
 			_self.find('li').each(function( index ) {
