@@ -45,7 +45,16 @@
 			_self.after('<div class="styledSelect"><span></span></div>');
 			
 			var $styledSelect = _self.next('div.styledSelect');
-			$styledSelect.text(_self.children('option').eq(0).text());
+			if(_self.val()==''){
+				$styledSelect.text(_self.children('option').eq(0).text());
+			}else{
+				$styledSelect.text(_self.val());
+				_self.find('option').each(function(index, element) {
+                    if($(this).val() == _self.val()){
+						$styledSelect.text($(this).html());
+					}
+                });
+			}
 		
 			var $list = $('<ul />', {
 				'class': 'options'
