@@ -9,9 +9,11 @@
 		defaults={
 			display:'auto',
 			height:0,
+			index:0,
 			callback:''
         },
-		m=0;
+		m=0,
+		c=0;
 	
 	$.fn[pluginName]=function(options,value,value2) {
 		if(typeof options=='string'){
@@ -22,6 +24,8 @@
 		}else{
 			return this.each(function () {
 				var _self=$(this);
+				defaults.index=c;
+				c++;
 				var _opts=$.extend({},defaults,options);
 				_self.data('plugin_' + pluginName, _opts);
 				$.fn[pluginName].constructDropdown(_self);
@@ -36,31 +40,31 @@
 			var numberOfOptions = _self.children('option').length;
 			_self.addClass('s-hidden');
 			if(_self.parent().hasClass('select')){
-				_self.parent().find('div.styledSelect').remove();
-				_self.parent().find('div.optionsWrapper').remove();
+				_self.parent().find('div.mdSelect').remove();
+				_self.parent().find('div.mdOptionsWrapper').remove();
 				_self.closest('div.select').contents().unwrap();
 			}
 			
 			_self.wrap('<div class="select"></div>');
-			_self.after('<div class="styledSelect"><span></span></div>');
+			_self.after('<div class="mdSelect"><span></span></div>');
 			
-			var $styledSelect = _self.next('div.styledSelect');
+			var $mdSelect = _self.next('div.mdSelect');
 			if(_self.val()==''){
-				$styledSelect.text(_self.children('option').eq(0).text());
+				$mdSelect.text(_self.children('option').eq(0).text());
 			}else{
-				$styledSelect.text(_self.val());
+				$mdSelect.text(_self.val());
 				_self.find('option').each(function(index, element) {
                     if($(this).val() == _self.val()){
-						$styledSelect.text($(this).html());
+						$mdSelect.text($(this).html());
 					}
                 });
 			}
 		
 			var $list = $('<ul />', {
 				'class': 'options'
-			}).insertAfter($styledSelect);
+			}).insertAfter($mdSelect);
 			var displayHeight=_opts.height==0?'auto':_opts.height;
-			$list.wrap('<div class="optionsWrapper" style="overflow:auto; height:'+displayHeight+'px;"></div>');
+			$list.wrap('<div class="mdOptionsWrapper" style="overflow:auto; height:'+displayHeight+'px;"></div>');
 			
 			for (m = 0; m < numberOfOptions; m++) {
 				$('<li />', {
@@ -70,30 +74,41 @@
 			}
 			
 			var $listItems = $list.children('li');
-			$styledSelect.click(function (e) {
+			$mdSelect.click(function (e) {
 				e.stopPropagation();
-				$(this).next('div.optionsWrapper').toggle();
-				var optionoff = $(this).next('div.optionsWrapper').offset();
+				
+				$('div.mdSelect').each(function(index, element) {
+                    if(index != _opts.index){
+						$(element).next('div.mdOptionsWrapper').hide();
+					}
+                });
+				
+				var targetOptions = $(this).next('div.mdOptionsWrapper');
+				
+				targetOptions.toggle();
+				
+				
+				var optionoff = targetOptions.offset();
 				if(_opts.display=='top'){
-					$(this).next('div.optionsWrapper').css('top', - ($(this).next('div.optionsWrapper').height()-_self.next('div.styledSelect:after').height()));
+					targetOptions.css('top', - (targetOptions.height()-_self.next('div.mdSelect:after').height()));
 				}else if(_opts.display=='bottom'){
-					$(this).next('div.optionsWrapper').css('top', _self.next('div.styledSelect:after').height());
+					targetOptions.css('top', _self.next('div.mdSelect:after').height());
 				}else{
-					if((optionoff.top+$(this).next('div.optionsWrapper').height()+_self.next('div.styledSelect:after').height())>$(document).height()){
-						$(this).next('div.optionsWrapper').css('top', - ($(this).next('div.optionsWrapper').height()-_self.next('div.styledSelect:after').height()));
+					if((optionoff.top+targetOptions.height()+_self.next('div.mdSelect:after').height())>$(document).height()){
+						targetOptions.css('top', - (targetOptions.height()-_self.next('div.mdSelect:after').height()));
 					}	
 				}
 			});
 			$listItems.click(function (e) {
 				e.stopPropagation();
-				_self.next('.styledSelect').text($(this).text());
+				_self.next('.mdSelect').text($(this).text());
 				_self.val($(this).attr('rel'));
-				_self.parent().find('.optionsWrapper').hide();
+				_self.parent().find('.mdOptionsWrapper').hide();
 				$.fn[pluginName].callbackDropdown(_self, $(this).attr('rel'));
 			});
 			
 			$(document).click(function () {
-				_self.parent().find('.optionsWrapper').hide();
+				_self.parent().find('.mdOptionsWrapper').hide();
 			});
 		});
 	}

@@ -29,9 +29,9 @@ $(function() {
 	$('#dropdown3').monsterDropdown({height:200});
                             
 	//jScrollPane only work when target DIV is visible                          
-	$('#dropdown3').parent().find('.optionsWrapper').show();
-	$('#dropdown3').parent().find('.optionsWrapper').jScrollPane();
-	$('#dropdown3').parent().find('.optionsWrapper').hide();
+	$('#dropdown3').parent().find('.mdOptionsWrapper').show();
+	$('#dropdown3').parent().find('.mdOptionsWrapper').jScrollPane();
+	$('#dropdown3').parent().find('.mdOptionsWrapper').hide();
 });
 </script>
 <style>
@@ -56,13 +56,13 @@ $(function() {
 	/*Custom dropdown list*/
 	.s-hidden {visibility:hidden;padding-right:10px;width:175px;}
 	.select {cursor:pointer;display:inline-block;position:relative;font:normal 11px/22px Arial, Sans-Serif;height:30px;color:#fff;}
-	.styledSelect {position:absolute;top:0;right:0;bottom:0;left:0;background-color:#1ABC9C;padding:5px 15px 0;}
-	.styledSelect:after {content:"";width:34px;height:30px;position:absolute;top:0;right:0;background:url(images/dropdownbtn.jpg) no-repeat scroll center center;}
-	.styledSelect:active, .styledSelect.active {background-color:#149F85;}
-	.optionsWrapper{display:none;position:absolute;top:100%;right:0;left:0;z-index:999;background-color:#149F85;color:#fff;}
-	.options {margin:0;padding:0;list-style:none;}
-	.options li {margin:0;padding:0 10px;}
-	.options li:hover {background-color:#1ABC9C;color:white;}
+	.mdSelect {position:absolute;top:0;right:0;bottom:0;left:0;background-color:#1ABC9C;padding:5px 15px 0;}
+	.mdSelect:after {content:"";width:34px;height:30px;position:absolute;top:0;right:0;background:url(images/dropdownbtn.jpg) no-repeat scroll center center;}
+	.mdSelect:active, .mdSelect.active {background-color:#149F85;}
+	.mdOptionsWrapper{display:none;position:absolute;top:100%;right:0;left:0;z-index:999;background-color:#149F85;color:#fff;}
+	.mdOptionsWrapper .options {margin:0;padding:0;list-style:none;}
+	.mdOptionsWrapper .options li {margin:0;padding:0 10px;}
+	.mdOptionsWrapper .options li:hover {background-color:#1ABC9C;color:white;}
 </style>
 
 <body>
@@ -76,13 +76,13 @@ So you have your standard CSS, which looks like this:
 /*Custom dropdown list*/
 .s-hidden {visibility:hidden;padding-right:10px;width:175px;}
 .select {cursor:pointer;display:inline-block;position:relative;font:normal 11px/22px Arial, Sans-Serif;height:30px;color:#fff;}
-.styledSelect {position:absolute;top:0;right:0;bottom:0;left:0;background-color:#1ABC9C;padding:5px 15px 0;}
-.styledSelect:after {content:"";width:34px;height:30px;position:absolute;top:0;right:0;background:url(images/dropdownbtn.jpg) no-repeat scroll center center;}
-.styledSelect:active, .styledSelect.active {background-color:#149F85;}
-.optionsWrapper{display:none;position:absolute;top:100%;right:0;left:0;z-index:999;background-color:#149F85;color:#fff;}
-.options {margin:0;padding:0;list-style:none;}
-.options li {margin:0;padding:0 10px;}
-.options li:hover {background-color:#1ABC9C;color:white;}
+.mdSelect {position:absolute;top:0;right:0;bottom:0;left:0;background-color:#1ABC9C;padding:5px 15px 0;}
+.mdSelect:after {content:"";width:34px;height:30px;position:absolute;top:0;right:0;background:url(images/dropdownbtn.jpg) no-repeat scroll center center;}
+.mdSelect:active, .mdSelect.active {background-color:#149F85;}
+.mdOptionsWrapper{display:none;position:absolute;top:100%;right:0;left:0;z-index:999;background-color:#149F85;color:#fff;}
+.mdOptionsWrapper .options {margin:0;padding:0;list-style:none;}
+.mdOptionsWrapper .options li {margin:0;padding:0 10px;}
+.mdOptionsWrapper .options li:hover {background-color:#1ABC9C;color:white;}
 </pre>
 
 Below is the image for custom dropdown.<br/>
@@ -192,9 +192,9 @@ Make sure to include jScrollPane css & js and below is the code needed to achiev
 $('#dropdown3').monsterDropdown({height:200});
                             
 //jScrollPane only work when target DIV is visible                          
-$('#dropdown3').parent().find('.optionsWrapper').show();
-$('#dropdown3').parent().find('.optionsWrapper').jScrollPane();
-$('#dropdown3').parent().find('.optionsWrapper').hide();
+$('#dropdown3').parent().find('.mdOptionsWrapper').show();
+$('#dropdown3').parent().find('.mdOptionsWrapper').jScrollPane();
+$('#dropdown3').parent().find('.mdOptionsWrapper').hide();
 </pre>
 
 <div class="resultWrapper">
