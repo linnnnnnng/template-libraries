@@ -95,6 +95,24 @@ shuffle(yourArray);
 
 
 <div class="codeWrapper" rel="General">
+<div class="codeTitle">Sort Array on Object</div>
+<pre class="prettyprint">
+function sortOnObject(array, object) {
+	array.sort(function(a, b){
+		var a1= a[object], b1= b[object];
+		if(a1== b1) return 0;
+		return a1> b1? 1: -1;
+	});
+	
+	return array;
+}
+
+sortOnObject(yourArray, 'position');
+</pre>
+</div>
+
+
+<div class="codeWrapper" rel="General">
 <div class="codeTitle">Location host name</div>
 <pre class="prettyprint">
 console.log(window.location.href);
