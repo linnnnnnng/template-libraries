@@ -55,7 +55,7 @@
 				$mdSelect.text(_self.val());
 				_self.find('option').each(function(index, element) {
                     if($(this).val() == _self.val()){
-						$mdSelect.text($(this).html());
+						$mdSelect.text($(this).text());
 					}
                 });
 			}
