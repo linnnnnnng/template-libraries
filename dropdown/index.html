@@ -39,6 +39,7 @@ $(function() {
 	pre{ font-size:12px;}
 	h1, h3{color:#0F9095; text-align:center;font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;}
 	h1{font-size:58px;}
+	h2{text-align:center;}
 	h3{font-size:30px; line-height:30px; height:15px;}
 	.contentWrapper{width:800px; height:auto;margin:auto;}
 	.sampleWrapper{ margin-bottom:100px;}
@@ -70,6 +71,7 @@ $(function() {
 <div class="contentWrapper">
 <h1>Monster Dropdown</h1>
 
+<h2>CSS Style sheets</h2>
 <div class="sampleWrapper">
 So you have your standard CSS, which looks like this:
 <pre class="prettyprint">
@@ -88,7 +90,8 @@ So you have your standard CSS, which looks like this:
 Below is the image for custom dropdown.<br/>
 <img src='images/dropdownbtn.jpg' /><br/><br/>
 
-Include the script tag below in your document and get start!
+<h2>How to install</h2>
+First and most important, the <strong>jQuery library</strong> needs to be included, then include the script tag below in your document and get start!
 <pre class="prettyprint">
 &lt;script type='text/javascript' src='js/monster-dropdown.js'&gt;&lt;/script&gt;
 </pre>
@@ -101,9 +104,12 @@ Include the script tag below in your document and get start!
 
 <div class="sampleWrapper">
 <h3>Sample 1</h3>
-This is the code needed to achieve this:
+This is the code needed to achieve this:<br/>
+<i>Note that the call must be made inside of a $(document).ready() call, or the plugin will not work!</i>
 <pre class="prettyprint">
-$('#dropdown').monsterDropdown();
+$(document).ready(function(){
+	$('#dropdown').monsterDropdown();
+});
 </pre>
 
 <div class="resultWrapper">
@@ -136,12 +142,15 @@ $('#dropdown').monsterDropdown();
 
 <div class="sampleWrapper">
 <h3>Sample 2</h3>
-This is the code needed to achieve that:
+This is the code needed to achieve this:<br/>
+<i>Note that the call must be made inside of a $(document).ready() call, or the plugin will not work!</i>
 
 <pre class="prettyprint">
-$('#dropdown2').monsterDropdown({display:'top',
-                            height:200,
-                            callback:onDropdownChange});
+$(document).ready(function(){
+	$('#dropdown2').monsterDropdown({display:'top',
+                                height:200,
+                                callback:onDropdownChange});
+});
                             
 function onDropdownChange(val){
     $('.callbackOutput').text("Selected : "+ val);
@@ -189,12 +198,14 @@ Select dropdown list to see callback output here...
 Make sure to include jScrollPane css & js and below is the code needed to achieve with jScrollPane:
 
 <pre class="prettyprint">
-$('#dropdown3').monsterDropdown({height:200});
-                            
-//jScrollPane only work when target DIV is visible                          
-$('#dropdown3').parent().find('.mdOptionsWrapper').show();
-$('#dropdown3').parent().find('.mdOptionsWrapper').jScrollPane();
-$('#dropdown3').parent().find('.mdOptionsWrapper').hide();
+$(document).ready(function(){
+    $('#dropdown3').monsterDropdown({height:200});
+                                
+    //jScrollPane only work when target DIV is visible                          
+    $('#dropdown3').parent().find('.mdOptionsWrapper').show();
+    $('#dropdown3').parent().find('.mdOptionsWrapper').jScrollPane();
+    $('#dropdown3').parent().find('.mdOptionsWrapper').hide();
+});
 </pre>
 
 <div class="resultWrapper">

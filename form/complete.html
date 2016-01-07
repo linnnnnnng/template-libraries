@@ -20,6 +20,7 @@
 	pre{ font-size:12px;}
 	h1, h3{color:#0F9095; text-align:center;font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;}
 	h1{font-size:58px;}
+	h2{text-align:center;}
 	h3{font-size:30px; line-height:30px;}
 	.contentWrapper{width:800px; height:auto;margin:auto;}
 	.sampleWrapper{ margin-bottom:100px;}
@@ -126,8 +127,8 @@
 
 <div class="sampleWrapper">
 <h3>Form Sample</h3>
-
-Include the script tag below in your document and get start!
+<h2>How to install</h2>
+First and most important, the <strong>jQuery library</strong> needs to be included, then include the script tag below in your document and get start!
 <pre class="prettyprint">
 //jQuery UI CSS
 &lt;link href=&quot;css/jquery-ui-custom.css&quot; rel=&quot;stylesheet&quot;&gt;
@@ -142,24 +143,27 @@ Include the script tag below in your document and get start!
 &lt;script src=&quot;js/monster-form.js&quot;&gt;&lt;/script&gt;
 </pre>
 
-This is the code needed to achieve this:
+This is the code needed to achieve this:<br/>
+<i>Note that the call must be made inside of a $(document).ready() call, or the plugin will not work!</i>
 <pre class="prettyprint">
-//jQuery Date Picker
-$("#datepicker").datepicker({
-    format: 'dd.mm.yyyy',
-    startDate: '01.01.1920',
-    endDate: ''
+$(document).ready(function(){
+    //jQuery Date Picker
+    $("#datepicker").datepicker({
+        format: 'dd.mm.yyyy',
+        startDate: '01.01.1920',
+        endDate: ''
+    });
+    
+    //Monster Date Dropdown
+    $('#uBirth').monsterDateDropdown({callback:ondropdownchange});
+    function ondropdownchange(){
+        //callback function to reset flat dropkick UI
+        $("select#uBirth").dropkick();
+    }
+    
+    //Monster Form
+    $('#formRegister').monsterForm({callback:onSubmit});
 });
-
-//Monster Date Dropdown
-$('#uBirth').monsterDateDropdown({callback:ondropdownchange});
-function ondropdownchange(){
-    //callback function to reset flat dropkick UI
-    $("select#uBirth").dropkick();
-}
-
-//Monster Form
-$('#formRegister').monsterForm({callback:onSubmit});
 
 var errorMsg='';
 function onSubmit(con){
@@ -301,7 +305,7 @@ function getErrorInput(con){
      </form> 
 </div>
 
-<iframe src="document.html" width="100%" height="850px" frameborder="0" scrolling="no"></iframe>
+<iframe src="document.html" width="100%" height="1000px" frameborder="0" scrolling="no"></iframe>
 
 
 
@@ -309,14 +313,18 @@ function getErrorInput(con){
 <div class="sampleWrapper">
 <h3>Monster Date Dropdown</h3>
 
-Include the script tag below in your document and get start!
+<h2>How to install</h2>
+First and most important, the <strong>jQuery library</strong> needs to be included, then include the script tag below in your document and get start!
 <pre class="prettyprint">
 &lt;script src=&quot;js/jquery.dateLists.min.js?v=1&quot;&gt;&lt;/script&gt;
 </pre>
 
-This is the code needed to achieve this:
+This is the code needed to achieve this:<br/>
+<i>Note that the call must be made inside of a $(document).ready() call, or the plugin will not work!</i>
 <pre class="prettyprint">
-$('#datedropdown').monsterDateDropdown();
+$(document).ready(function(){
+	$('#datedropdown').monsterDateDropdown();
+});
 </pre>
 <div class="resultWrapper">
 		<div class="formRow">
@@ -351,18 +359,22 @@ $('#dropdown').monsterDateDropdown({
 <div class="sampleWrapper">
 <h3>jQuery Datepicker</h3>
 
-Include the script tag below in your document and get start!
+<h2>How to install</h2>
+First and most important, the <strong>jQuery library</strong> needs to be included, then include the script tag below in your document and get start!
 <pre class="prettyprint">
 &lt;link href=&quot;css/jquery-ui-custom.css&quot; rel=&quot;stylesheet&quot;&gt;
 &lt;script src=&quot;http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js&quot;&gt;&lt;/script&gt;
 </pre>
 
-This is the code needed to achieve this:
+This is the code needed to achieve this:<br/>
+<i>Note that the call must be made inside of a $(document).ready() call, or the plugin will not work!</i>
 <pre class="prettyprint">
-$("#date").datepicker({
-    format: 'dd.mm.yyyy',
-    startDate: '01.01.1920',
-    endDate: ''
+$(document).ready(function(){
+    $("#date").datepicker({
+        format: 'dd.mm.yyyy',
+        startDate: '01.01.1920',
+        endDate: ''
+    });
 });
 </pre>
 <div class="resultWrapper">

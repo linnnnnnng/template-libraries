@@ -14,6 +14,7 @@
 	pre{ font-size:12px;}
 	h1, h3{color:#0F9095; text-align:center;font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;}
 	h1{font-size:58px;}
+	h2{text-align:center;}
 	h3{font-size:30px; line-height:30px; height:15px;}
 	.contentWrapper{width:800px; height:auto;margin:auto;}
 	.sampleWrapper{ margin-bottom:100px;}
@@ -60,6 +61,7 @@ $(document).ready(function () {
 <div class="contentWrapper">
 <h1>Monster Image Slider</h1>
 
+<h2>CSS Style sheets</h2>
 <div class="sampleWrapper">
 So you have your standard CSS, which looks like this:
 <pre class="prettyprint">
@@ -129,7 +131,8 @@ And the result.
 </div>
 </div>
 
-Include the script tag below in your document and get start!
+<h2>How to install</h2>
+First and most important, the <strong>jQuery library</strong> needs to be included, then include the script tag below in your document and get start!
 <pre class="prettyprint">
 &lt;script type='text/javascript' src='js/monster-image-slider.js'&gt;&lt;/script&gt;
 </pre>
@@ -140,12 +143,15 @@ Include the script tag below in your document and get start!
 
 <div class="sampleWrapper">
 <h3>Sample 1</h3>
-This is the code needed to achieve this:
+This is the code needed to achieve this:<br/>
+<i>Note that the call must be made inside of a $(document).ready() call, or the plugin will not work!</i>
 <pre class="prettyprint">
-$('#imgSlider').monsterImageSlider({
-    autoShowLeftRight:true,
-    autoShowControl:false,
-    timer:3000
+$(document).ready(function(){
+    $('#imgSlider').monsterImageSlider({
+        autoShowLeftRight:true,
+        autoShowControl:false,
+        timer:3000
+    });
 });
 </pre>
 
@@ -177,10 +183,12 @@ $('#imgSlider').monsterImageSlider({
 This is the code needed to achieve that:
 
 <pre class="prettyprint">
-$('#imgSlider2').monsterImageSlider({
-    autoShowLeftRight:true,
-    autoShowControl:true,
-    timer:0
+$(document).ready(function(){
+    $('#imgSlider2').monsterImageSlider({
+        autoShowLeftRight:true,
+        autoShowControl:true,
+        timer:0
+    });
 });
 </pre>
 <div class="resultWrapper">

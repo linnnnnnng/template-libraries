@@ -21,6 +21,7 @@
 	pre{ font-size:12px;}
 	h1, h3{color:#0F9095; text-align:center;font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;}
 	h1{font-size:58px;}
+	h2{text-align:center;}
 	h3{font-size:30px; line-height:30px;}
 	.contentWrapper{width:800px; height:auto;margin:auto;}
 	.sampleWrapper{ margin-bottom:100px;}
@@ -176,7 +177,7 @@
 
 
 
-
+<h2>CSS style sheets</h2>
 <div class="sampleWrapper">
 So you have your standard CSS, which looks like this:
 <pre class="prettyprint">
@@ -347,9 +348,10 @@ And the result:
 
 
 <div class="sampleWrapper">
+<h2>How to install</h2>
 <h3>Monster Form Sample</h3>
 
-Include the script tag below in your document and get start!
+First and most important, the <strong>jQuery library</strong> needs to be included, then include the script tag below in your document and get start!
 <pre class="prettyprint">
 //monster form
 &lt;script src=&quot;js/monster-form.js&quot;&gt;&lt;/script&gt;
@@ -359,10 +361,13 @@ Include the script tag below in your document and get start!
 	<a href="js/monster-form.js" class="btnDownload" target="_blank">DOWNLOAD monster-form.js</a>
 </div>
 
-This is the code needed to achieve this:
+This is the code needed to achieve this:<br/>
+<i>Note that the call must be made inside of a $(document).ready() call, or the plugin will not work!</i>
 <pre class="prettyprint">
-//Monster Form
-$('#formRegister').monsterForm({callback:onSubmit});
+$(document).ready(function(){
+	//Monster Form
+	$('#formRegister').monsterForm({callback:onSubmit});
+});
 
 var errorMsg='';
 function onSubmit(con){
@@ -508,12 +513,13 @@ function getErrorInput(con){
      </form> 
 </div>
 
-<iframe src="document.html" width="100%" height="950px" frameborder="0" scrolling="no"></iframe>
+<iframe src="document.html" width="100%" height="1000px" frameborder="0" scrolling="no"></iframe>
 
 
 <div class="sampleWrapper">
 <h3>Monster Date Dropdown</h3>
-Include the script tag below in your document and get start!
+<h2>How to install</h2>
+First and most important, the <strong>jQuery library</strong> needs to be included, then include the script tag below in your document and get start!
 <pre class="prettyprint">
 &lt;script src=&quot;js/monster-date-dropdown.js&quot;&gt;&lt;/script&gt;
 </pre>
@@ -526,9 +532,12 @@ You have your standard HTML, which looks like this:
 &lt;input type=&quot;text&quot; id=&quot;datedropdown&quot; name=&quot;datedropdown&quot; &gt;
 </pre>
 
-This is the code needed to achieve this:
+This is the code needed to achieve this:<br/>
+<i>Note that the call must be made inside of a $(document).ready() call, or the plugin will not work!</i>
 <pre class="prettyprint">
-$('#datedropdown').monsterDateDropdown();
+$(document).ready(function(){
+	$('#datedropdown').monsterDateDropdown();
+});
 </pre>
 <div class="resultWrapper">
 		<div class="formRow">
@@ -562,7 +571,7 @@ $('#dropdown').monsterDateDropdown({
 
 <div class="sampleWrapper">
 <h3>jQuery Datepicker</h3>
-
+<h2>CSS style sheets</h2>
 For default style sheets, include below:
 <pre class="prettyprint">
 &lt;link href=&quot;css/jquery-ui-custom.css&quot; rel=&quot;stylesheet&quot;&gt;
@@ -587,17 +596,21 @@ Or to set custom style sheets, include below:
 .ui-datepicker .ui-datepicker-prev-hover {left:2px;top:2px;border:none;}
 </pre>
 
-Include the script tag below in your document and get start!
+<h2>How to install</h2>
+First and most important, the <strong>jQuery library</strong> needs to be included, then include the script tag below in your document and get start!
 <pre class="prettyprint">
 &lt;script src=&quot;http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js&quot;&gt;&lt;/script&gt;
 </pre>
 
-This is the code needed to achieve this:
+This is the code needed to achieve this:<br/>
+<i>Note that the call must be made inside of a $(document).ready() call, or the plugin will not work!</i>
 <pre class="prettyprint">
-$("#date").datepicker({
-    format: 'dd.mm.yyyy',
-    startDate: '01.01.1920',
-    endDate: ''
+$(document).ready(function(){
+    $("#date").datepicker({
+        format: 'dd.mm.yyyy',
+        startDate: '01.01.1920',
+        endDate: ''
+    });
 });
 </pre>
 <div class="resultWrapper">
