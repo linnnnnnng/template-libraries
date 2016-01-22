@@ -17,6 +17,8 @@
 			showFirstLast:true,
 			autoPrevNext:false,
 			autoFirstLast:false,
+			autoFollowOrderPage:true,
+			autoFollowOrderCon:false,
 			curPaginate:1,
 			maxPaginate:1,
 			callback:'',
@@ -59,6 +61,11 @@
 			ep=ep>_opts.totalPages?_opts.totalPages:ep;
 			_self.find('ul').remove();
 			_self.append('<ul></ul>');
+			
+			if(_opts.autoFollowOrderPage && _opts.autoFollowOrderCon){
+				_opts.autoFollowOrderCon = false;
+				_opts.selectPage = sp;
+			}
 			for(m=sp;m<=ep;m++){
 				_class=_opts.pageClass
 				if(_opts.selectPage==m)
@@ -110,7 +117,8 @@
 			}
 			var tW=0
 			_self.find('li').each(function( index ) {
-				tW+=parseInt($(this).css('width'))+(parseInt($(this).css('margin-left'))*2)+(parseInt($(this).css('padding-left'))*2);
+				//tW+=parseInt($(this).css('width'))+(parseInt($(this).css('margin-left'))*2)+(parseInt($(this).css('padding-left'))*2);
+				tW+=parseInt($(this).outerWidth(true));
 				if(!$(this).hasClass(_opts.disabledClass)){
 					$(this).click(function() {
 						if(!$(this).hasClass(_opts.selectedClass)){
@@ -119,7 +127,8 @@
 					})	
 				}
 			});
-			_self.css('width', tW+(tW/100*6))
+			
+			_self.css('width', tW+5)
 		});
 	}
 	
@@ -145,6 +154,9 @@
 			}else if($(con).hasClass(_opts.pageClass)){
 				command='page'
 				_opts.selectPage=pageControl=$(con).find('a').html();
+			}
+			if(_opts.autoFollowOrderPage && command !='page'){
+				_opts.autoFollowOrderCon = true;	
 			}
 			$.fn[pluginName].constructPaginate(_self);
 			$.fn[pluginName].callbackPaginate(_self,command);
@@ -204,9 +216,11 @@
 			switch(command) {
 				case 'nextPage':
 					$.fn[pluginName].togglePaginate(_self, true);
+					$.fn[pluginName].callbackPaginate(_self,command);
 					break;
 				case 'prevPage':
 					$.fn[pluginName].togglePaginate(_self, false);
+					$.fn[pluginName].callbackPaginate(_self,command);
 					break;
 				case 'goPage':
 					$.fn[pluginName].goPaginate(_self, value);
