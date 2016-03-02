@@ -132,6 +132,14 @@
 			display:4,
 			batch:true
 		});
+		
+		$('#galleryThumbDestroy').monsterGallery({
+			display:15
+		});
+		
+		$('#destroy').click(function() {
+			$('#galleryThumbDestroy').monsterGallery('destroy');
+		})
 	});
 </script>
 </head>
@@ -487,9 +495,6 @@ $(document).ready(function(){
         </div>
     </div>
 </div>
-</div>
-
-
 
 <div class="sampleWrapper">
 <h3>Usage</h3>
@@ -519,6 +524,59 @@ $('#gallery').monsterImageSlider({
 //Option can be update later once the same element is init.
 $('#gallery').monsterImageSlider('update','selectPage',5);
 </pre>
+</div>
+
+<div class="sampleWrapper">
+<h3>Destroy</h3>
+This is the code needed to achieve that, click destroy button to destroy the plugin.
+<pre class="prettyprint">
+$('#galleryThumbDestroy').monsterGallery('destroy');
+</pre>
+
+<div class="navigation">
+	<div id="destroy" class="button"><a>Destroy</a></div>
+</div>
+
+<div class="resultWrapper">
+    <div id="galleryThumbDestroy" class="galleryWrapper">
+        <div class="galleryOverlay">
+            <div class="btnPrev"><a><img src="images/prev_btn.png"></a></div>
+            <div class="btnNext"><a><img src="images/next_btn.png"></a></div>
+            <div class="btnClose"><a>CLOSE</a></div>
+            <div class="mainImage"><img src="images/bigimg1.jpg" /></div>
+        </div>
+        
+        <div class="pageControl">
+            <div class="btnPrev"><a><img src="images/prev_btn.png"></a></div>
+            <div class="btnNext"><a><img src="images/next_btn.png"></a></div>
+        </div>
+        
+        <div class="galleryList">
+            <ul>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+                <li><img rel="images/bigimg1.jpg" src="images/thumb1.jpg"></li>
+                <li><img rel="images/bigimg2.jpg" src="images/thumb2.jpg"></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+</div>
 </div>
 
 

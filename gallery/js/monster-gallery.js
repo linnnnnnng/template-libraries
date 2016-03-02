@@ -36,6 +36,8 @@
 		}else{
 			return this.each(function () {
 				var $this=$(this);
+				$.fn[pluginName].destroy($this);
+				
 				_opts=$.extend({},defaults,options);
 				$this.data('plugin_'+pluginName,_opts);
 				$.fn[pluginName].constructGallery($this);
@@ -263,6 +265,9 @@
 			var _self=$(this);
 			var _opts=_self.data('plugin_'+pluginName);
 			switch(command) {
+				case 'destroy':
+					$.fn[pluginName].destroy(_self);
+					break;
 				case 'nextPage':
 					$.fn[pluginName].activeGallery(_self,'gallery',true);
 					break;
@@ -289,4 +294,32 @@
 			}
 		});
 	}
+	
+	$.fn[pluginName].destroy=function(obj) {
+		return obj.each(function(){
+			var _self=$(this);
+			var _opts=_self.data('plugin_'+pluginName);
+			if(_opts!=undefined){
+				_self.find(_opts.galleryListHolder+' li').each(function( index ) {
+					$(this).unbind("click");
+				});
+				_target=_self.find(_opts.controlHolder+' '+_opts.controlPrev)
+				if($.fn[pluginName].cE(_target))
+					_target.unbind("click");
+				_target=_self.find(_opts.controlHolder+' '+_opts.controlNext)
+				if($.fn[pluginName].cE(_target))
+					_target.unbind("click");
+				_target=$(_opts.overlayHolder+' '+_opts.overlayPrev)
+				if($.fn[pluginName].cE(_target))
+					_target.unbind("click");
+				_target=$(_opts.overlayHolder+' '+_opts.overlayNext)
+				if($.fn[pluginName].cE(_target))
+					_target.unbind("click");
+				_target=$(_opts.overlayHolder+' '+_opts.overlayClose)
+				if($.fn[pluginName].cE(_target))
+					_target.unbind("click");
+			}
+			_self.removeData('plugin_' + pluginName);
+		});
+    }
 })(jQuery);

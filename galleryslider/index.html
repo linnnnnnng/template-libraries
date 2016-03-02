@@ -39,6 +39,11 @@ $(document).ready(function () {
 	$('#update').click(function() {
 		$(selector).monsterGallerySlider('update','timer',2000);
 	})
+	
+	$('#thumbgalleryDestroy').monsterGallerySlider();
+	$('#destroy').click(function() {
+		$('#thumbgalleryDestroy').monsterGallerySlider('destroy');
+	})
 });
 </script>
 
@@ -316,7 +321,7 @@ The buttons can control the pagination as well.
 <h3>Usage</h3>
 Understands default options that can use for this plugin.
 <pre class="prettyprint">
-$('#galleryslider').monsterImageSlider({
+$('#galleryslider').monsterGallerySlider({
     selectThumb:1, //highlight thumnail
     autoShowLeftRight:false, //auto show left right control; true/false
     timer:0, //slide show timer; 0 = off
@@ -334,8 +339,54 @@ $('#galleryslider').monsterImageSlider({
 });
 
 //Option can be update later once the same element is init.
-$('#galleryslider').monsterImageSlider('update','timer',5000);
+$('#galleryslider').monsterGallerySlider('update','timer',5000);
 </pre>
+</div>
+
+<div class="sampleWrapper">
+<h3>Destroy</h3>
+This is the code needed to achieve that, click destroy button to destroy the plugin.
+<pre class="prettyprint">
+$('#thumbgalleryDestroy').monsterGallerySlider();
+</pre>
+
+<div class="navigation">
+	<div id="destroy" class="button"><a>Destroy</a></div>
+</div>
+
+<div class="resultWrapper">
+    <div id="thumbgalleryDestroy" class="gallerySlider">
+        <div class="mainHolder">
+        	<div class="nav">
+            	<div class="leftArrow"><a><img src="images/left.png"></a></div>
+            	<div class="rightArrow"><a><img src="images/right.png"></a></div>
+            </div>
+            <div class="imgHolder">
+            	<img src="images/main01.jpg"> 
+            </div>
+        </div>
+        
+        <div class="thumbHolder">
+            <div class="leftArrow"><a><img src="images/left.png"></a></div>
+            <div class="rightArrow"><a><img src="images/right.png"></a></div>
+            <div class="galleryList">
+                <ul>
+                    <li class="selected"><img rel="images/main01.jpg" src="images/01.jpg"></li>
+                    <li><img rel="images/main02.jpg" src="images/02.jpg"></li>
+                    <li><img rel="images/main01.jpg" src="images/01.jpg"></li>
+                    <li><img rel="images/main02.jpg" src="images/02.jpg"></li>
+                    <li><img rel="images/main01.jpg" src="images/01.jpg"></li>
+                    <li><img rel="images/main02.jpg" src="images/02.jpg"></li>
+                    <li><img rel="images/main01.jpg" src="images/01.jpg"></li>
+                    <li><img rel="images/main02.jpg" src="images/02.jpg"></li>
+                    <li><img rel="images/main01.jpg" src="images/01.jpg"></li>
+                    <li><img rel="images/main02.jpg" src="images/02.jpg"></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
 </div>
 </div>
 

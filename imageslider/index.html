@@ -54,6 +54,14 @@ $(document).ready(function () {
 		autoShowControl:true,
 		timer:0
 	});
+	
+	$('#destroyImgSlider').monsterImageSlider();
+	$('#destroy').click(function() {
+		$('#destroyImgSlider').monsterImageSlider('destroy');
+	})
+	$('#init').click(function() {
+		$('#destroyImgSlider').monsterImageSlider();
+	})
 });
 </script>
 
@@ -235,6 +243,42 @@ $('#imgslider').monsterImageSlider({
 //Option can be update later once the same element is init.
 $('#imgslider').monsterImageSlider('update','timer',5000);
 </pre>
+</div>
+
+<div class="sampleWrapper">
+<h3>Destroy</h3>
+This is the code needed to achieve that, click destroy button to destroy the plugin.
+<pre class="prettyprint">
+$('#destroyImgSlider').monsterImageSlider('destroy');
+</pre>
+
+<div class="navigation">
+	<div id="destroy" class="button"><a>Destroy</a></div>
+    <div id="init" class="button"><a>Init</a></div>
+</div>
+
+<div class="resultWrapper">
+    <div id="destroyImgSlider" class="sliderHolder">
+    	<div class="nav">
+        	<div class="leftArrow"><a><img src="images/left.png"></a></div>
+            <div class="rightArrow"><a><img src="images/right.png"></a></div>
+        </div>
+        <div class="imageControl">
+        	<ul>
+            </ul>
+        </div>
+        <div class="imageList">
+            <ul>
+                <li><img rel="images/main01.jpg" src="images/main02.jpg"></li>
+                <li><img rel="images/main02.jpg" src="images/main01.jpg"></li>
+                <li><img rel="images/main01.jpg" src="images/main02.jpg"></li>
+                <li><img rel="images/main02.jpg" src="images/main01.jpg"></li>
+                <li><img rel="images/main01.jpg" src="images/main02.jpg"></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
 </div>
 </div>
 

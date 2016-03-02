@@ -32,6 +32,11 @@ $(function() {
 	$('#dropdown3').parent().find('.mdOptionsWrapper').show();
 	$('#dropdown3').parent().find('.mdOptionsWrapper').jScrollPane();
 	$('#dropdown3').parent().find('.mdOptionsWrapper').hide();
+	
+	$('#dropdownDestroy').monsterDropdown();
+	$('#destroy').click(function() {
+		$('#dropdownDestroy').monsterDropdown('destroy');
+	})
 });
 </script>
 <style>
@@ -255,6 +260,45 @@ $('#dropdown').monsterDropdown('reset');
 //Option can be update later once the same element is init.
 $('#dropdown').monsterDropdown('update','display','top');
 </pre>
+</div>
+
+<div class="sampleWrapper">
+<h3>Destroy</h3>
+This is the code needed to achieve that, click destroy button to destroy the plugin.
+<pre class="prettyprint">
+$('#dropdownDestroy').monsterDropdown('destroy');
+</pre>
+
+<div class="navigation">
+	<div id="destroy" class="button"><a>Destroy</a></div>
+</div>
+
+<div class="resultWrapper">
+    <select id="dropdownDestroy" name="dropdown2" required>
+            <option value="">Select your IQ</option>
+            <option>Severely challenged</option>
+            <option>Challenged</option>
+            <option>Below average</option>
+            <option>Average</option>
+            <option>Above average</option>
+            <option>Gifted</option>
+            <option value="">Select your IQ</option>
+            <option>Severely challenged</option>
+            <option>Challenged</option>
+            <option>Below average</option>
+            <option>Average</option>
+            <option>Above average</option>
+            <option>Gifted</option>
+            <option value="">Select your IQ</option>
+            <option>Severely challenged</option>
+            <option>Challenged</option>
+            <option>Below average</option>
+            <option>Average</option>
+            <option>Above average</option>
+            <option>Gifted</option>
+    </select>
+</div>
+
 </div>
 </div>
 

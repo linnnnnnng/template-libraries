@@ -24,6 +24,7 @@
 		}else{
 			return this.each(function () {
 				var _self=$(this);
+				$.fn[pluginName].destroy(_self);
 				defaults.index=c;
 				c++;
 				var _opts=$.extend({},defaults,options);
@@ -128,6 +129,10 @@
 			var _self=$(this);
 			var _opts=_self.data('plugin_'+pluginName);
 			switch(command) {
+				case 'destroy':
+					$.fn[pluginName].destroy(_self);
+				break;
+				
 				case 'reset':
 					$.fn[pluginName].constructDropdown(_self);
 				break;
@@ -140,4 +145,20 @@
 			}
 		});
 	}
+	
+	$.fn[pluginName].destroy=function(obj) {
+		return obj.each(function(){
+			var _self=$(this);
+			var _opts=_self.data('plugin_'+pluginName);
+			
+			_self.removeClass('s-hidden');
+			if(_self.parent().hasClass('select')){
+				_self.parent().find('div.mdSelect').remove();
+				_self.parent().find('div.mdOptionsWrapper').remove();
+				_self.closest('div.select').contents().unwrap();
+			}
+			
+			_self.removeData('plugin_' + pluginName);
+		});
+    }
 })(jQuery);

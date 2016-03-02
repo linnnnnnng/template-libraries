@@ -21,8 +21,9 @@
 			navLeftHolder:'.leftArrow',
 			navRightHolder:'.rightArrow',
 			selectedClass:'selected',
+			interval:null
         },
-		m=0,_class,_time;
+		m=0,_class;
 	
 	$.fn[pluginName]=function(options,value,value2) {
 		if(typeof options=='string'){
@@ -30,6 +31,8 @@
 		}else{
 			return this.each(function () {
 				var $this=$(this);
+				$.fn[pluginName].destroy($this);
+				
 				var _opts=$.extend({},defaults,options);
 				$this.data('plugin_' + pluginName, _opts);
 				$.fn[pluginName].constructImgSlider($this);
@@ -133,8 +136,8 @@
 			var _self=$(this);
 			var _opts=_self.data('plugin_'+pluginName);
 			if(_opts.timer!=0) {
-				clearTimeout(_time);
-				_time=setTimeout(function(){
+				clearInterval(_opts.interval);
+				_opts.interval=setInterval(function(){
 					  $.fn[pluginName].toggleDirection(_self,true);
 				},_opts.timer);
 			}
@@ -159,6 +162,9 @@
 			var _self=$(this);
 			var _opts=_self.data('plugin_'+pluginName);
 			switch(command) {
+				case 'destroy':
+					$.fn[pluginName].destroy(_self);
+					break;
 				case 'nextSlide':
 					$.fn[pluginName].toggleDirection(_self, true);
 					break;
@@ -176,4 +182,20 @@
 			}
 		});
 	}
+	
+	$.fn[pluginName].destroy=function(obj) {
+		return obj.each(function(){
+			var _self=$(this);
+			var _opts=_self.data('plugin_'+pluginName);
+			if(_opts!=undefined){
+				_self.find(_opts.controlHolder+' li').each(function(){
+					$(this).unbind();
+				});
+				_self.find(_opts.navHolder+' '+_opts.navRightHolder).unbind("click");
+				_self.find(_opts.navHolder+' '+_opts.navLeftHolder).unbind("click");
+				clearInterval(_opts.interval);
+			}
+			_self.removeData('plugin_' + pluginName);
+		});
+    }
 })(jQuery);

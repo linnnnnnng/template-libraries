@@ -42,6 +42,7 @@
 		}else{
 			return this.each(function () {
 				var $this=$(this);
+				$.fn[pluginName].destroy($this);
 				var _opts=$.extend({},defaults,options);
 				$this.data('plugin_' + pluginName, _opts);
 				$.fn[pluginName].presentPaginate($this);
@@ -214,6 +215,9 @@
 			var _self=$(this);
 			var _opts=_self.data('plugin_'+pluginName);
 			switch(command) {
+				case 'destroy':
+					$.fn[pluginName].destroy(_self);
+					break;
 				case 'nextPage':
 					$.fn[pluginName].togglePaginate(_self, true);
 					$.fn[pluginName].callbackPaginate(_self,command);
@@ -233,4 +237,19 @@
 			}
 		});
 	}
+	
+	
+	$.fn[pluginName].destroy=function(obj) {
+		return obj.each(function(){
+			var _self=$(this);
+			var _opts=_self.data('plugin_'+pluginName);
+			if(_opts!=undefined){
+				_self.css('width','auto');
+				_self.find('li').each(function( index ) {
+					$(this).unbind();
+				});
+			}
+			_self.removeData('plugin_' + pluginName);
+		});
+    }
 })(jQuery);

@@ -26,7 +26,8 @@
 			thumbLeftHolder:'.leftArrow',
 			thumbRightHolder:'.rightArrow',
 			selectedClass:'selected',
-			oldThumbPage:1
+			oldThumbPage:1,
+			interval:null
         },
 		m,sp,ep=0,_time;
 	
@@ -36,6 +37,8 @@
 		}else{
 			return this.each(function () {
 				var $this=$(this);
+				$.fn[pluginName].destroy($this);
+				
 				var _opts=$.extend({},defaults,options);
 				$this.data('plugin_'+pluginName,_opts);
 				$.fn[pluginName].constructGallerySlider($this);
@@ -72,22 +75,22 @@
 			_self.find(_opts.thumbHolder+' '+_opts.thumbRightHolder).unbind("click");
 			_self.find(_opts.thumbHolder+' '+_opts.thumbRightHolder).click(function(){
 				$.fn[pluginName].activeGallerySlider(_self,'thumb',true)
-				$.fn[pluginName].callbackGallerySlider($this,'nextThumb');
+				$.fn[pluginName].callbackGallerySlider(_self,'nextThumb');
 			});
 			_self.find(_opts.thumbHolder+' '+_opts.thumbLeftHolder).unbind("click");
 			_self.find(_opts.thumbHolder+' '+_opts.thumbLeftHolder).click(function(){
 				$.fn[pluginName].activeGallerySlider(_self,'thumb',false)
-				$.fn[pluginName].callbackGallerySlider($this,'prevThumb');
+				$.fn[pluginName].callbackGallerySlider(_self,'prevThumb');
 			});
 			_self.find(_opts.controlHolder+' '+_opts.controlRightHolder).unbind("click");
 			_self.find(_opts.controlHolder+' '+_opts.controlRightHolder).click(function(){
 				$.fn[pluginName].activeGallerySlider(_self,'main',true)
-				$.fn[pluginName].callbackGallerySlider($this,'nextSlide');
+				$.fn[pluginName].callbackGallerySlider(_self,'nextSlide');
 			});
 			_self.find(_opts.controlHolder+' '+_opts.controlLeftHolder).unbind("click");
 			_self.find(_opts.controlHolder+' '+_opts.controlLeftHolder).click(function(){
 				$.fn[pluginName].activeGallerySlider(_self,'main',false)
-				$.fn[pluginName].callbackGallerySlider($this,'prevSlide');
+				$.fn[pluginName].callbackGallerySlider(_self,'prevSlide');
 			});
 			m=0;
 			_self.find(_opts.galleryHolder+' li').each(function(){
@@ -98,7 +101,7 @@
 				$(this).click(function() {
 					_opts.selectThumb=$(this).index()+1;
 					$.fn[pluginName].loadSliderImage(_self)
-					$.fn[pluginName].callbackGallerySlider($this,'goSlide');
+					$.fn[pluginName].callbackGallerySlider(_self,'goSlide');
 				});
 				m++
 			});
@@ -222,8 +225,8 @@
 			var _opts=_self.data('plugin_'+pluginName);
 			if(_opts.timer!=0) {
 				//alert('start')
-				clearTimeout(_time);
-				_time=setTimeout(function(){
+				clearTimeout(_opts.interval);
+				_opts.interval=setTimeout(function(){
 					  $.fn[pluginName].activeGallerySlider(_self,'automain',true);
 				},_opts.timer);
 			}
@@ -248,6 +251,9 @@
 			var _self=$(this);
 			var _opts=_self.data('plugin_'+pluginName);
 			switch(command) {
+				case 'destroy':
+					$.fn[pluginName].destroy(_self)
+					break;
 				case 'nextSlide':
 					$.fn[pluginName].activeGallerySlider(_self,'main',true)
 					break;
@@ -272,4 +278,23 @@
 			}
 		});
 	}
+	
+	$.fn[pluginName].destroy=function(obj) {
+		return obj.each(function(){
+			var _self=$(this);
+			var _opts=_self.data('plugin_'+pluginName);
+			if(_opts!=undefined){
+				_self.find(_opts.thumbHolder+' '+_opts.thumbRightHolder).unbind("click");
+				_self.find(_opts.thumbHolder+' '+_opts.thumbLeftHolder).unbind("click");
+				_self.find(_opts.controlHolder+' '+_opts.controlRightHolder).unbind("click");
+				_self.find(_opts.controlHolder+' '+_opts.controlLeftHolder).unbind("click");
+				
+				_self.find(_opts.galleryHolder+' li').each(function(){
+					$(this).unbind("click");
+				});
+				clearTimeout(_opts.interval);
+			}
+			_self.removeData('plugin_' + pluginName);
+		});
+    }
 })(jQuery);
