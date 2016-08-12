@@ -209,11 +209,33 @@
 			return true;
 		}
 	}
+	$.fn[pluginName].reset=function(obj) {
+		return obj.each(function(){
+			var _self=$(this);
+			var _opts=_self.data('plugin_'+pluginName);
+			
+			$('#'+_self.attr('id')+' input, #'+_self.attr('id')+' textarea').each(function(){
+				if($(this).attr('type')=='radio'){
+					$(this)
+					.removeAttr('checked');
+				}else{
+					$(this)
+					.val('')
+					.removeAttr('checked')
+					.removeAttr('selected');
+				}	
+			});
+		});
+	}
 	$.fn[pluginName].commandForm=function(obj,command,value,value2){
 		return obj.each(function(){
 			var _self=$(this);
 			var _opts=_self.data('plugin_'+pluginName);
 			switch(command) {
+				case 'reset':
+					$.fn[pluginName].reset(_self);
+				break;
+				
 				default:
 				/*default:
 				if(_opts[value]!=undefined){
