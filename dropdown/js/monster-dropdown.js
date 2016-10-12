@@ -50,6 +50,7 @@
 			_self.after('<div class="mdSelect"><span></span></div>');
 			
 			var $mdSelect = _self.next('div.mdSelect');
+			$mdSelect.data( "index", _opts.index);
 			if(_self.val()==''){
 				$mdSelect.text(_self.children('option').eq(0).text());
 			}else{
@@ -79,24 +80,22 @@
 				e.stopPropagation();
 				
 				$('div.mdSelect').each(function(index, element) {
-                    if(index != _opts.index){
-						$(element).next('div.mdOptionsWrapper').hide();
+					if($(this).data( "index") != _opts.index){
+						$(element).next('.mdOptionsWrapper').hide();
 					}
                 });
 				
-				var targetOptions = $(this).next('div.mdOptionsWrapper');
+				var $mdOptions = $mdSelect.next('.mdOptionsWrapper');
+				$mdOptions.toggle();
 				
-				targetOptions.toggle();
-				
-				
-				var optionoff = targetOptions.offset();
+				var optionoff = $mdOptions.offset();
 				if(_opts.display=='top'){
-					targetOptions.css('top', - (targetOptions.height()-_self.next('div.mdSelect:after').height()));
+					$mdOptions.css('top', - ($mdOptions.height()-_self.next('div.mdSelect:after').height()));
 				}else if(_opts.display=='bottom'){
-					targetOptions.css('top', _self.next('div.mdSelect:after').height());
+					$mdOptions.css('top', _self.next('div.mdSelect:after').height());
 				}else{
-					if((optionoff.top+targetOptions.height()+_self.next('div.mdSelect:after').height())>$(document).height()){
-						targetOptions.css('top', - (targetOptions.height()-_self.next('div.mdSelect:after').height()));
+					if((optionoff.top+$mdOptions.height()+_self.next('div.mdSelect:after').height())>$(document).height()){
+						$mdOptions.css('top', - ($mdOptions.height()-_self.next('div.mdSelect:after').height()));
 					}	
 				}
 			});
