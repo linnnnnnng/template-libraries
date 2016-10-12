@@ -109,16 +109,16 @@ $(function() {
 	.downloadWrapper{ width:100%; text-align:center; height:40px; margin:20px 0;}
 	
 	/*Pagination Light*/
-	.paginate{margin:auto;height:20px;margin-top:20px;}
+	.paginate{margin:auto;margin-top:20px;width:100%;text-align:center;}
 	.paginate ul{margin:0; padding:0; list-style:none;}
-	.paginate li{width:auto; height:auto;float:left;padding:5px 10px; border:#1BBC9B solid 1px; font-size:12px; color:#1BBC9B; font-weight:bold;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;margin:0 3px;cursor:pointer;cursor:hand;}
+	.paginate li{display:inline; text-align:center; padding:5px 10px; border:#1BBC9B solid 1px; font-size:12px; color:#1BBC9B; font-weight:bold;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;margin:0 3px;cursor:pointer;cursor:hand;}
 	.paginate li.selected, .paginate li:hover{background:#1BBC9B; color:#FFF;}
 	.paginate li.disabled{background:#fff;color:#CCC;cursor:default;}
 	
 	/*Pagination Dark*/
-	.paginateDark{margin:auto;height:30px;margin-top:20px;}
+	.paginateDark{margin:auto;margin-top:20px;width:100%;text-align:center;}
 	.paginateDark ul{margin:0; padding:0; list-style:none;}
-	.paginateDark li{width:auto; height:auto; padding:5px 10px; float:left;font-size:12px; color:#1BBC9B; font-weight:bold;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;margin:0 3px;cursor:pointer;cursor:hand;display:block;background:#1BBC9B;color:#fff;border:#1BBC9B solid 1px;}
+	.paginateDark li{display:inline; text-align:center; padding:5px 10px; border:#1BBC9B solid 1px; font-size:12px; color:#fff; font-weight:bold;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;margin:0 3px;cursor:pointer;cursor:hand;background:#1BBC9B;border:#1BBC9B solid 1px;}
 	.paginateDark li.selected, .paginateDark li:hover{background:#fff; color:#1BBC9B;border:#1BBC9B solid 1px;}
 	.paginateDark li.selected{cursor:default;}
 	.paginateDark li.disabled{background:#1BBC9B;color:#CCC;cursor:default;}
@@ -134,18 +134,19 @@ $(function() {
 So you have your standard CSS, which looks like this:
 <pre class="prettyprint">
 /*Pagination Light*/
-.paginate{margin:auto;height:20px;margin-top:20px;}
+.paginate{margin:auto;margin-top:20px;width:100%;text-align:center;}
 .paginate ul{margin:0; padding:0; list-style:none;}
-.paginate li{width:auto; height:auto;float:left; padding:5px 10px; border:#1BBC9B solid 1px; font-size:12px; color:#1BBC9B; font-weight:bold;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;margin:0 3px;cursor:pointer;cursor:hand;}
+.paginate li{display:inline; text-align:center; padding:5px 10px; border:#1BBC9B solid 1px; font-size:12px; color:#1BBC9B; font-weight:bold;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;margin:0 3px;cursor:pointer;cursor:hand;}
 .paginate li.selected, .paginate li:hover{background:#1BBC9B; color:#FFF;}
-.paginate li.disabled{background:#fff;color:#CCC;cursor:none;cursor:default;}
+.paginate li.disabled{background:#fff;color:#CCC;cursor:default;}
 
 /*Pagination Dark*/
-.paginateDark{margin:auto;height:30px;margin-top:20px;}
+.paginateDark{margin:auto;margin-top:20px;width:100%;text-align:center;}
 .paginateDark ul{margin:0; padding:0; list-style:none;}
-.paginateDark li{width:auto; height:auto; padding:5px 10px; float:left;font-size:12px; color:#1BBC9B; font-weight:bold;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;margin:0 3px;cursor:pointer;cursor:hand;display:block;background:#1BBC9B;color:#fff;border:#1BBC9B solid 1px;}
+.paginateDark li{display:inline; text-align:center; padding:5px 10px; border:#1BBC9B solid 1px; font-size:12px; color:#fff; font-weight:bold;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;margin:0 3px;cursor:pointer;cursor:hand;background:#1BBC9B;border:#1BBC9B solid 1px;}
 .paginateDark li.selected, .paginateDark li:hover{background:#fff; color:#1BBC9B;border:#1BBC9B solid 1px;}
-.paginateDark li.disabled{background:#1BBC9B;color:#CCC;cursor:none;cursor:default;}
+.paginateDark li.selected{cursor:default;}
+.paginateDark li.disabled{background:#1BBC9B;color:#CCC;cursor:default;}
 </pre>
 
 You have your standard HTML, which looks like this:

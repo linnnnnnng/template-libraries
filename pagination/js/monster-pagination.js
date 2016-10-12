@@ -116,10 +116,10 @@
 				if(!disStatus)
 					_self.find('ul').append('<li class="'+_class+'"><a class="'+_opts.pageLink+'">'+_opts.lastText+'</a></li>')	
 			}
-			var tW=0
+			//var tW=0
 			_self.find('li').each(function( index ) {
 				//tW+=parseInt($(this).css('width'))+(parseInt($(this).css('margin-left'))*2)+(parseInt($(this).css('padding-left'))*2);
-				tW+=parseInt($(this).outerWidth(true));
+				//tW+=parseInt($(this).outerWidth(true));
 				if(!$(this).hasClass(_opts.disabledClass)){
 					$(this).click(function() {
 						if(!$(this).hasClass(_opts.selectedClass)){
@@ -129,7 +129,7 @@
 				}
 			});
 			
-			_self.css('width', tW+5)
+			//_self.css('width', tW+5)
 		});
 	}
 	
