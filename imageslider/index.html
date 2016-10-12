@@ -30,18 +30,20 @@
 	.downloadWrapper{ width:100%; text-align:center; height:40px; margin:20px 0;}
 	
 	/*Image Slider CSS*/
-	.sliderHolder{width:400px; margin:auto;}
-	.sliderHolder .nav{position:absolute; z-index:1;}
-	.sliderHolder .nav .leftArrow, .sliderHolder .nav .rightArrow {position:absolute;top:120px;}
-	.sliderHolder .nav .rightArrow {left:380px;}
-	.sliderHolder .nav a{width:20px;height:32px;cursor:hand;cursor:pointer;}
-	.sliderHolder .imageControl{position:absolute;z-index:2;margin-left:165px;margin-top:250px;}
-	.imageControl ul{margin:0; padding:0; list-style:none;}
-	.imageControl li{width:10px; height:10px; background:#86A8AA;float:left;margin:0 3px;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;cursor:hand;cursor:pointer;}
-	.imageControl li.selected, .imageControl li:hover{background:#fff;}
-	.imageList{width:400px;height:280px;display:block;overflow:hidden;position:relative;margin:auto;}
-	.imageList ul{margin:0;padding:0;list-style:none;display:block;position:absolute;width:4000px;top:0;}
-	.imageList li{float:left;width:400px;height:280px;padding:4px;margin:0;padding:0;display:inline;}
+	.sliderHolder{width:400px;height:280px;margin:auto;position:relative;}
+	.sliderHolder .nav{position:absolute; z-index:1; top:40%; width:100%;}
+	.sliderHolder .nav .leftArrow {position:absolute; left:2%;}
+	.sliderHolder .nav .rightArrow {position:absolute; right:2%;}
+	.sliderHolder .nav a{cursor:hand;cursor:pointer;}
+	
+	.sliderHolder .imageControl{width:100%; text-align:center; position:absolute; z-index:2; bottom:5%;}
+	.sliderHolder .imageControl ul{margin:0; padding:0; list-style:none;}
+	.sliderHolder .imageControl li{margin:0 3px;cursor:pointer;cursor:hand; display:inline-block; text-align: center; width:10px; height:10px; background:#86A8AA; margin:0 3px; -moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;}
+	.sliderHolder .imageControl li.selected, .sliderHolder .imageControl li:hover{background:#fff;}
+	
+	.sliderHolder .imageList{width:100%; height:100%; display:block;overflow:hidden;position:relative;margin:auto;}
+	.sliderHolder .imageList ul{margin:0;padding:0;list-style:none;display:block;position:absolute;top:0;}
+	.sliderHolder .imageList li{float:left;margin:0;padding:0;display:inline;}
 
 </style>
 
@@ -74,18 +76,20 @@ $(document).ready(function () {
 So you have your standard CSS, which looks like this:
 <pre class="prettyprint">
 /*Image Slider CSS*/
-.sliderHolder{width:400px; margin:auto;}
-.sliderHolder .nav{position:absolute; z-index:1;}
-.sliderHolder .nav .leftArrow, .sliderHolder .nav .rightArrow {position:absolute;top:120px;}
-.sliderHolder .nav .rightArrow {left:380px;}
-.sliderHolder .nav a{width:20px;height:32px;cursor:hand;cursor:pointer;}
-.sliderHolder .imageControl{position:absolute;z-index:2;margin-left:165px;margin-top:250px;}
-.imageControl ul{margin:0; padding:0; list-style:none;}
-.imageControl li{width:10px; height:10px; background:#86A8AA;float:left;margin:0 3px;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;cursor:hand;cursor:pointer;}
-.imageControl li.selected, .imageControl li:hover{background:#fff;}
-.imageList{width:400px;height:280px;display:block;overflow:hidden;position:relative;margin:auto;}
-.imageList ul{margin:0;padding:0;list-style:none;display:block;position:absolute;width:4000px;top:0;}
-.imageList li{float:left;width:400px;height:280px;padding:4px;margin:0;padding:0;display:inline;}
+.sliderHolder{width:400px;height:280px;margin:auto;position:relative;}
+.sliderHolder .nav{position:absolute; z-index:1; top:40%; width:100%;}
+.sliderHolder .nav .leftArrow {position:absolute; left:2%;}
+.sliderHolder .nav .rightArrow {position:absolute; right:2%;}
+.sliderHolder .nav a{cursor:hand;cursor:pointer;}
+
+.sliderHolder .imageControl{width:100%; text-align:center; position:absolute; z-index:2; bottom:5%;}
+.sliderHolder .imageControl ul{margin:0; padding:0; list-style:none;}
+.sliderHolder .imageControl li{margin:0 3px;cursor:pointer;cursor:hand; display:inline-block; text-align: center; width:10px; height:10px; background:#86A8AA; margin:0 3px; -moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;}
+.sliderHolder .imageControl li.selected, .sliderHolder .imageControl li:hover{background:#fff;}
+
+.sliderHolder .imageList{width:100%; height:100%; display:block;overflow:hidden;position:relative;margin:auto;}
+.sliderHolder .imageList ul{margin:0;padding:0;list-style:none;display:block;position:absolute;top:0;}
+.sliderHolder .imageList li{float:left;margin:0;padding:0;display:inline;}
 </pre>
 
 You have your standard HTML, which looks like this:

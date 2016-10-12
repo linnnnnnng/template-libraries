@@ -9,7 +9,7 @@
 		defaults={
 			autoShowControl:false,
 			autoShowLeftRight:false,
-			timer:3000,
+			timer:0,
 			slideWidth:1,
 			slideHeight:1,
 			totalSlides:1,
@@ -52,8 +52,6 @@
 			for(m=0;m<_opts.totalSlides;m++){
 				_self.find(_opts.controlHolder+' ul').append('<li></li>');
 			}
-			//_self.find(_opts.controlHolder).css('margin-left',(_self.width()/2)-(_self.find(_opts.controlHolder).width()/2));
-			//_self.find(_opts.controlHolder).css('margin-top',_self.height()-(_self.find(_opts.controlHolder).height()+20));
 			_self.find(_opts.controlHolder+' li').each(function(){
 				$(this).click(function(e){
 					$.fn[pluginName].toggleAnimateTo(_self,$(this).index()+1)
@@ -68,10 +66,7 @@
 					_self.find(_opts.controlHolder).fadeOut();
 				});
 			}
-			//_self.find(_opts.navHolder+' '+_opts.navLeftHolder).css('left',10);
-			//_self.find(_opts.navHolder+' '+_opts.navRightHolder).css('left',(_opts.slideWidth)-(_self.find(_opts.navHolder+' '+_opts.navRightHolder).find('a').width()+10));
-			//_self.find(_opts.navHolder+' '+_opts.navLeftHolder).css('top',(_opts.slideHeight/2)-(_self.find(_opts.navHolder+' '+_opts.navLeftHolder).find('a').height()/2));
-			//_self.find(_opts.navHolder+' '+_opts.navRightHolder).css('top',(_opts.slideHeight/2)-(_self.find(_opts.navHolder+' '+_opts.navRightHolder).find('a').height()/2));
+			
 			_self.find(_opts.navHolder+' '+_opts.navRightHolder).unbind("click");
 			_self.find(_opts.navHolder+' '+_opts.navRightHolder).click(function(e){
 				$.fn[pluginName].toggleDirection(_self,true)
@@ -124,11 +119,14 @@
 			var _self=$(this);
 			var _opts=_self.data('plugin_'+pluginName);
 			$.fn[pluginName].autoAnimateSlide(_self);
+			_opts.selectSlide = con;
 			_self.find(_opts.controlHolder+' li').each(function(){
 				$(this).removeClass(_opts.selectedClass)
 			});
-			_self.find(_opts.controlHolder+' li').eq(con-1).addClass(_opts.selectedClass)
+			_self.find(_opts.controlHolder+' li').eq(con-1).addClass(_opts.selectedClass);
+			_self.find(_opts.imageHolder+' ul').css('width', _self.outerWidth()*_self.find(_opts.controlHolder+' li').length);
 			_self.find(_opts.imageHolder+' ul').stop().animate({left: -(_opts.slideWidth * (con-1))}, 500);
+			$.fn[pluginName].callbackImageSlider(_self,'update');
 		})
     }
 	$.fn[pluginName].autoAnimateSlide=function(obj) {
@@ -140,6 +138,8 @@
 				_opts.interval=setInterval(function(){
 					  $.fn[pluginName].toggleDirection(_self,true);
 				},_opts.timer);
+			}else{
+				clearInterval(_opts.interval);	
 			}
 		})
     }
