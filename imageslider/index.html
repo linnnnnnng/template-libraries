@@ -4,7 +4,8 @@
 	<meta charset="utf-8">
 	<title>Monster Image Slider</title>
 	<!-- Always update this url with the latest jquery version -->
-	<script type='text/javascript' src='http://code.jquery.com/jquery-1.8.3.js'></script>
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=sunburst"></script>
     <script type='text/javascript' src='js/monster-image-slider.js'></script>
 </head>
@@ -49,7 +50,10 @@
 
 <script>
 $(document).ready(function () {
-	$('#imgSlider').monsterImageSlider();
+	$('#imgSlider').monsterImageSlider({
+		timer:3000,
+		draggable:true
+	});
 	
 	$('#imgSlider2').monsterImageSlider({
 		autoShowLeftRight:true,
@@ -57,12 +61,12 @@ $(document).ready(function () {
 		timer:0
 	});
 	
-	$('#destroyImgSlider').monsterImageSlider();
+	$('#destroyImgSlider').monsterImageSlider({draggable:true});
 	$('#destroy').click(function() {
 		$('#destroyImgSlider').monsterImageSlider('destroy');
 	})
 	$('#init').click(function() {
-		$('#destroyImgSlider').monsterImageSlider();
+		$('#destroyImgSlider').monsterImageSlider({draggable:true});
 	})
 });
 </script>
@@ -148,6 +152,10 @@ First and most important, the <strong>jQuery library</strong> needs to be includ
 <pre class="prettyprint">
 &lt;script type='text/javascript' src='js/monster-image-slider.js'&gt;&lt;/script&gt;
 </pre>
+If the draggable option is set to true, the <strong>jQuery UI library</strong> needs to be included!
+<pre class="prettyprint">
+&lt;script type='text/javascript' src='https://code.jquery.com/ui/1.12.1/jquery-ui.js'&gt;&lt;/script&gt;
+</pre>
 
 <div class="downloadWrapper">
 	<a href="js/monster-image-slider.js" class="btnDownload" target="_blank">DOWNLOAD monster-image-slider.js</a>
@@ -160,9 +168,8 @@ This is the code needed to achieve this:<br/>
 <pre class="prettyprint">
 $(document).ready(function(){
     $('#imgSlider').monsterImageSlider({
-        autoShowLeftRight:true,
-        autoShowControl:false,
-        timer:3000
+        timer:3000,
+        draggable:true
     });
 });
 </pre>
@@ -231,6 +238,7 @@ $(document).ready(function(){
 Understands default options that can use for this plugin.
 <pre class="prettyprint">
 $('#imgslider').monsterImageSlider({
+	draggable:true, //make the slide draggable; true/false
     autoShowControl:false, //auto show left right control; true/false
     autoShowLeftRight:false, //auto show image list control; true/false
     timer:3000, //slide show timer; 0 = off

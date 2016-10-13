@@ -11,6 +11,7 @@
 			autoShowLeftRight:false,
 			timer:0,
 			slideWidth:1,
+			slideInnerWidth:1,
 			slideHeight:1,
 			totalSlides:1,
 			selectSlide:1,
@@ -21,7 +22,11 @@
 			navLeftHolder:'.leftArrow',
 			navRightHolder:'.rightArrow',
 			selectedClass:'selected',
-			interval:null
+			interval:null,
+			draggable:false,
+			dragX:0,
+			dragOriX:0,
+			dragDirection:''
         },
 		m=0,_class;
 	
@@ -52,12 +57,70 @@
 			for(m=0;m<_opts.totalSlides;m++){
 				_self.find(_opts.controlHolder+' ul').append('<li></li>');
 			}
+			_opts.slideInnerWidth=_self.outerWidth()*_self.find(_opts.controlHolder+' li').length;
+			_self.find(_opts.imageHolder+' ul').css('width', _opts.slideInnerWidth);
 			_self.find(_opts.controlHolder+' li').each(function(){
 				$(this).click(function(e){
-					$.fn[pluginName].toggleAnimateTo(_self,$(this).index()+1)
+					$.fn[pluginName].toggleAnimateTo(_self,$(this).index()+1);
 					$.fn[pluginName].callbackImageSlider(_self,'goSlide');
 				});
 			});
+			
+			if ( _opts.draggable ) { 
+				_self.find(_opts.imageHolder+' ul').draggable({axis:"x",
+				start: function() {
+					var posX = parseInt(_self.find(_opts.imageHolder+' ul').css('left'));
+					_opts.dragOriX = posX;
+				},
+				drag: function() {
+					var posX = parseInt(_self.find(_opts.imageHolder+' ul').css('left'));
+					_opts.dragDirection = (_opts.dragOriX > posX) ? 'left' : 'right';
+					if(posX > 0){
+						_self.find(_opts.imageHolder+' ul').css('left', 0);
+						return false;
+					}else if(posX < -(_opts.slideInnerWidth - _opts.slideWidth)){
+						_self.find(_opts.imageHolder+' ul').css('left', -(_opts.slideInnerWidth - _opts.slideWidth));
+						return false;
+					}
+				},
+				stop: function() {
+					var curX = parseInt(_self.find(_opts.imageHolder+' ul').css('left'));
+					curX = Math.abs(curX);
+					var switchArea = _opts.slideWidth/100 * 30;
+					var curSlide = -1;
+					var startX;
+					
+					_self.find(_opts.controlHolder+' li').each(function(index, element) {
+						if(_opts.dragDirection == 'left'){
+							startX = ((index+1) * _opts.slideWidth/2);
+							if(index > 0){
+								startX = ((index) * _opts.slideWidth)+(_opts.slideWidth/2);
+							}
+							startX -= switchArea;
+							if(curX <= startX){
+								if(curSlide == -1){
+									curSlide = index;
+									$.fn[pluginName].toggleAnimateTo(_self, index+1);
+								}
+							}
+						}else{
+							startX = ((index+1) * _opts.slideWidth/2);
+							if(index > 0){
+								startX = ((index) * _opts.slideWidth);
+								startX += _opts.slideWidth/2;
+							}
+							startX += switchArea;
+							if(curX <= startX){
+								if(curSlide == -1){
+									curSlide = index;
+									$.fn[pluginName].toggleAnimateTo(_self, index+1);
+								}
+							}		
+						}
+					});
+				}});	
+			}
+			
 			if(_opts.autoShowControl){
 				_self.find(_opts.controlHolder).hide();
 				_self.mouseenter(function() {
@@ -124,7 +187,6 @@
 				$(this).removeClass(_opts.selectedClass)
 			});
 			_self.find(_opts.controlHolder+' li').eq(con-1).addClass(_opts.selectedClass);
-			_self.find(_opts.imageHolder+' ul').css('width', _self.outerWidth()*_self.find(_opts.controlHolder+' li').length);
 			_self.find(_opts.imageHolder+' ul').stop().animate({left: -(_opts.slideWidth * (con-1))}, 500);
 			$.fn[pluginName].callbackImageSlider(_self,'update');
 		})
@@ -193,6 +255,9 @@
 				});
 				_self.find(_opts.navHolder+' '+_opts.navRightHolder).unbind("click");
 				_self.find(_opts.navHolder+' '+_opts.navLeftHolder).unbind("click");
+				if ( _opts.draggable ) { 
+					_self.find(_opts.imageHolder+' ul').draggable( "destroy" );
+				}
 				clearInterval(_opts.interval);
 			}
 			_self.removeData('plugin_' + pluginName);
