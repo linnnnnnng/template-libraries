@@ -76,6 +76,7 @@
 			}
 			
 			var $listItems = $list.children('li');
+			var $mdOptions = $mdSelect.next('.mdOptionsWrapper');
 			$mdSelect.click(function (e) {
 				e.stopPropagation();
 				
@@ -85,7 +86,6 @@
 					}
                 });
 				
-				var $mdOptions = $mdSelect.next('.mdOptionsWrapper');
 				$mdOptions.toggle();
 				
 				var optionoff = $mdOptions.offset();
@@ -98,6 +98,9 @@
 						$mdOptions.css('top', - ($mdOptions.height()-_self.next('div.mdSelect:after').height()));
 					}	
 				}
+			});
+			$mdOptions.click(function (e) {
+				e.stopPropagation();
 			});
 			$listItems.click(function (e) {
 				e.stopPropagation();
