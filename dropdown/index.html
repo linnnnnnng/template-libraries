@@ -69,6 +69,7 @@ $(function() {
 	.mdOptionsWrapper .options {margin:0;padding:0;list-style:none;}
 	.mdOptionsWrapper .options li {margin:0;padding:0 10px;}
 	.mdOptionsWrapper .options li:hover {background-color:#1ABC9C;color:white;}
+	.mdOptionsWrapper .options li.selected{background:#ccc;}
 </style>
 
 <body>
@@ -90,6 +91,7 @@ So you have your standard CSS, which looks like this:
 .mdOptionsWrapper .options {margin:0;padding:0;list-style:none;}
 .mdOptionsWrapper .options li {margin:0;padding:0 10px;}
 .mdOptionsWrapper .options li:hover {background-color:#1ABC9C;color:white;}
+.mdOptionsWrapper .options li.selected{background:#ccc;}
 </pre>
 
 Below is the image for custom dropdown.<br/>
@@ -172,20 +174,6 @@ function onDropdownChange(val){
             <option>Average</option>
             <option>Above average</option>
             <option>Gifted</option>
-            <option value="">Select your IQ</option>
-            <option>Severely challenged</option>
-            <option>Challenged</option>
-            <option>Below average</option>
-            <option>Average</option>
-            <option>Above average</option>
-            <option>Gifted</option>
-            <option value="">Select your IQ</option>
-            <option>Severely challenged</option>
-            <option>Challenged</option>
-            <option>Below average</option>
-            <option>Average</option>
-            <option>Above average</option>
-            <option>Gifted</option>
     </select>
     <!--Paginate Structure end here-->
 </div>
@@ -216,20 +204,6 @@ $(document).ready(function(){
 <div class="resultWrapper">
     <!--Paginate Structure start here-->
     <select id="dropdown3" name="dropdown3" required>
-            <option value="">Select your IQ</option>
-            <option>Severely challenged</option>
-            <option>Challenged</option>
-            <option>Below average</option>
-            <option>Average</option>
-            <option>Above average</option>
-            <option>Gifted</option>
-            <option value="">Select your IQ</option>
-            <option>Severely challenged</option>
-            <option>Challenged</option>
-            <option>Below average</option>
-            <option>Average</option>
-            <option>Above average</option>
-            <option>Gifted</option>
             <option value="">Select your IQ</option>
             <option>Severely challenged</option>
             <option>Challenged</option>
@@ -275,20 +249,6 @@ $('#dropdownDestroy').monsterDropdown('destroy');
 
 <div class="resultWrapper">
     <select id="dropdownDestroy" name="dropdown2" required>
-            <option value="">Select your IQ</option>
-            <option>Severely challenged</option>
-            <option>Challenged</option>
-            <option>Below average</option>
-            <option>Average</option>
-            <option>Above average</option>
-            <option>Gifted</option>
-            <option value="">Select your IQ</option>
-            <option>Severely challenged</option>
-            <option>Challenged</option>
-            <option>Below average</option>
-            <option>Average</option>
-            <option>Above average</option>
-            <option>Gifted</option>
             <option value="">Select your IQ</option>
             <option>Severely challenged</option>
             <option>Challenged</option>

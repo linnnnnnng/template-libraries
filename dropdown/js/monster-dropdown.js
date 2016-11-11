@@ -52,6 +52,7 @@
 			var $mdSelect = _self.next('div.mdSelect');
 			$mdSelect.data( "index", _opts.index);
 			if(_self.val()==''){
+				$.fn[pluginName].highlightText(_self);
 				$mdSelect.text(_self.children('option').eq(0).text());
 			}else{
 				$mdSelect.text(_self.val());
@@ -67,6 +68,7 @@
 			}).insertAfter($mdSelect);
 			var displayHeight=_opts.height==0?'auto':_opts.height;
 			$list.wrap('<div class="mdOptionsWrapper" style="overflow:auto; height:'+displayHeight+'px;"></div>');
+			$.fn[pluginName].highlightText(_self);
 			
 			for (m = 0; m < numberOfOptions; m++) {
 				$('<li />', {
@@ -107,12 +109,30 @@
 				_self.next('.mdSelect').text($(this).text());
 				_self.val($(this).attr('rel'));
 				_self.parent().find('.mdOptionsWrapper').hide();
+				$.fn[pluginName].highlightText(_self);
 				$.fn[pluginName].callbackDropdown(_self, $(this).attr('rel'));
 			});
 			
 			$(document).click(function () {
 				_self.parent().find('.mdOptionsWrapper').hide();
 			});
+		});
+	}
+	
+	$.fn[pluginName].highlightText=function(obj) {
+		return obj.each(function(){
+			var _self=$(this);
+			var _opts=_self.data( 'plugin_' + pluginName);
+			
+			var $mdSelect = _self.next('div.mdSelect');
+			var $mdOptions = $mdSelect.next('.mdOptionsWrapper li');
+			_self.parent().find('div.mdOptionsWrapper li').each(function(index, element) {
+                $(this).removeClass('selected');
+				
+				if($(this).attr('rel') == _self.val()){
+					$(this).addClass('selected');	
+				}
+            });
 		});
 	}
 	
