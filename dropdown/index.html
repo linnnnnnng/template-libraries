@@ -19,14 +19,14 @@
 $(function() {
 	$('#dropdown').monsterDropdown();
 	$('#dropdown2').monsterDropdown({display:'top',
-								height:200,
+								height:100,
 								callback:onDropdownChange});
 								
 	function onDropdownChange(val){
 		$('.callbackOutput').text("Selected : "+ val);
 	}
 	
-	$('#dropdown3').monsterDropdown({height:200});
+	$('#dropdown3').monsterDropdown({height:100});
                             
 	//jScrollPane only work when target DIV is visible                          
 	$('#dropdown3').parent().find('.mdOptionsWrapper').show();
@@ -155,7 +155,7 @@ This is the code needed to achieve this:<br/>
 <pre class="prettyprint">
 $(document).ready(function(){
 	$('#dropdown2').monsterDropdown({display:'top',
-                                height:200,
+                                height:100,
                                 callback:onDropdownChange});
 });
                             
@@ -192,7 +192,7 @@ Make sure to include jScrollPane css & js and below is the code needed to achiev
 
 <pre class="prettyprint">
 $(document).ready(function(){
-    $('#dropdown3').monsterDropdown({height:200});
+    $('#dropdown3').monsterDropdown({height:100});
                                 
     //jScrollPane only work when target DIV is visible                          
     $('#dropdown3').parent().find('.mdOptionsWrapper').show();
