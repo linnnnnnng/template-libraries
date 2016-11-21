@@ -90,10 +90,14 @@
 		});
 
 		//Monster Date Dropdown
-		$('#datedropdown').monsterDateDropdown();
+		$('#datedropdown').monsterDateDropdown({callback:function(con){
+			$('.callbackOutput').text("Trigger : "+ con.command);
+		}});
 		
 		//Monster Form
 		$('#formRegister').monsterForm({callback:onSubmit});
+		$('#formRegister').monsterForm('reset');
+		
 		$('#resetButton').click(function(){
 			$(':input','#formRegister')
 			  .not(':button, :submit, :reset, :hidden')
@@ -129,7 +133,7 @@
 						if(fieldResult[i].validate==''){
 							errorMsg=getErrorInput(fieldResult[i].type)
 						}else{
-							errorMsg=getErrorInput(fieldResult[i].validate)
+							errorMsg=getErrorInput(fieldResult[i].validate, fieldResult[i].minlength);
 						}
 					}
 				}
@@ -139,12 +143,12 @@
 		}
 		
 		//Check error message
-		function getErrorInput(con){
+		function getErrorInput(con, value){
 			
 			/*
 			//BM
 			var general='Sila lengkapkan ruang yang wajib untuk teruskan penyertaan.';
-			var minlength='Panjang minimum adalah 3.';
+			var minlength='Panjang minimum adalah [NUMBER].';
 			var checkbox='Sila tekan di sini untuk teruskan jika anda bersetuju dengan Terma dan Syarat.';
 			var email='Sila masukkan alamat emel yang sah.';
 			var radio='Sila pilih format jawapan anda.';
@@ -154,16 +158,16 @@
 			
 			//English
 			var general='Please complete the mandatory field(s) to proceed.';
-			var minlength='*Min length.';
+			var minlength='Please enter at least [NUMBER] characters.';
 			var checkbox='Please tick box to agree with the Terms and Conditions to proceed.';
 			var email='Please enter a valid email.';
-			var radio='*Please select radiobox.';
+			var radio='Please select radiobox.';
 			var fileupload='Please upload a photo to proceed.';
 			var filetype='Please upload images in .jpg .png and .jpeg format only.';
 			var filesize='The size of your image file must not be more than 1MB.';
 			
 			if(con=='minlength'){
-				return minlength
+				return minlength.replace('[NUMBER]', value)
 			}else if(con=='checkbox'){
 				return checkbox
 			}else if(con=='radio'){
@@ -320,19 +324,19 @@ And the result:
         <div class="formRow">
             <label class="labelName">Your virtues:</label>
                 <label for="checkbox1" class="labelCheckbox">
-                <input id="checkbox1" name="virtue" required type="checkbox" value="">
+                <input id="checkbox1" name="virtue" required type="checkbox" value="Bravery">
                 Bravery
                 </label>
                 <label for="checkbox2" class="labelCheckbox">
-                <input id="checkbox2" name="virtue" required type="checkbox" value="">
+                <input id="checkbox2" name="virtue" required type="checkbox" value="Patience">
                 Patience
                 </label>
                 <label for="checkbox3" class="labelCheckbox">
-                <input id="checkbox3" name="virtue" required type="checkbox" value="">
+                <input id="checkbox3" name="virtue" required type="checkbox" value="Honesty">
                 Honesty
                 </label>
                 <label for="checkbox4" class="labelCheckbox">
-                <input id="checkbox4" name="virtue" required type="checkbox" value="">
+                <input id="checkbox4" name="virtue" required type="checkbox" value="Confused">
                 Confused
                 </label>
         </div>
@@ -407,9 +411,9 @@ function onSubmit(con){
             //find error message
             if(errorMsg==''){
                 if(fieldResult[i].validate==''){
-                    errorMsg=getErrorInput(fieldResult[i].type)
+                    errorMsg=getErrorInput(fieldResult[i].type);
                 }else{
-                    errorMsg=getErrorInput(fieldResult[i].validate)
+                    errorMsg=getErrorInput(fieldResult[i].validate, fieldResult[i].minlength);
                 }
             }
         }
@@ -423,7 +427,7 @@ function getErrorInput(con){
 	/*
     //BM
     var general='Sila lengkapkan ruang yang wajib untuk teruskan penyertaan.';
-    var minlength='Panjang minimum adalah 3.';
+    var minlength='Panjang minimum adalah [NUMBER].';
     var checkbox='Sila tekan di sini untuk teruskan jika anda bersetuju dengan Terma dan Syarat.';
     var email='Sila masukkan alamat emel yang sah.';
     var radio='Sila pilih format jawapan anda.';
@@ -432,18 +436,17 @@ function getErrorInput(con){
     var filesize='Saiz imej anda mestilah tidak melebihi daripada 3MB.';*/
     
     //English
-    
     var general='Please complete the mandatory field(s) to proceed.';
-    var minlength='*Min length.';
+    var minlength='Please enter at least [NUMBER] characters.';
     var checkbox='Please tick box to agree with the Terms and Conditions to proceed.';
     var email='Please enter a valid email.';
-    var radio='*Please select radiobox.';
+    var radio='Please select radiobox.';
     var fileupload='Please upload a photo to proceed.';
     var filetype='Please upload images in .jpg .png and .jpeg format only.';
     var filesize='The size of your image file must not be more than 1MB.';
     
     if(con=='minlength'){
-        return minlength
+        return minlength.replace('[NUMBER]', value)
     }else if(con=='checkbox'){
         return checkbox
     }else if(con=='radio'){
@@ -466,7 +469,7 @@ function getErrorInput(con){
     <form id="formRegister" class="formWrapper">
         <div class="formRow">
         	<label for="rName" class="labelName">Name</label>
-            <input type="text" required id="rName" maxlength="50" name="rName" value="" />
+            <input type="text" required id="rName" minlength='3' maxlength="50" name="rName" value="" />
         </div>
         <div class="formRow">
             <label for="rRadiosGender" class="labelName">Gender:</label>
@@ -502,19 +505,19 @@ function getErrorInput(con){
         <div class="formRow">
             <label class="labelName">Your virtues:</label>
                 <label for="rcheckbox1" class="labelCheckbox">
-                <input type="checkbox" value="" id="rcheckbox1" name="rvirtue" required>
+                <input type="checkbox" value="Bravery" id="rcheckbox1" name="rvirtue" required>
                 Bravery
                 </label>
                 <label for="rcheckbox2" class="labelCheckbox">
-                <input type="checkbox" value="" id="rcheckbox2" name="rvirtue" required>
+                <input type="checkbox" value="Patience" id="rcheckbox2" name="rvirtue" required>
                 Patience
                 </label>
                 <label for="rcheckbox3" class="labelCheckbox">
-                <input type="checkbox" value="" id="rcheckbox3" name="rvirtue" required>
+                <input type="checkbox" value="Honesty" id="rcheckbox3" name="rvirtue" required>
                 Honesty
                 </label>
                 <label for="rcheckbox4" class="labelCheckbox">
-                <input type="checkbox" value="" id="rcheckbox4" name="rvirtue" required>
+                <input type="checkbox" value="Confused" id="rcheckbox4" name="rvirtue" required>
                 Confused
                 </label>
         </div>
@@ -572,6 +575,11 @@ $(document).ready(function(){
             </label>
         </div>
 </div>
+
+Callback event output:
+<div class="callbackOutput">
+Click the date dropdown see callback output here...
+</div>
 </div>
 <div class="sampleWrapper">
 <h3>Usage</h3>
@@ -588,7 +596,8 @@ $('#dropdown').monsterDateDropdown({
     dayDefault: "Date", //default date select
     yearClass:'yearlist',  //default year class
     dayClass:'daylist', //default day class
-    monthClass:'monthlist' //default month class
+    monthClass:'monthlist', //default month class
+    callback:'' //callback function
 });
 </pre>
 </div>

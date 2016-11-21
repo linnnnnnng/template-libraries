@@ -1,7 +1,7 @@
 /*
  * Monster Image Slider
  *
- * Copyright (c) 2013 Ling
+ * Copyright (c) 2016 Ling (2016/11/21)
  *
  */
 (function($) {

@@ -1,7 +1,7 @@
 /*
  * Monster Form
  *
- * Copyright (c) 2013 Ling
+ * Copyright (c) 2016 Ling (2016/11/21)
  *
  */
  (function($) {
@@ -57,9 +57,9 @@
 				sp=_opts.yearStart
 				ep=_opts.yearEnd || (new Date).getFullYear();
 			}
-			$.fn[pluginName].insertDropdownList(_self,_self.siblings('#'+_self.attr('id')+'_'+_opts.yearClass),_opts.yearDefault,sp,ep);
+			$.fn[pluginName].insertDropdownList(_self,_self.siblings('#'+_self.attr('id')+'_'+_opts.yearClass),_opts.yearDefault,sp,ep,'year');
 			$.fn[pluginName].insertDropdownList(_self,_self.siblings('#'+_self.attr('id')+'_'+_opts.monthClass),_opts.monthDefault,sp,ep,'month');
-			$.fn[pluginName].insertDropdownList(_self,_self.siblings('#'+_self.attr('id')+'_'+_opts.dayClass),_opts.dayDefault,1,31);
+			$.fn[pluginName].insertDropdownList(_self,_self.siblings('#'+_self.attr('id')+'_'+_opts.dayClass),_opts.dayDefault,1,31,'day');
 		});
 	}
 	$.fn[pluginName].insertDropdownList=function(obj,dd,d,s,e,type) {
@@ -82,21 +82,23 @@
 			dd.change(function() {
 				$.fn[pluginName].changeDropdown(_self);
 			});
+			$.fn[pluginName].callbackDateDropdown(_self,'update-'+type);
 		});
 	}
 	$.fn[pluginName].changeDropdown=function(obj) {
 		return obj.each(function(){
 			var _self=$(this);
 			var _opts=_self.data('plugin_'+pluginName);
-			var year=_self.siblings('#'+_self.attr('id')+'_'+_opts.yearClass).val()
-			var month=_self.siblings('#'+_self.attr('id')+'_'+_opts.monthClass).val()
-			var date=_self.siblings('#'+_self.attr('id')+'_'+_opts.dayClass).val()
-			var checkdate=cMonth(month,year)
-			$.fn[pluginName].insertDropdownList(_self,_self.siblings('#'+_self.attr('id')+'_'+_opts.dayClass),_opts.dayDefault,1,checkdate);
+			var year=_self.siblings('#'+_self.attr('id')+'_'+_opts.yearClass).val();
+			var month=_self.siblings('#'+_self.attr('id')+'_'+_opts.monthClass).val();
+			var date=_self.siblings('#'+_self.attr('id')+'_'+_opts.dayClass).val();
+			var checkdate=cMonth(month,year);
+			$.fn[pluginName].insertDropdownList(_self,_self.siblings('#'+_self.attr('id')+'_'+_opts.dayClass),_opts.dayDefault,1,checkdate,'day');
 			_self.siblings('#'+_self.attr('id')+'_'+_opts.dayClass).val(date);
-			if(date>checkdate)
+			if(date>checkdate){
 				_self.siblings('#'+_self.attr('id')+'_'+_opts.dayClass).val(checkdate);
-			$.fn[pluginName].callbackDateDropdown(_self);
+			}	
+			$.fn[pluginName].callbackDateDropdown(_self,'change');
 			
 			//falt UI
 			var flatdd=_self.siblings('#dk_container_'+_self.attr('id')+'_'+_opts.dayClass)

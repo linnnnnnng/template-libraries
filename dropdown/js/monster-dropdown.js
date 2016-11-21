@@ -1,7 +1,7 @@
 /*
  * Monster Dropdown
  *
- * Copyright (c) 2014 Ling
+ * Copyright (c) 2016 Ling (2016/11/21)
  *
  */
  (function($) {
