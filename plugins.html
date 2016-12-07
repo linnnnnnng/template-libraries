@@ -152,6 +152,21 @@ if (String(totalPages).indexOf('.') > -1){
 </pre>
 </div>
 
+<div class="codeWrapper" rel="General">
+<div class="codeTitle">Copy link to clipboard</div>
+<pre class="prettyprint">
+function copyToClipboard(element) {
+    var $temp = $("&lt;input&gt;");
+    $("body").append($temp);
+    $temp.val(element).select();
+    document.execCommand("copy");
+    $temp.remove();
+}
+
+copyToClipboard('http://www.geometry.my')
+</pre>
+</div>
+
 
 <div class="codeWrapper" rel="Mobile & Tablet">
 <div class="codeTitle">Detect Mobile Browsers</div>
