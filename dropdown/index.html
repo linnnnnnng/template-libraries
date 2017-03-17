@@ -22,6 +22,11 @@ $(function() {
 								height:100,
 								callback:onDropdownChange});
 								
+	$('#update').click(function() {
+		$('#dropdown2').val('Average');
+		$('#dropdown2').monsterDropdown('reset');
+	})							
+								
 	function onDropdownChange(val){
 		$('.callbackOutput').text("Selected : "+ val);
 	}
@@ -163,6 +168,10 @@ function onDropdownChange(val){
     $('.callbackOutput').text("Selected : "+ val);
 }
 </pre>
+
+<div class="navigation">
+	<div id="update" class="button"><a>Update to Average</a></div>
+</div>
 
 <div class="resultWrapper">
     <!--Paginate Structure start here-->

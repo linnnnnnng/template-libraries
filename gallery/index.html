@@ -33,25 +33,25 @@
 	.downloadWrapper{ width:100%; text-align:center; height:40px; margin:20px 0;}
 	
 	/*gallery CSS*/
-	.galleryWrapper{clear:both; width:740px; height:330px; margin:0 auto; padding:0; position:relative;}
+	.galleryWrapper{clear:both; width:100%; margin:0 auto; padding:0; position:relative;}
 	.galleryWrapper .btnPrev{left:0;}
 	.galleryWrapper .btnNext{right:0;}
 	.galleryWrapper .btnPrev, .galleryWrapper .btnNext{position:absolute;top:38%;}
-	.galleryWrapper .pageControl a{width:47px;height:75px;cursor:pointer;}
+	.galleryWrapper .pageControl a{cursor:pointer;}
 	/*.galleryList width = galleryList li width + galleryList li padding left right + galleryList li margin left right * total thumbnails per row */
 	/*550 = (100 + (3+3) + (2+2)) * 5 */
 	/* galleryList height = same calculation above but height/padding top bottom/margin top bottom*/
-	.galleryWrapper .galleryList{width:550px;height:330px;;padding:0;margin:auto;position:relative;overflow:hidden;}
+	.galleryWrapper .galleryList{width:550px;height:330px;padding:0;margin:auto;position:relative;overflow:hidden;}
 	.galleryWrapper .galleryList ul{list-style:none; margin:0; padding:0; position:absolute;top:0;}
 	.galleryWrapper .galleryList li{width:100px;height:100px;float:left;background:#ccc url(images/loading.gif) no-repeat center center;padding:3px;margin:2px;cursor:pointer;}
 	.galleryWrapper .galleryList li:hover{background:#666;}
-	.galleryWrapper .galleryOverlay{width:740px; height:330px; position:absolute;top:0;left:0;display:none;background:#fff url(images/loading.gif) no-repeat center center;z-index:10;}
-	.galleryWrapper .galleryOverlay .mainImage {margin: 0 auto;width:500px;height:500px;}
+	.galleryWrapper .galleryOverlay{width:100%;position:absolute;top:0;left:0;display:none;background:#fff url(images/loading.gif) no-repeat center center;z-index:10;}
+	.galleryWrapper .galleryOverlay .mainImage {margin:0 auto;width:500px;height:500px;}
 	.galleryWrapper .galleryOverlay .btnClose {font-size:12px;position:absolute;top:0;right:20px;width:50px;padding-top:4px;text-align:center;height:20px;display:block;z-index:2;background:#88a8a5;color:#fff;cursor:pointer;}
 	.galleryWrapper .galleryOverlay .btnPrev {left:0;}
 	.galleryWrapper .galleryOverlay .btnNext {right:0;}
-	.galleryWrapper .galleryOverlay .btnPrev, .galleryWrapper .galleryOverlay .btnNext{position:absolute;top:38%;}
-	.galleryWrapper .galleryOverlay a{width:47px;height:75px;cursor:pointer;}
+	.galleryWrapper .galleryOverlay .btnPrev, .galleryWrapper .galleryOverlay .btnNext{position:absolute;top:30%;}
+	.galleryWrapper .galleryOverlay a{cursor:pointer;}
 	.galleryWrapper .disabled{visibility:hidden;}
 	
 	/*gallery second layout style*/
@@ -70,11 +70,12 @@
 	.galleryThumb3 .disabled, .galleryThumb3 .disabled:hover{cursor:none;background:#ccc;}
 	
 	/*Pagination Dark*/
-	.paginateDark{margin:auto;height:30px;margin-top:20px;}
+	.paginateDark{margin:auto;margin-top:20px;width:100%;text-align:center;}
 	.paginateDark ul{margin:0; padding:0; list-style:none;}
-	.paginateDark li{width:auto; height:auto; padding:5px 10px; float:left;font-size:12px; color:#1BBC9B; font-weight:bold;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;margin:0 3px;cursor:pointer;cursor:hand;display:block;background:#1BBC9B;color:#fff;border:#1BBC9B solid 1px;}
+	.paginateDark li{display:inline; text-align:center; padding:5px 10px; border:#1BBC9B solid 1px; font-size:12px; color:#fff; font-weight:bold;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;margin:0 3px;cursor:pointer;cursor:hand;background:#1BBC9B;border:#1BBC9B solid 1px;}
 	.paginateDark li.selected, .paginateDark li:hover{background:#fff; color:#1BBC9B;border:#1BBC9B solid 1px;}
-	.paginateDark li.disabled{background:#1BBC9B;color:#CCC;cursor:none;}
+	.paginateDark li.selected{cursor:default;}
+	.paginateDark li.disabled{background:#1BBC9B;color:#CCC;cursor:default;}
 </style>
 
 <script>
