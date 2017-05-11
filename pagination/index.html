@@ -25,8 +25,8 @@ $(function() {
 		selectPage:15,
 		totalPages:56,
 		display:10,
-		prevText:'Prev',
-		nextText:'Next',
+		prevText:'<',
+		nextText:'>',
 		firstText:'First Page',
 		lastText:'Last Page',
 		callback:onPaginateChange
@@ -254,8 +254,8 @@ $(document).ready(function(){
         selectPage:15,
         totalPages:56,
         display:10,
-        prevText:'Prev',
-        nextText:'Next',
+        prevText:'<',
+        nextText:'>',
         firstText:'First Page',
         lastText:'Last Page',
         callback:onPaginateChange
@@ -330,24 +330,31 @@ Understands default options that can use for this plugin.<br/>
 $('#paginate').monsterPaginate({
     selectPage:1, //page highlight
     totalPages:15, //total pages
-    display:5, //total page to display
-    nextText:"Next", //Next page text
-    prevText:"Prev", //Prev page text
+    display:5, //total pages to display
+    nextText:">", //Next page text
+    prevText:"<", //Prev page text
+    nextPaginateText:">>", //Next pagination text
+    prevPaginateText:"<<", //Prev pagination text
     firstText:"First", //First page text
     lastText:"Last", //Last page text
-    showFirstLast:true, //show first last page button; true/false
-    autoPrevNext:false, //auto hide prev next page button; true/false
-    autoFirstLast:false, //auto hide first last page button; true/false
+    showPrevNext:true, //show Prev Next page button; true/false
+    autoPrevNext:false, //auto hide Prev Next page button; true/false
+    showPrevNextPaginate:true, //show Prev Next Paginate page button; true/false
+    autoPrevNextPaginate:false, //auto hide Prev Next Paginate page button; true/false
+    showFirstLast:true, //show First Last page button; true/false
+    autoFirstLast:false, //auto hide First Last page button; true/false
     autoFollowOrderPage:true, //auto jump to first order of paginate; true/false
     callback:'', //call back function
     pageLink:'paginateButton', //follow by default class name
     pageClass:'page',
-    prevClass:'prevpage',
-    nextClass:'nextpage',
+    prevClass:'prevPage',
+    nextClass:'nextPage',
+    prevPaginateClass:'prevPaginatePage',
+    nextPaginateClass:'nextPaginatePage',
     firstClass:'firstPage',
     lastClass:'lastPage',
     disabledClass:'disabled',
-    selected:'selected'
+    selectedClass:'selected'
 });
 
 //Option can be update later once the same element is init.

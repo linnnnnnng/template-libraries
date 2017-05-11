@@ -1,7 +1,7 @@
 /*
  * Monster Paginate
  *
- * Copyright (c) 2016 Ling (2016/11/21)
+ * Copyright (c) 2016 Ling (2017/5/11)
  *
  */
  (function($) {
@@ -10,26 +10,34 @@
 			selectPage:1,
 			totalPages:15,
 			display:5,
-			nextText:"Next",
-			prevText:"Prev",
+			nextText:">",
+			prevText:"<",
+			nextPaginateText:">>",
+			prevPaginateText:"<<",
 			firstText:"First",
 			lastText:"Last",
-			showFirstLast:true,
+			showPrevNext:true,
 			autoPrevNext:false,
+			showPrevNextPaginate:true,
+			autoPrevNextPaginate:false,
+			showFirstLast:true,
 			autoFirstLast:false,
 			autoFollowOrderPage:true,
-			autoFollowOrderCon:false,
 			curPaginate:1,
 			maxPaginate:1,
 			callback:'',
 			pageLink:'paginateButton',
 			pageClass:'page',
-			prevClass:'prevpage',
-			nextClass:'nextpage',
+			prevClass:'prevPage',
+			nextClass:'nextPage',
+			prevPaginateClass:'prevPaginatePage',
+			nextPaginateClass:'nextPaginatePage',
 			firstClass:'firstPage',
 			lastClass:'lastPage',
 			disabledClass:'disabled',
-			selectedClass:'selected'
+			selectedClass:'selected',
+			init:false,
+			command:''
         },
 		m,sp,ep=0,_class;
 	
@@ -45,6 +53,7 @@
 				$.fn[pluginName].destroy($this);
 				var _opts=$.extend({},defaults,options);
 				$this.data('plugin_' + pluginName, _opts);
+				_opts.command = '';
 				$.fn[pluginName].presentPaginate($this);
 				$.fn[pluginName].constructPaginate($this);
 				$.fn[pluginName].callbackPaginate($this,'init');
@@ -57,43 +66,83 @@
 			var _self=$(this);
 			var _opts=_self.data('plugin_'+pluginName);
 			_opts.maxPaginate=_opts.totalPages>_opts.display?Math.ceil(_opts.totalPages/_opts.display):1;
-			sp=(_opts.curPaginate*_opts.display)-(_opts.display-1)
-			ep=_opts.curPaginate*_opts.display
+			
+			//within paginate
+			
+			
+			sp=(_opts.curPaginate*_opts.display)-(_opts.display-1);
+			ep=_opts.curPaginate*_opts.display;
 			ep=ep>_opts.totalPages?_opts.totalPages:ep;
 			_self.find('ul').remove();
 			_self.append('<ul></ul>');
 			
-			if(_opts.autoFollowOrderPage && _opts.autoFollowOrderCon){
-				_opts.autoFollowOrderCon = false;
-				_opts.selectPage = sp;
+			if(_opts.autoFollowOrderPage){
+				if(_opts.command == 'nextPaginatePage'){
+					_opts.selectPage = sp;		
+				}else if(_opts.command == 'prevPaginatePage'){
+					_opts.selectPage = ep;		
+				}else if(_opts.command == 'firstPage'){
+					_opts.selectPage = 1;		
+				}else if(_opts.command == 'lastPage'){
+					_opts.selectPage = _opts.totalPages;		
+				}
 			}
+			
+			if(!_opts.init){
+				_opts.init=true;
+			}
+			
 			for(m=sp;m<=ep;m++){
-				_class=_opts.pageClass
+				_class=_opts.pageClass;
 				if(_opts.selectPage==m)
 					_class+=' '+_opts.selectedClass;
 				_self.find('ul').append('<li class="'+_class+'"><a class="'+_opts.pageLink+'">'+m+'</a></li>');
 			}
 			var disStatus;
-			_class=_opts.prevClass;
-			disStatus=false;
-			if(_opts.curPaginate==1)
-				_class+=' '+_opts.disabledClass;
-			if(_opts.autoPrevNext){
-				if(_class!=_opts.prevClass)
-					disStatus=true;
+			if(_opts.showPrevNext){
+				_class=_opts.prevClass;
+				disStatus=false;
+				if(_opts.selectPage==1)
+					_class+=' '+_opts.disabledClass;
+				if(_opts.autoPrevNext){
+					if(_class!=_opts.prevClass)
+						disStatus=true;
+				}
+				if(!disStatus)
+					_self.find('ul').prepend('<li class="'+_class+'"><a class="'+_opts.pageLink+'">'+_opts.prevText+'</a></li>');
+				_class=_opts.nextClass;
+				disStatus=false;
+				if(_opts.selectPage==_opts.totalPages)
+					_class+=' '+_opts.disabledClass;
+				if(_opts.autoPrevNext){
+					if(_class!=_opts.nextClass)
+						disStatus=true;
+				}
+				if(!disStatus)
+					_self.find('ul').append('<li class="'+_class+'"><a class="'+_opts.pageLink+'">'+_opts.nextText+'</a></li>');
 			}
-			if(!disStatus)
-				_self.find('ul').prepend('<li class="'+_class+'"><a class="'+_opts.pageLink+'">'+_opts.prevText+'</a></li>');
-			_class=_opts.nextClass;
-			disStatus=false;
-			if(_opts.curPaginate==_opts.maxPaginate)
-				_class+=' '+_opts.disabledClass;
-			if(_opts.autoPrevNext){
-				if(_class!=_opts.nextClass)
-					disStatus=true;
+			if(_opts.showPrevNextPaginate){
+				_class=_opts.prevPaginateClass;
+				disStatus=false;
+				if(_opts.curPaginate==1)
+					_class+=' '+_opts.disabledClass;
+				if(_opts.autoPrevNextPaginate){
+					if(_class!=_opts.prevPaginateClass)
+						disStatus=true;
+				}
+				if(!disStatus)
+					_self.find('ul').prepend('<li class="'+_class+'"><a class="'+_opts.pageLink+'">'+_opts.prevPaginateText+'</a></li>');
+				_class=_opts.nextPaginateClass;
+				disStatus=false;
+				if(_opts.curPaginate==_opts.maxPaginate)
+					_class+=' '+_opts.disabledClass;
+				if(_opts.autoPrevNextPaginate){
+					if(_class!=_opts.nextPaginateClass)
+						disStatus=true;
+				}
+				if(!disStatus)
+					_self.find('ul').append('<li class="'+_class+'"><a class="'+_opts.pageLink+'">'+_opts.nextPaginateText+'</a></li>');
 			}
-			if(!disStatus)
-				_self.find('ul').append('<li class="'+_class+'"><a class="'+_opts.pageLink+'">'+_opts.nextText+'</a></li>');
 			if(_opts.showFirstLast){
 				_class=_opts.firstClass;
 				disStatus=false;
@@ -129,6 +178,7 @@
 				}
 			});
 			
+			_opts.command = '';
 			//_self.css('width', tW+5)
 		});
 	}
@@ -139,11 +189,17 @@
 			var _opts=_self.data( 'plugin_' + pluginName);
 			var command=''
 			if($(con).hasClass(_opts.nextClass)){
-				command='nextPage'
-				_opts.curPaginate++
-				_opts.curPaginate=_opts.curPaginate>_opts.maxPaginate?_opts.maxPaginate:_opts.curPaginate
+				command='nextPage';
+				$.fn[pluginName].togglePaginate(_self, true);
 			}else if($(con).hasClass(_opts.prevClass)){
 				command='prevPage'
+				$.fn[pluginName].togglePaginate(_self, false);
+			}if($(con).hasClass(_opts.nextPaginateClass)){
+				command='nextPaginatePage'
+				_opts.curPaginate++
+				_opts.curPaginate=_opts.curPaginate>_opts.maxPaginate?_opts.maxPaginate:_opts.curPaginate
+			}else if($(con).hasClass(_opts.prevPaginateClass)){
+				command='prevPaginatePage'
 				_opts.curPaginate--
 				_opts.curPaginate=_opts.curPaginate<1?1:_opts.curPaginate
 			}else if($(con).hasClass(_opts.firstClass)){
@@ -156,9 +212,8 @@
 				command='page'
 				_opts.selectPage=pageControl=$(con).find('a').html();
 			}
-			if(_opts.autoFollowOrderPage && command !='page'){
-				_opts.autoFollowOrderCon = true;	
-			}
+			
+			_opts.command = command;
 			$.fn[pluginName].constructPaginate(_self);
 			$.fn[pluginName].callbackPaginate(_self,command);
 		});
@@ -167,11 +222,10 @@
 		return obj.each(function(){
 			var _self=$(this);
 			var _opts=_self.data( 'plugin_' + pluginName);
-			_opts.selectPage=con==true?_opts.selectPage+1:_opts.selectPage-1
+			_opts.selectPage=con==true?Number(_opts.selectPage)+1:Number(_opts.selectPage)-1;
 			_opts.selectPage=_opts.selectPage>_opts.totalPages?_opts.totalPages:_opts.selectPage;
 			_opts.selectPage=_opts.selectPage<1?1:_opts.selectPage;
 			$.fn[pluginName].presentPaginate(_self);
-			$.fn[pluginName].constructPaginate(_self);
 		});
     }
 	
@@ -189,6 +243,7 @@
 		return obj.each(function(){
 			var _self=$(this);
 			var _opts=_self.data('plugin_'+pluginName);
+			_opts.maxPaginate=_opts.totalPages>_opts.display?Math.ceil(_opts.totalPages/_opts.display):1;
 			for(m=1;m<=_opts.maxPaginate;m++){
 				sp=(m*_opts.display)-(_opts.display-1)
 				ep=m*_opts.display
@@ -220,10 +275,12 @@
 					break;
 				case 'nextPage':
 					$.fn[pluginName].togglePaginate(_self, true);
+					$.fn[pluginName].constructPaginate(_self);
 					$.fn[pluginName].callbackPaginate(_self,command);
 					break;
 				case 'prevPage':
 					$.fn[pluginName].togglePaginate(_self, false);
+					$.fn[pluginName].constructPaginate(_self);
 					$.fn[pluginName].callbackPaginate(_self,command);
 					break;
 				case 'goPage':
@@ -244,6 +301,7 @@
 			var _self=$(this);
 			var _opts=_self.data('plugin_'+pluginName);
 			if(_opts!=undefined){
+				_opts.init=false;
 				_self.css('width','auto');
 				_self.find('li').each(function( index ) {
 					$(this).unbind();
