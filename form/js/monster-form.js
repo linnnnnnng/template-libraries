@@ -158,12 +158,12 @@
 		}else{
 			if($(obj).val()=='')
 				$(obj).val($(obj).attr('placeholder'));
-			$(obj).live('focus', function(){
+			$(obj).on('focus', function(){
 				if($(obj).val()==$(obj).attr('placeholder')){
 					$(obj).val('');
 				}
 				$.fn[pluginName].togglePlaceholderClass(obj);
-			}).live('blur', function(){
+			}).on('blur', function(){
 				if($(obj).val()==''){
 					var inputtitle=$(obj).attr('placeholder');
 					$(obj).val(inputtitle);
