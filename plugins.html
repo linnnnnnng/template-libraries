@@ -167,6 +167,54 @@ copyToClipboard('http://www.geometry.my')
 </pre>
 </div>
 
+<div class="codeWrapper" rel="General">
+<div class="codeTitle">Random Integer From Interval</div>
+<pre class="prettyprint">
+function randomIntFromInterval(min,max){
+    return Math.floor(Math.random()*(max-min+1)+min);
+}
+
+randomIntFromInterval(-20,20);
+</pre>
+</div>
+
+
+<div class="codeWrapper" rel="General">
+<div class="codeTitle">Validate Date</div>
+<pre class="prettyprint">
+function isValidDate(s) {
+    var bits = s.split('/');
+    var d = new Date(bits[2] + '/' + bits[1] + '/' + bits[0]);
+    return !!(d && (d.getMonth() + 1) == bits[1] && d.getDate() == Number(bits[0]));
+}
+
+isValidDate('30/1/2017');
+</pre>
+</div>
+
+<div class="codeWrapper" rel="General">
+<div class="codeTitle">Age Gate Validation</div>
+<pre class="prettyprint">
+function checkAgeGate(year, month, day) {
+    var age = 18;
+	var mydate = new Date();
+	mydate.setFullYear(year, month, day);
+	
+	var currdate = new Date();
+	currdate.setFullYear(currdate.getFullYear() - age);
+	
+	if(currdate < mydate){
+		console.log('Below age')
+	}else{
+		console.log('Pass');
+	}
+}
+
+//month start from 0 to 11;
+checkAgeGate(2017,0,25);
+</pre>
+</div>
+
 
 <div class="codeWrapper" rel="Mobile & Tablet">
 <div class="codeTitle">Detect Mobile Browsers</div>
