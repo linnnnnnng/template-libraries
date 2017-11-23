@@ -116,7 +116,7 @@
 			});
 			
 			if(con.errorlist.length==0){
-				$('.errMsg').hide()
+				$(con.form).find('.errMsg').hide()
 				//if the form is ok
 			}else{
 				errorMsg='';
@@ -130,20 +130,20 @@
 					
 					//find error message
 					if(errorMsg==''){
-						if(fieldResult[i].validate==''){
-							errorMsg=getErrorInput(fieldResult[i].type)
-						}else{
-							errorMsg=getErrorInput(fieldResult[i].validate, fieldResult[i].minlength);
-						}
+						errorMsg=getErrorInput(fieldResult[i].name, fieldResult[i].validate);
+				
+						$('html, body').animate({
+							scrollTop: $("#"+fieldResult[i].name).offset().top
+						}, 500);
 					}
 				}
 				
-				$('.errMsg').show().html(errorMsg)
+				$(con.form).find('.errMsg').show().html(errorMsg)
 			}
 		}
 		
 		//Check error message
-		function getErrorInput(con, value){
+		function getErrorInput(name, validate){
 			
 			/*
 			//BM
@@ -166,19 +166,19 @@
 			var filetype='Please upload images in .jpg .png and .jpeg format only.';
 			var filesize='The size of your image file must not be more than 1MB.';
 			
-			if(con=='minlength'){
-				return minlength.replace('[NUMBER]', value)
-			}else if(con=='checkbox'){
+			if(validate=='minlength'){
+				return minlength.replace('[NUMBER]', $('#'+name).attr('minlength'))
+			}else if(validate=='checkbox'){
 				return checkbox
-			}else if(con=='radio'){
+			}else if(validate=='radio'){
 				return radio
-			}else if(con=='email'){
+			}else if(validate=='email'){
 				return email
-			}else if(con=='fileupload'){
+			}else if(validate=='fileupload'){
 				return fileupload
-			}else if(con=='filesize'){
+			}else if(validate=='filesize'){
 				return filesize
-			}else if(con=='filetype'){
+			}else if(validate=='filetype'){
 				return filetype
 			}else{
 				return general	
@@ -396,8 +396,14 @@ function onSubmit(con){
     });
     
     if(con.errorlist.length==0){
-        $('.errMsg').hide()
+        $(con.form).find('.errMsg').hide()
         //if the form is ok
+        //for specific form
+        /*
+        if($(con.form).attr('id') == 'whichForm'){
+        	
+        }
+        */
     }else{
         errorMsg='';
         
@@ -410,20 +416,20 @@ function onSubmit(con){
             
             //find error message
             if(errorMsg==''){
-                if(fieldResult[i].validate==''){
-                    errorMsg=getErrorInput(fieldResult[i].type);
-                }else{
-                    errorMsg=getErrorInput(fieldResult[i].validate, fieldResult[i].minlength);
-                }
+                errorMsg=getErrorInput($(con.form).attr('id'), fieldResult[i].name, fieldResult[i].validate);
+				
+				$('html, body').animate({
+					scrollTop: $("#"+fieldResult[i].name).offset().top
+				}, 500);
             }
         }
         
-        $('.errMsg').show().html(errorMsg)
+        $(con.form).find('.errMsg').show().html(errorMsg)
     }
 }
 
 //Check error message
-function getErrorInput(con, value){
+function getErrorInput(name, validate){
 	/*
     //BM
     var general='Sila lengkapkan ruang yang wajib untuk teruskan penyertaan.';
@@ -445,19 +451,29 @@ function getErrorInput(con, value){
     var filetype='Please upload images in .jpg .png and .jpeg format only.';
     var filesize='The size of your image file must not be more than 1MB.';
     
-    if(con=='minlength'){
-        return minlength.replace('[NUMBER]', value)
-    }else if(con=='checkbox'){
+    /*
+    	//for specific input field
+        if(name == 'uName'){
+        	return 'Your error message'
+        }
+    */
+    
+    if(validate=='function'){
+        //custom function
+        return ''
+    }else if(validate=='minlength'){
+        return minlength.replace('[NUMBER]', $('#'+name).attr('minlength'))
+    }else if(validate=='checkbox'){
         return checkbox
-    }else if(con=='radio'){
+    }else if(validate=='radio'){
         return radio
-    }else if(con=='email'){
+    }else if(validate=='email'){
         return email
-    }else if(con=='fileupload'){
+    }else if(validate=='fileupload'){
         return fileupload
-    }else if(con=='filesize'){
+    }else if(validate=='filesize'){
         return filesize
-    }else if(con=='filetype'){
+    }else if(validate=='filetype'){
         return filetype
     }else{
         return general	
@@ -542,7 +558,7 @@ function getErrorInput(con, value){
      </form> 
 </div>
 
-<iframe src="document.html" width="100%" height="1000px" frameborder="0" scrolling="no"></iframe>
+<iframe src="document.html" width="100%" height="1300px" frameborder="0" scrolling="no"></iframe>
 
 
 <div class="sampleWrapper">
