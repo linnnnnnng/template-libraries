@@ -88,12 +88,15 @@
 				if ($(obj).val()==""){
 					fieldError=true;
 					result.type='fileupload';
+					result.validate='fileupload';
 				}else if(filesize!=undefined&&$(obj)[0].files[0].size>filesize){
 					fieldError=true;
 					result.type='filesize';
+					result.validate='filesize';
 				}else if(filetype!=undefined&&$.fn[pluginName].validateFileType(filetype, $(obj)[0].files[0].name)==false){
 					fieldError=true;
 					result.type='filetype';
+					result.validate='filetype';
 				}
 			}else if($(obj).attr('type')=='radio'){
 				//Radio validation
