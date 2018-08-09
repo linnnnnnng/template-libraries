@@ -1,7 +1,7 @@
 /*
  * Monster Dropdown
  *
- * Copyright (c) 2016 Ling (2016/11/21)
+ * Copyright (c) 2016 Ling (2018/8/9)
  *
  */
  (function($) {
@@ -10,6 +10,7 @@
 			display:'auto',
 			height:0,
 			index:0,
+			autoHighlight:true,
 			callback:''
         },
 		m=0,
@@ -113,6 +114,10 @@
 				$.fn[pluginName].callbackDropdown(_self, $(this).attr('rel'));
 			});
 			
+			if(_opts.autoHighlight){
+				$.fn[pluginName].highlightText(_self);
+			}
+			
 			$(document).click(function () {
 				_self.parent().find('.mdOptionsWrapper').hide();
 			});
@@ -146,6 +151,13 @@
 		});
 	}
 	
+	$.fn[pluginName].hideDropdown=function(obj,con) {
+		return obj.each(function(){
+			var _self=$(this);
+			_self.parent().find('.mdOptionsWrapper').hide();
+		});
+	}
+	
 	$.fn[pluginName].commandDropdown=function(obj,command,value,value2) {
 		return obj.each(function(){
 			var _self=$(this);
@@ -157,6 +169,10 @@
 				
 				case 'reset':
 					$.fn[pluginName].constructDropdown(_self);
+				break;
+				
+				case 'hide':
+					$.fn[pluginName].hideDropdown(_self);
 				break;
 				
 				default:
