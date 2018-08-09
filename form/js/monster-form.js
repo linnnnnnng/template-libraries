@@ -1,7 +1,7 @@
 /*
  * Monster Form
  *
- * Copyright (c) 2017 Ling (2017/11/23)
+ * Copyright (c) 2017 Ling (2018/8/9)
  *
  */
  (function($) {
@@ -9,6 +9,7 @@
 		defaults={
 			numberOnlyClass:'numberOnly',
 			placeholderClass:'placeholder',
+			placeholder:false,
 			submitID:'#formSubmit',
 			callback:''
         },
@@ -33,9 +34,9 @@
 			var _opts=_self.data('plugin_'+pluginName);
 			_self.find('input,textarea').each(function(){
 				if($(this).attr('placeholder') !== undefined)
-					$.fn[pluginName].constructField($(this));
+					$.fn[pluginName].constructField(obj, $(this));
 				if($(this).hasClass(_opts.numberOnlyClass))
-					$.fn[pluginName].constructField($(this),'number');
+					$.fn[pluginName].constructField(obj, $(this),'number');
 			});
 			_self.find(_opts.submitID).unbind("click");
 			_self.find(_opts.submitID).click(function(){
@@ -145,38 +146,45 @@
 		result.error=fieldError;
 		return result;
 	}
-	$.fn[pluginName].constructField=function(obj,type) {
-		if(type=='number'){
-			$(obj).keydown(function(event) {
-				if ( $.inArray(event.keyCode,[46,8,9,27,13,190]) !== -1 ||
-					(event.keyCode == 65 && event.ctrlKey === true) ||
-					(event.keyCode >= 35 && event.keyCode <= 39)) {
-						 return;
-				}else{
-					if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
-						event.preventDefault(); 
-					}   
+	$.fn[pluginName].constructField=function(obj,input,type) {
+		return obj.each(function(){
+			var _self=$(this);
+			var _opts=_self.data('plugin_'+pluginName);
+			
+			if(type=='number'){
+				$(input).keydown(function(event) {
+					if ( $.inArray(event.keyCode,[46,8,9,27,13,190]) !== -1 ||
+						(event.keyCode == 65 && event.ctrlKey === true) ||
+						(event.keyCode >= 35 && event.keyCode <= 39)) {
+							 return;
+					}else{
+						if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
+							event.preventDefault(); 
+						}   
+					}
+				});
+			}else{
+				if(_opts.placeholder){
+					if($(input).val()=='')
+						$(input).val($(input).attr('placeholder'));
+					$(input).on('focus', function(){
+						if($(input).val()==$(input).attr('placeholder')){
+							$(input).val('');
+						}
+						$.fn[pluginName].togglePlaceholderClass(input);
+					}).on('blur', function(){
+						if($(input).val()==''){
+							var inputtitle=$(input).attr('placeholder');
+							$(input).val(inputtitle);
+						}
+						$.fn[pluginName].togglePlaceholderClass(input);
+					}).on("input change", function() {
+						$.fn[pluginName].togglePlaceholderClass(input);
+					});
+					$.fn[pluginName].togglePlaceholderClass(input);
 				}
-			});
-		}else{
-			if($(obj).val()=='')
-				$(obj).val($(obj).attr('placeholder'));
-			$(obj).on('focus', function(){
-				if($(obj).val()==$(obj).attr('placeholder')){
-					$(obj).val('');
-				}
-				$.fn[pluginName].togglePlaceholderClass(obj);
-			}).on('blur', function(){
-				if($(obj).val()==''){
-					var inputtitle=$(obj).attr('placeholder');
-					$(obj).val(inputtitle);
-				}
-				$.fn[pluginName].togglePlaceholderClass(obj);
-			}).on("input change", function() {
-				$.fn[pluginName].togglePlaceholderClass(obj);
-			});
-			$.fn[pluginName].togglePlaceholderClass(obj);
-		}
+			}
+		});
 	}
 	$.fn[pluginName].togglePlaceholderClass=function(obj) {
 		if(obj.attr('placeholder') !== undefined){
