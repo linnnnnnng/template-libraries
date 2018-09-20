@@ -131,9 +131,19 @@
 					//find error message
 					if(errorMsg==''){
 						errorMsg=getErrorInput(fieldResult[i].name, fieldResult[i].validate);
-				
+						
+						var offsetTop = 0;
+						if($("#"+fieldResult[i].name).length == 0) {
+							if($("input[name='"+fieldResult[i].name+"']").length == 0) {
+								offsetTop = $("textarea[name='"+fieldResult[i].name+"']").offset().top;
+							}else{
+								offsetTop = $("input[name='"+fieldResult[i].name+"']").offset().top;
+							}
+						}else{
+							offsetTop = $("#"+fieldResult[i].name).offset().top;
+						}
 						$('html, body').animate({
-							scrollTop: $("#"+fieldResult[i].name).offset().top
+							scrollTop: offsetTop
 						}, 500);
 					}
 				}
@@ -402,12 +412,6 @@ function onSubmit(con){
     if(con.errorlist.length==0){
         $(con.form).find('.errMsg').hide()
         //if the form is ok
-        //for specific form
-        /*
-        if($(con.form).attr('id') == 'whichForm'){
-        	
-        }
-        */
     }else{
         errorMsg='';
         
@@ -420,11 +424,21 @@ function onSubmit(con){
             
             //find error message
             if(errorMsg==''){
-                errorMsg=getErrorInput($(con.form).attr('id'), fieldResult[i].name, fieldResult[i].validate);
-				
-				$('html, body').animate({
-					scrollTop: $("#"+fieldResult[i].name).offset().top
-				}, 500);
+                errorMsg=getErrorInput(fieldResult[i].name, fieldResult[i].validate);
+                
+                var offsetTop = 0;
+                if($("#"+fieldResult[i].name).length == 0) {
+                    if($("input[name='"+fieldResult[i].name+"']").length == 0) {
+                        offsetTop = $("textarea[name='"+fieldResult[i].name+"']").offset().top;
+                    }else{
+                        offsetTop = $("input[name='"+fieldResult[i].name+"']").offset().top;
+                    }
+                }else{
+                    offsetTop = $("#"+fieldResult[i].name).offset().top;
+                }
+                $('html, body').animate({
+                    scrollTop: offsetTop
+                }, 500);
             }
         }
         

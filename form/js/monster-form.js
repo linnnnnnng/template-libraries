@@ -10,6 +10,7 @@
 			numberOnlyClass:'numberOnly',
 			placeholderClass:'placeholder',
 			placeholder:false,
+			enterkey:false,
 			submitID:'#formSubmit',
 			callback:''
         },
@@ -38,6 +39,18 @@
 				if($(this).hasClass(_opts.numberOnlyClass))
 					$.fn[pluginName].constructField(obj, $(this),'number');
 			});
+			
+			if(_opts.enterkey){
+				_self.find('input').each(function(){
+					$(this).keypress(function (ev) {
+						var keycode = (ev.keyCode ? ev.keyCode : ev.which);
+						if (keycode == '13') {
+							$.fn[pluginName].checkFieldGroup(_self);
+						}
+					})
+				});
+			}
+			
 			_self.find(_opts.submitID).unbind("click");
 			_self.find(_opts.submitID).click(function(){
 				$.fn[pluginName].checkFieldGroup(_self);
