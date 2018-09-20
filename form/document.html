@@ -53,6 +53,8 @@ Understands default options that can use for this plugin.
 $(document).ready(function(){
     $('#yourForm').monsterForm({
         numberOnlyClass:'numberOnly', // class for restrict number only
+        placeholder:false, //enable placeholder class
+        enterkey:false, //enable press enter key to submit
         submitID:'#formSubmit', //submit button ID
         callback:'' //callback function
     });
