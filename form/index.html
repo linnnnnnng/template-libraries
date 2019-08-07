@@ -130,7 +130,7 @@
 					
 					//find error message
 					if(errorMsg==''){
-						errorMsg=getErrorInput(fieldResult[i].name, fieldResult[i].validate);
+						errorMsg=getErrorInput(fieldResult[i].type, $(con.form).attr('id'), fieldResult[i].name, fieldResult[i].validate, fieldResult[i].minlength);
 						
 						var offsetTop = 0;
 						if($("#"+fieldResult[i].name).length == 0) {
@@ -153,8 +153,7 @@
 		}
 		
 		//Check error message
-		function getErrorInput(name, validate){
-			
+		function getErrorInput(type, form, name, validate, length){
 			/*
 			//BM
 			var general='Sila lengkapkan ruang yang wajib untuk teruskan penyertaan.';
@@ -178,9 +177,9 @@
 			
 			if(validate=='minlength'){
 				return minlength.replace('[NUMBER]', $('#'+name).attr('minlength'))
-			}else if(validate=='checkbox'){
+			}else if(type=='checkbox'){
 				return checkbox
-			}else if(validate=='radio'){
+			}else if(type=='radio'){
 				return radio
 			}else if(validate=='email'){
 				return email
@@ -424,7 +423,7 @@ function onSubmit(con){
             
             //find error message
             if(errorMsg==''){
-                errorMsg=getErrorInput(fieldResult[i].name, fieldResult[i].validate);
+                errorMsg=getErrorInput(fieldResult[i].type, $(con.form).attr('id'), fieldResult[i].name, fieldResult[i].validate, fieldResult[i].minlength);
                 
                 var offsetTop = 0;
                 if($("#"+fieldResult[i].name).length == 0) {
@@ -447,8 +446,8 @@ function onSubmit(con){
 }
 
 //Check error message
-function getErrorInput(name, validate){
-	/*
+function getErrorInput(type, form, name, validate, length){
+    /*
     //BM
     var general='Sila lengkapkan ruang yang wajib untuk teruskan penyertaan.';
     var minlength='Panjang minimum adalah [NUMBER].';
@@ -469,21 +468,11 @@ function getErrorInput(name, validate){
     var filetype='Please upload images in .jpg .png and .jpeg format only.';
     var filesize='The size of your image file must not be more than 1MB.';
     
-    /*
-    	//for specific input field
-        if(name == 'uName'){
-        	return 'Your error message'
-        }
-    */
-    
-    if(validate=='function'){
-        //custom function
-        return ''
-    }else if(validate=='minlength'){
+    if(validate=='minlength'){
         return minlength.replace('[NUMBER]', $('#'+name).attr('minlength'))
-    }else if(validate=='checkbox'){
+    }else if(type=='checkbox'){
         return checkbox
-    }else if(validate=='radio'){
+    }else if(type=='radio'){
         return radio
     }else if(validate=='email'){
         return email
