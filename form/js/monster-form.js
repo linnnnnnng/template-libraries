@@ -10,7 +10,7 @@
 			numberOnlyClass:'numberOnly',
 			placeholderClass:'placeholder',
 			placeholder:false,
-			enterkey:false,
+			enterkey:true,
 			submitID:'#formSubmit',
 			callback:''
         },
@@ -131,7 +131,7 @@
 				}
 				result.type='checkbox';
 			}else if($(obj).attr('validate') == 'email'){
-				if($(obj).val()== $(obj).attr('placeholder') || $(obj).val()== ""){
+				if($(obj).val() == $(obj).attr('placeholder') || $(obj).val()== ""){
 					fieldError=true;
 				}else if(!$.fn[pluginName].validateEmail($(obj).val())){	
 					fieldError=true;
@@ -146,6 +146,12 @@
 						fieldError=true;
 						result.validate='minlength';
 						result.minlength=$(obj).attr('minlength');
+					}
+				}else if($(obj).attr('minphonelength')){
+					if($.fn[pluginName].validateMinPhoneLength($(obj).val(),$(obj).attr('minphonelength'))){	
+						fieldError=true;
+						result.validate='minphonelength';
+						result.minlength=$(obj).attr('minphonelength');
 					}
 				}
 				result.type='input'
@@ -213,6 +219,20 @@
 			return true;
 		}else{
 			return false;
+		}
+	}
+	$.fn[pluginName].validateMinPhoneLength=function(value, length){
+		var totalMisses = 0;
+		for(var n=0; n<value.length; n++){
+			if(value.substring(n,n+1) == '_'){
+				totalMisses++;
+			}
+		}
+		
+		if(value.length - totalMisses >= length){
+			return false;	
+		}else{
+			return true;
 		}
 	}
 	$.fn[pluginName].validateEmail=function($email) {
