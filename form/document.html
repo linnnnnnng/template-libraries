@@ -101,21 +101,25 @@ To validate input file size, add attribute filesize='10000000' (2MB = 2000000)
 &lt;input type=&quot;file&quot; id=&quot;uploadfile&quot; name=&quot;uploadfile&quot; required filesize=&quot;1000000&quot; /&gt;
 </pre>
 
-To validate input field with custom function
+To validate input field with custom function<br/>
+*Error will return validate 'function', the external function will check last when basic validation is done;
 <pre class="prettyprint">
 &lt;input type=&quot;text&quot; id=&quot;uCustom&quot; name=&quot;uCustom&quot; required validate-function=&quot;yourFunction&quot; /&gt;
 
 &lt;script&gt;
-$(function() {
-    function yourFunction(value){
-        if(value.length > 5){
-        	return true;
-        }else{
-        	return false;
-        }
+function yourFunction(value){
+    if(value.length > 5){
+        return true;
+    }else{
+        return false;
     }
-});
+}
 &lt;/script&gt;
+</pre>
+
+To validate minlength with inputmask plugins
+<pre class="prettyprint">
+&lt;input type=&quot;text&quot; id=&quot;uPhone&quot; name=&quot;uPhone&quot; required minphonelength=&quot;10&quot; /&gt;
 </pre>
 
 </div>
