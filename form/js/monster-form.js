@@ -161,6 +161,14 @@
 					result.type='select'
 				}
 			}
+			
+			if($(obj).attr('validate-function') !== undefined){
+				if($.isFunction(window[$(obj).attr('validate-function')]) && fieldError == false){
+					fieldError = window[$(obj).attr('validate-function')]($(obj).val());
+					fieldError = fieldError == true ? false : true;
+					result.validate='function';
+				}
+			}
 		}
 		result.error=fieldError;
 		return result;
